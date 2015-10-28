@@ -3,7 +3,7 @@
 <div class="container">
 	<div class="page-header">
 		<h1>
-			Hola Cerda!  
+			Bienvenido al portal de Votaciones!  
 		</h1>
 	</div>
 	<p>La hora local es ${serverTime}. </p>
