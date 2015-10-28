@@ -48,20 +48,19 @@
        	<div id="navbar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 				<li ><a href="#">Inicio</a></li>
-				<li ><a href="#">Valorar</a></li>
+				<li ><a href="valorar">Valorar</a></li>
 	            <li class="dropdown">
 	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Top 10 <span class="caret"></span></a>
 	              <ul class="dropdown-menu">
-	                <li><a href="#">Profesores</a></li>
-	                <li><a href="#">Alumnos</a></li>
-					<li><a href="#">Vista Usuarios</a>	              
+	                <li><a href="top">Profesores</a></li>
+	                <li><a href="top">Alumnos</a></li>              
 	              </ul>
 	            </li>
 	            <li class="dropdown">
 	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Worst 10 <span class="caret"></span></a>
 	              <ul class="dropdown-menu">
-	                <li><a href="#">Profesores</a></li>
-	                <li><a href="#">Alumnos</a></li>
+	                <li><a href="top">Profesores</a></li>
+	                <li><a href="top">Alumnos</a></li>
 	              </ul>
 	            </li>
 	            <li ><a href="#">Mi perfil</a></li>			

@@ -6,15 +6,7 @@
 			Bienvenido al portal de Votaciones!  
 		</h1>
 	</div>
-	<p>La hora local es ${serverTime}. </p>
-	
-	<p>Y ahora, una enumeración tonta</p>
-	<ul>
-	<a href = "prueba">Ir a Prueba</a>
-	<c:forEach var="i" items="${elementos}">
-		<li>${i}</li>
-	</c:forEach>
-	</ul>
+	<img src = "https://lh5.googleusercontent.com/-EdMqb-RlTz8/TYp3Z6v7OqI/AAAAAAAAABk/QJP5FnUzdyY/s1600/votar.PNG" />
 </div>
 
 <%@ include file="../fragments/footer.jspf" %>

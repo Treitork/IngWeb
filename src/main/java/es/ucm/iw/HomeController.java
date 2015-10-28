@@ -64,6 +64,20 @@ public class HomeController {
 		model.addAttribute("elementos", enteros);
 		return "home";
 	}
+	@RequestMapping(value = "/valorar", method = RequestMethod.GET) 
+	public String valorar(Locale locale, Model model) {
+		int[] enteros = new int[30];
+		for (int i=0; i<enteros.length; i++) enteros[i] = i;
+		model.addAttribute("elementos", enteros);
+		return "valorar";
+	}
+	@RequestMapping(value = "/top", method = RequestMethod.GET) 
+	public String top(Locale locale, Model model) {
+		int[] enteros = new int[10];
+		for (int i=0; i<enteros.length; i++) enteros[i] = i;
+		model.addAttribute("elementos", enteros);
+		return "top";
+	}
 	
 	
 	@RequestMapping(value = "/user", method = RequestMethod.GET) 
