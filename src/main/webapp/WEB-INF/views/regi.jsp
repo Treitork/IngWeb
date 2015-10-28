@@ -6,6 +6,12 @@
 	</div>
 <form class="form-horizontal">
   <div class="form-group">
+      <div class="col-sm-10">
+    <label for="inputEmail3" class="col-sm-2 control-label">Nombre</label>
+    <div class="col-sm-10">
+      <input type="nombre" class="form-control" id="inputNombre" placeholder="Nombre">
+    </div>
+  <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
     <div class="col-sm-10">
       <input type="email" class="form-control" id="inputEmail3" placeholder="Email">

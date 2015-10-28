@@ -65,9 +65,20 @@ public class HomeController {
 		return "home";
 	}
 	
+	
+	@RequestMapping(value = "/user", method = RequestMethod.GET) 
+	public String user(Locale locale, Model model) {
+		logger.info("Entrando en jsfidle.net.");
+		return "usuarios";
+	}
+	
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public String registro(Locale locale, Model model) {
+		return "regi";
+	}
+	
 	@RequestMapping(value = "/prof", method = RequestMethod.GET)
 	public String profesor(Locale locale, Model model) {
-			
 		return "prof";
 	}
 	

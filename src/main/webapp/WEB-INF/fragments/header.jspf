@@ -54,6 +54,7 @@
 	              <ul class="dropdown-menu">
 	                <li><a href="#">Profesores</a></li>
 	                <li><a href="#">Alumnos</a></li>
+					<li><a href="#">Vista Usuarios</a>	              
 	              </ul>
 	            </li>
 	            <li class="dropdown">

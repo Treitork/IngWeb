@@ -2,11 +2,11 @@
 
 <div class="container">
 	<div class="page-header">
-		<h1>
-			Prueba
-		</h1>
+		<h1>Usuario</h1>
 	</div>
-	<p id =hora>La hora local es ${serverTime}. </p>
+<img src="../resources/img/potar.PNG" height="100" width="100" alt="" class="img-circle"> </img>
+
+	<p id =hora></p>
 	<a href="">Pincha aqui</a>
 	<p id = prueba>Y ahora, una enumeración tonta</p>
 	<ul>
