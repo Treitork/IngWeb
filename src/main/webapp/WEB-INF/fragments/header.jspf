@@ -1,0 +1,86 @@
+
+<%--
+ 	Standard header for all jsp pages in the site. Requires the following model variables to be set:
+  	- pageTitle
+  	- pageExtraCSS: additional CSS files to include (from resources/css; via link rel-stylesheet href)
+  	- pageExtraScripts: additional JS files to include (from resources/js; via script src)
+  	- prefix: useful to back-trace if path-based url parameters are in use
+ --%>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${pageTitle}</title>
+
+<!-- jquery & bootstrap -->
+<%-- jquery URL: https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js
+	 bootstrap URL: https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip 
+--%>
+<script src="${prefix}resources/js/jquery.min.js"></script>
+<link href="${prefix}resources/css/bootstrap.min.css" rel="stylesheet">
+<script src="${prefix}resources/js/bootstrap.min.js"></script>
+<link href="${prefix}resources/css/extra.css" rel="stylesheet">
+<link href="${prefix}resources/css/probando.css" rel="stylesheet">
+
+<%-- pageExtraScripts --%>
+<c:forEach var="i" items="${pageExtraScripts}">
+	<script src="${prefix}resources/js/${i}"></script>
+</c:forEach>
+<%-- pageExtraCSS --%>
+<c:forEach var="i" items="${pageExtraCSS}">
+	<link rel="stylesheet" href="${prefix}resources/css/${i}">
+</c:forEach>
+</head>
+<body>
+	<nav class="navbar navbar-default navbar-fixed-top">
+        <div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+          	</button>        
+        	<a class='brand' href="/">Tu Logo Aquí</a>
+        </div>
+       	<div id="navbar" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<li><a href="#">cosa 1</a></li>
+				<li><a href="#">cosa 2</a></li>
+				<li><a href="#">cosa 3</a></li>
+	            <li class="dropdown">
+	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+	              <ul class="dropdown-menu">
+	                <li><a href="#">cosa 4.1</a></li>
+	                <li role="separator" class="divider"></li>
+	                <li class="dropdown-header">Nav adicional</li>
+	                <li><a href="#">cosa 4.2.1</a></li>
+	                <li><a href="#">cosa 4.2.2</a></li>
+	              </ul>
+	            </li>				
+			</ul>
+			
+			<c:choose>
+				<c:when test="${not empty user}">
+					<div class="navbar-form form-inline pull-right">Registrado como 
+					<a href="${prefix}user?u=${user.id}">${user.login}</a> [ ${user.role} ] 
+					( <a href="${prefix}logout">Salir</a> )
+					</div>
+				</c:when>
+				<c:otherwise>
+					<form class="navbar-form form-inline pull-right"
+						action="${prefix}login" id="formularioLogin" method="POST">
+						<input type="text" class="span2" placeholder="Login" id="login"
+							name="login" placeholder="Login"> <input type="text"
+							class="span2" placeholder="Password" id="pass" name="pass"
+							placeholder="Contraseña">
+						<button class="btn" name="submit" value="login" type="submit">Entrar</button>
+						&nbsp; <a href="${prefix}register">Registro</a>
+					</form>
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</nav>
