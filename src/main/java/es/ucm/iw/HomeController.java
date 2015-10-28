@@ -64,6 +64,13 @@ public class HomeController {
 		model.addAttribute("elementos", enteros);
 		return "home";
 	}
+	
+	@RequestMapping(value = "/prof", method = RequestMethod.GET)
+	public String profesor(Locale locale, Model model) {
+			
+		return "prof";
+	}
+	
 	@RequestMapping(value = "/prueba", method = RequestMethod.GET) 
 	public String prueba(Locale locale, Model model) {
 		return "prueba";
