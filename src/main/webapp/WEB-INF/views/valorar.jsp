@@ -5,7 +5,7 @@
 		<h1 class="list-group">Selecciona el usuario a valorar:</h1>
 	</div>
 
-	<ul class="list-group">
+	<ul class="list-group" id = "elementLista">
 		<c:forEach var="i" items="${elementos}">
 			<li class="list-group-item list-group-item-success"><h3>Usuario
 					${i}</h3></li>

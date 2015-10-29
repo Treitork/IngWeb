@@ -79,8 +79,8 @@
 					<form class="navbar-form form-inline pull-right"
 						action="${prefix}login" id="formularioLogin" method="POST">
 						<input type="text" class="span2" placeholder="Login" id="login"
-							name="login" placeholder="Login"> <input type="text"
-							class="span2" placeholder="Password" id="pass" name="pass"
+							name="login" placeholder="Login"> <input type="password"
+							class="span2" placeholder="Contraseña" id="pass" name="pass"
 							placeholder="Contraseña">
 						<button class="btn" name="submit" value="login" type="submit">Entrar</button>
 						&nbsp; <a href="${prefix}register">Registro</a>
