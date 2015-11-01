@@ -9,83 +9,78 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-<meta charset="utf8">
+
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${pageTitle}</title>
+<meta name="description" content="">
+<meta name="author" content="">
 
-<!-- jquery & bootstrap -->
-<%-- jquery URL: https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js
-	 bootstrap URL: https://github.com/twbs/bootstrap/releases/download/v3.3.5/bootstrap-3.3.5-dist.zip 
---%>
-<script src="${prefix}resources/js/jquery.min.js"></script>
-<link href="${prefix}resources/css/bootstrap.min.css" rel="stylesheet">
-<script src="${prefix}resources/js/bootstrap.min.js"></script>
-<link href="${prefix}resources/css/extra.css" rel="stylesheet">
-<link href="${prefix}resources/css/probando.css" rel="stylesheet">
+<title>Portal Votaciones</title>
+<!-- Bootstrap Core CSS -->
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
 
-<%-- pageExtraScripts --%>
-<c:forEach var="i" items="${pageExtraScripts}">
-	<script src="${prefix}resources/js/${i}"></script>
-</c:forEach>
-<%-- pageExtraCSS --%>
-<c:forEach var="i" items="${pageExtraCSS}">
-	<link rel="stylesheet" href="${prefix}resources/css/${i}">
-</c:forEach>
+<!-- Custom CSS -->
+<link href="resources/css/modern-business.css" rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link href="resources/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+<!--  LOGIN!! -->
+<link rel="stylesheet" href="/resources/css/style.css">
 </head>
+
 <body>
-	<nav class="navbar navbar-default navbar-fixed-top">
-        <div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-	            <span class="sr-only">Toggle navigation</span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-          	</button>        
-        </div>
-       	<div id="navbar" class="navbar-collapse collapse">
-			<ul class="nav navbar-nav">
-				<li ><a href="#">Inicio</a></li>
-				<li ><a href="valorar">Valorar</a></li>
-	            <li class="dropdown">
-	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Top 10 <span class="caret"></span></a>
-	              <ul class="dropdown-menu">
-	                <li><a href="top">Profesores</a></li>
-	                <li><a href="top">Alumnos</a></li>              
-	              </ul>
-	            </li>
-	            <li class="dropdown">
-	              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Worst 10 <span class="caret"></span></a>
-	              <ul class="dropdown-menu">
-	                <li><a href="top">Profesores</a></li>
-	                <li><a href="top">Alumnos</a></li>
-	              </ul>
-	            </li>
-	            <li ><a href="#">Mi perfil</a></li>			
-			</ul>
-			
-			
-			
-			<c:choose>
-				<c:when test="${not empty user}">
-					<div class="navbar-form form-inline pull-right">Registrado como 
-					<a href="${prefix}user?u=${user.id}">${user.login}</a> [ ${user.role} ] 
-					( <a href="${prefix}logout">Salir</a> )
-					</div>
-				</c:when>
-				<c:otherwise>
-					<form class="navbar-form form-inline pull-right"
-						action="${prefix}login" id="formularioLogin" method="POST">
-						<input type="text" class="span2" placeholder="Login" id="login"
-							name="login" placeholder="Login"> <input type="password"
-							class="span2" placeholder="Contraseña" id="pass" name="pass"
-							placeholder="Contraseña">
-						<button class="btn" name="submit" value="login" type="submit">Entrar</button>
-						&nbsp; <a href="${prefix}register">Registro</a>
-					</form>
-				</c:otherwise>
-			</c:choose>
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/iw">Inicio</a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+				<li><a href="login2">Accede</a></li>
+					<li><a href="services">Servicios</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">Nuestro Top <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="mejoresAlumnos">Mejores alumnos</a></li>
+							<li><a href="mejoresProfes">Mejores profesores</a></li>
+						</ul></li>
+
+					<li><a href="about">Sobre Nosotros</a></li>
+					<li><a href="contact">Contacta</a></li>
+					<li class="dropdown"><a href="#" class="dropdown-toggle"
+						data-toggle="dropdown">Ayuda <b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="faq">FAQ</a></li>
+							<li><a href="faq">Licencias</a></li>
+						</ul></li>
+
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
 		</div>
+		<!-- /.container -->
 	</nav>

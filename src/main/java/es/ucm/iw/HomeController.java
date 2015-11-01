@@ -46,7 +46,28 @@ public class HomeController {
 		}
 		model.addAttribute("serverTime", getDate(locale));
 		
-		return "home";
+		return "index";
+	}
+	
+	@RequestMapping(value = "/login2", method = RequestMethod.GET)
+	public String login2(Locale locale, Model model) {
+		return "login2";
+	}
+	@RequestMapping(value = "/about", method = RequestMethod.GET)
+	public String about(Locale locale, Model model) {
+		return "about";
+	}
+	@RequestMapping(value = "/services", method = RequestMethod.GET)
+	public String services(Locale locale, Model model) {
+		return "services";
+	}
+	@RequestMapping(value = "/contact", method = RequestMethod.GET)
+	public String contact(Locale locale, Model model) {
+		return "contact";
+	}
+	@RequestMapping(value = "/faq", method = RequestMethod.GET)
+	public String faq(Locale locale, Model model) {
+		return "faq";
 	}
 
 	@RequestMapping(value = "/reg", method = RequestMethod.GET)
@@ -92,14 +113,14 @@ public class HomeController {
 		return "regi";
 	}
 
-	@RequestMapping(value = "/prof", method = RequestMethod.GET)
+	@RequestMapping(value = "/mejoresAlumnos", method = RequestMethod.GET)
 	public String profesor(Locale locale, Model model) {
-		return "prof";
+		return "mejoresAlumnos";
 	}
 
-	@RequestMapping(value = "/prueba", method = RequestMethod.GET)
-	public String prueba(Locale locale, Model model) {
-		return "prueba";
+	@RequestMapping(value = "/mejoresProfes", method = RequestMethod.GET)
+	public String alumnos(Locale locale, Model model) {
+		return "mejoresProfes";
 	}
 
 	/*

@@ -3,10 +3,17 @@
 <div class="container">
 	<div class="page-header">
 		<h1>
-			Bienvenido al portal de Votaciones! ${count} 
+			Hola mundo!  
 		</h1>
 	</div>
-	<img src = "https://lh5.googleusercontent.com/-EdMqb-RlTz8/TYp3Z6v7OqI/AAAAAAAAABk/QJP5FnUzdyY/s1600/votar.PNG" />
+	<p>La hora local es ${serverTime}. </p>
+	
+	<p>Y ahora, una enumeración tonta</p>
+	<ul>
+	<c:forEach var="i" items="${elementos}">
+		<li>${i}</li>
+	</c:forEach>
+	</ul>
 </div>
 
 <%@ include file="../fragments/footer.jspf" %>
