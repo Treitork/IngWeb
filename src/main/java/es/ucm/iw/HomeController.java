@@ -89,7 +89,7 @@ public class HomeController {
 	public String valorar(Locale locale, Model model) {
 		int[] enteros = new int[30];
 		for (int i = 0; i < enteros.length; i++)
-			enteros[i] = i;
+			enteros[i] = i;//
 		model.addAttribute("elementos", enteros);
 		return "valorar";
 	}
