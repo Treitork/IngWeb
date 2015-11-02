@@ -75,7 +75,7 @@ public class HomeController {
 	public String reg(Locale locale, Model model) {
 		logger.info("Ok, eres un usuario registrado.");
 		model.addAttribute("serverTime", getDate(locale));
-		model.addAttribute("user", new User("paco", 12312, "admin"));
+	//	model.addAttribute("user", new User("paco", 12312, "admin"));
 		model.addAttribute("pageTitle", "Paco");
 
 		int[] enteros = new int[10];
@@ -141,8 +141,8 @@ public class HomeController {
 	        HttpServletRequest response, 
 	        Model model, HttpSession session) {
 	         if (true/* formulario tiene buen aspecto */) {
-	            User u = new User("login", 1, "admin");
-	            session.setAttribute("user", u);
+	           // User u = new User("login", 1, "admin");
+	           // session.setAttribute("user", u);
 	         } else {
 	            /* guardo errores en el modelo */
 	            //response.setStatus(HttpStatus.UNAUTHORIZED);

@@ -1,29 +1,11 @@
 package es.ucm.persitencia;
 
+import java.util.List;
 
-public class UserDao implements Dao {
+import es.ucm.model.User;
 
-	@Override
-	public void create(Object Obj) {
-		
-	}
-
-	@Override
-	public void update(Object Obj) {
-		
-	}
-
-	@Override
-	public void delete(Object... objs) {
-
-		
-	}
-
-	@Override
-	public Object read(Object... objs) {
-
-		return null;
-	}
-
-	
+public interface UserDao extends Dao{
+	public void addUser(User user);
+	public List<User> listUsers();
+	public void removeContact(Integer id);
 }
