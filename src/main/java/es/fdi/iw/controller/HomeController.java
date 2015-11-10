@@ -404,9 +404,9 @@ public class HomeController {
 		}
 	}
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	@Transactional
-	public String login(Locale locale, Model model) {
-		model.addAttribute("prefix", "../");
+
+	public String login(Model model) {
+model.addAttribute("pageTitle","Login ·OmnisCracia·");
 		return "login";
-	}	
+	}
 }
