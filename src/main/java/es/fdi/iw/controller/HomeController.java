@@ -63,7 +63,7 @@ public class HomeController {
 			@RequestParam("source") String formSource,
 			HttpServletRequest request, HttpServletResponse response, 
 			Model model, HttpSession session) {
-		
+		model.addAttribute("pageTitle", "Login ·OmnisCracia·");
 		logger.info("Login attempt from '{}' while visiting '{}'", formLogin, formSource);
 		
 		// validate request
@@ -341,7 +341,8 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate);
-		model.addAttribute("pageTitle", "Bienvenido a IW");
+		model.addAttribute("pageTitle", "Home ·OmnisCracia·");
+		model.addAttribute("footer","OmnisCracia");
 		
 		return "home";
 	}	
@@ -402,4 +403,10 @@ public class HomeController {
 			return false;
 		}
 	}
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@Transactional
+	public String login(Locale locale, Model model) {
+		model.addAttribute("prefix", "../");
+		return "login";
+	}	
 }
