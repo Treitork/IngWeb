@@ -63,7 +63,6 @@ public class HomeController {
 			@RequestParam("source") String formSource,
 			HttpServletRequest request, HttpServletResponse response, 
 			Model model, HttpSession session) {
-		model.addAttribute("pageTitle", "Login Â·OmnisCraciaÂ·");
 		logger.info("Login attempt from '{}' while visiting '{}'", formLogin, formSource);
 		
 		// validate request
@@ -341,7 +340,7 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate);
-		model.addAttribute("pageTitle", "Home Â·OmnisCraciaÂ·");
+		model.addAttribute("pageTitle", "Inicio ·OmnisCracia·");
 		model.addAttribute("footer","OmnisCracia");
 		
 		return "home";
@@ -406,7 +405,28 @@ public class HomeController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 
 	public String login(Model model) {
-model.addAttribute("pageTitle","Login Â·OmnisCraciaÂ·");
+model.addAttribute("pageTitle","Ingresar ·OmnisCracia·");
 		return "login";
+	}
+	
+	@RequestMapping(value = "/signin", method = RequestMethod.GET)
+	public String signIn(Model model) {
+model.addAttribute("pageTitle","Registro ·OmnisCracia·");
+		return "signin";
+	}
+	
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	@Transactional
+	public String signIn(
+			@RequestParam("firstName") String formFirstName,
+			@RequestParam("lastName") String formLastName,
+			@RequestParam("email") String formEmail,
+			@RequestParam("pass") String formPass,
+			HttpServletRequest request, HttpServletResponse response, 
+			Model model, HttpSession session) {
+
+
+
+		return "signin";
 	}
 }

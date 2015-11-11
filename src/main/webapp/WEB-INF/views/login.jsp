@@ -2,7 +2,7 @@
 
 <div class="container">
 	<div class="page-header">
-		<h1>Login</h1>
+		<h1>Ingresar</h1>
 	</div>
 <form class="form-horizontal" id="formularioLogin" action="${prefix}login" method="POST">
 <fieldset>
@@ -31,6 +31,7 @@
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <button type="submit" value="login" class="btn btn-default">Entrar</button> <br> <br>
+           <a href ="signin">Registrarse</a>
        <a href ="#">¿Has olvidado la contraseña?</a>
     </div>
   </div>
