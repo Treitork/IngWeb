@@ -63,6 +63,7 @@ public class HomeController {
 			@RequestParam("source") String formSource,
 			HttpServletRequest request, HttpServletResponse response, 
 			Model model, HttpSession session) {
+		
 		logger.info("Login attempt from '{}' while visiting '{}'", formLogin, formSource);
 		
 		// validate request
@@ -102,15 +103,6 @@ public class HomeController {
 		
 		// redirects to view from which login was requested
 		return "redirect:" + formSource;
-	}
-	
-	@RequestMapping(value = "services", method = RequestMethod.GET)
-	@Transactional
-	public String services(Model model) {
-		model.addAttribute("books", entityManager.createNamedQuery("allBooks").getResultList());
-		model.addAttribute("owners", entityManager.createNamedQuery("allUsers").getResultList());
-		model.addAttribute("authors", entityManager.createNamedQuery("allAuthors").getResultList());
-		return "services";
 	}
 	
 	/**
@@ -340,8 +332,7 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate);
-		model.addAttribute("pageTitle", "Inicio ·OmnisCracia·");
-		model.addAttribute("footer","OmnisCracia");
+		model.addAttribute("pageTitle", "Inicio ·OmmisCracia·");
 		
 		return "home";
 	}	
@@ -402,8 +393,8 @@ public class HomeController {
 			return false;
 		}
 	}
+	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-
 	public String login(Model model) {
 model.addAttribute("pageTitle","Ingresar ·OmnisCracia·");
 		return "login";
@@ -424,9 +415,6 @@ model.addAttribute("pageTitle","Registro ·OmnisCracia·");
 			@RequestParam("pass") String formPass,
 			HttpServletRequest request, HttpServletResponse response, 
 			Model model, HttpSession session) {
-
-
-
 		return "signin";
 	}
 }
