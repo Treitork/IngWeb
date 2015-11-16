@@ -332,7 +332,7 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate);
-		model.addAttribute("pageTitle", "Inicio ·OmmisCracia·");
+		model.addAttribute("pageTitle", "Inicio ï¿½OmmisCraciaï¿½");
 		
 		return "home";
 	}	
@@ -396,13 +396,12 @@ public class HomeController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
-model.addAttribute("pageTitle","Ingresar ·OmnisCracia·");
 		return "login";
 	}
 	
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)
 	public String signIn(Model model) {
-model.addAttribute("pageTitle","Registro ·OmnisCracia·");
+model.addAttribute("pageTitle","Registro ï¿½OmnisCraciaï¿½");
 		return "signin";
 	}
 	

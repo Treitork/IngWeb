@@ -11,15 +11,15 @@ import javax.persistence.NamedQuery;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-@Entity
-@NamedQueries({
-@NamedQuery(name="todosUsuarios",
-query="select u from Usuario u"),
-@NamedQuery(name="usuarioLogin",
-query="select u from Usuario u where u.login = :loginParam"),
-@NamedQuery(name="borrarUsuario",
-query="delete from Usuario u where u.id= :idParam")
-})
+//@Entity
+//@NamedQueries({
+//@NamedQuery(name="todosUsuarios",
+//query="select u from Usuario u"),
+//@NamedQuery(name="usuarioLogin",
+//query="select u from Usuario u where u.login = :loginParam"),
+//@NamedQuery(name="borrarUsuario",
+//query="delete from Usuario u where u.id= :idParam")
+//})
 
 public class Usuario {
 private long id;
