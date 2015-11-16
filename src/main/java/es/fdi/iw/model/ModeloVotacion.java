@@ -2,8 +2,19 @@ package es.fdi.iw.model;
 
 import java.util.List;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+@Entity
+@NamedQueries({
+    @NamedQuery(name="todosModelos",
+            query="")
+})
 public class ModeloVotacion {
-private Integer id;
+private long id;
 private String emisor,receptor,rolDirigido;
 private List<String> categorias;
 
@@ -15,7 +26,9 @@ public ModeloVotacion(Integer id, String emisor, String receptor, String rolDiri
 	this.categorias = categorias;
 }
 
-public Integer getId() {
+@Id
+@GeneratedValue
+public long getId() {
 	return id;
 }
 public String getEmisor() {
@@ -27,6 +40,8 @@ public String getReceptor() {
 public String getRolDirigido() {
 	return rolDirigido;
 }
+
+@ElementCollection
 public List<String> getCategorias() {
 	return categorias;
 }

@@ -1,12 +1,32 @@
 package es.fdi.iw.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+//#
+@Entity
+@NamedQueries({
+    @NamedQuery(name="todasCategorias",
+            query="")
+})
 public class Categoria {
-public Categoria(String nombre, int puntuacion) {
+	private String nombre;
+	private int puntuacion;
+	private long id;
+	
+	public Categoria(String nombre, int puntuacion) {
 		this.nombre = nombre;
 		this.puntuacion = puntuacion;
 	}
-private String nombre;
-private int puntuacion;
+	
+	@Id
+	@GeneratedValue
+	public long getId(){
+		return id;
+	}
+	
 public String getNombre() {
 	return nombre;
 }

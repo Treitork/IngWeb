@@ -3,11 +3,14 @@ package es.fdi.iw.model;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -112,6 +115,8 @@ public void setlogin(String login) {
 public void setClases(List<Asignatura> clases) {
 	this.clases = clases;
 }
+
+
 public void setRecibidas(List<Votacion> recibidas) {
 	this.recibidas = recibidas;
 }
@@ -129,13 +134,20 @@ public Integer getPuntuacion() {
 	return puntuacion;
 }
 
+@OneToMany(targetEntity=Asignatura.class)
+@JoinColumn(name="usuario")
 public List<Asignatura> getClases() {
 	return clases;
 }
+
+@OneToMany(targetEntity=Votacion.class)
+@JoinColumn(name="receptor")
 public List<Votacion> getRecibidas() {
 	return recibidas;
 }
 
+@OneToMany(targetEntity=HistorialVotaciones.class)
+@JoinColumn(name="propietario")
 public List<HistorialVotaciones> getHistorial() {
 	return historial;
 }

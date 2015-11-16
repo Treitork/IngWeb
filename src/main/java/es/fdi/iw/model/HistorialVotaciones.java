@@ -2,19 +2,35 @@ package es.fdi.iw.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+@Entity
+@NamedQueries({
+    @NamedQuery(name="todoHistorial",
+            query="")
+})
 public class HistorialVotaciones {
-Date fecha;
-Integer idVotacion;
+private Date fecha;
+private String propietario;
+private long id;
 
-public HistorialVotaciones(Date fecha, Integer idVotacion) {
+public HistorialVotaciones(Date fecha, long idVotacion,String propietario) {
 	this.fecha = fecha;
-	this.idVotacion = idVotacion;
+	this.id = idVotacion;
+	this.propietario = propietario;
 }
 public Date getFecha() {
 	return fecha;
 }
 
-public Integer getIdVotacion() {
-	return idVotacion;
+public String getPropietario() {
+	return propietario;
+}
+
+@Id
+public long getId() {
+	return id;
 }
 }
