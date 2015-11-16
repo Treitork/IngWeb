@@ -2,7 +2,10 @@ package es.fdi.iw.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
@@ -10,27 +13,30 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @NamedQueries({
-@NamedQuery(name="allUsers",
+@NamedQuery(name="todosUsuarios",
 query="select u from Usuario u"),
-@NamedQuery(name="userByLogin",
-query="select u from Usuario u where u.contrasenia = :loginParam")
+@NamedQuery(name="usuarioLogin",
+query="select u from Usuario u where u.login = :loginParam"),
+@NamedQuery(name="borrarUsuario",
+query="delete from Usuario u where u.id= :idParam")
 })
 
 public class Usuario {
+private long id;
 private static BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
 private String hashedAndSalted;
 private boolean activo;
-private String nombre,apellidos,contrasenia,imagen,rol;
+private String nombre,apellidos,login,imagen,rol;
 private Integer puntuacion;
 private List<Asignatura> clases;
 private List<Votacion> recibidas;
 private List<HistorialVotaciones> historial;
 
 public Usuario(){}
-public Usuario(String nombre, String apellidos, String contrasenia, String rol) {
+public Usuario(String nombre, String apellidos, String login, String rol) {
 	this.nombre = nombre;
 	this.apellidos = apellidos;
-	this.contrasenia = contrasenia;
+	this.login = login;
 	this.rol = rol;
 	this.clases = null;
 	this.recibidas = null;
@@ -38,11 +44,11 @@ public Usuario(String nombre, String apellidos, String contrasenia, String rol) 
 	this.activo = true;
 }
 
-public static Usuario crearUsuario(String nombre, String apellidos, String contrasenia, String rol){
+public static Usuario crearUsuario(String nombre, String apellidos, String login, String rol){
 	Usuario u = new Usuario();
 	u.nombre = nombre;
 	u.apellidos = apellidos;
-	u.hashedAndSalted = bcryptEncoder.encode(contrasenia);
+	u.hashedAndSalted = bcryptEncoder.encode(login);
 	u.rol = rol;
 	u.clases = null;
 	u.recibidas = null;
@@ -51,8 +57,8 @@ public static Usuario crearUsuario(String nombre, String apellidos, String contr
 	return u;
 }
 
-public boolean esValidaContrasenia(String contrasenia) {
-	return bcryptEncoder.matches(contrasenia, hashedAndSalted);		
+public boolean esValidalogin(String login) {
+	return bcryptEncoder.matches(login, hashedAndSalted);		
 }
 
 /** añade asignatura al usuario */
@@ -70,6 +76,16 @@ public Boolean getActivo(){
 	return this.activo;
 }
 
+@Id
+@GeneratedValue
+public long getId(){
+	return id;
+}
+
+public void setId(long id) {
+	this.id = id;
+}
+
 public void setActivo(boolean b){
 	this.activo = b;
 }
@@ -81,17 +97,17 @@ public String getNombre() {
 public String getApellidos() {
 	return apellidos;
 }
-
-public String getContrasenia() {
-	return contrasenia;
+@Column(unique=true)
+public String getlogin() {
+	return login;
 }
 
 public String getImagen() {
 	return imagen;
 }
 
-public void setContrasenia(String contrasenia) {
-	this.contrasenia = contrasenia;
+public void setlogin(String login) {
+	this.login = login;
 }
 public void setClases(List<Asignatura> clases) {
 	this.clases = clases;
