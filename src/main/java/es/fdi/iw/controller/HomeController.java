@@ -80,6 +80,7 @@ public class HomeController {
 					session.setAttribute("user", u);
 					// sets the anti-csrf token
 					getTokenForSession(session);
+					return "redirect:home";
 				} else {
 					logger.info("pass was NOT valid");
 					model.addAttribute("loginError", "error en usuario o contraseña");
@@ -93,7 +94,8 @@ public class HomeController {
 					entityManager.persist(user);				
 					session.setAttribute("user", user);
 					// sets the anti-csrf token
-					getTokenForSession(session);					
+					getTokenForSession(session);
+					return "redirect:home";
 				} else {
 					logger.info("no such login: {}", formLogin);
 				}
