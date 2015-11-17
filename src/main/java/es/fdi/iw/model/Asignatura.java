@@ -7,20 +7,22 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Id;
 //#
 @Entity
-@NamedQueries({
+/*@NamedQueries({
     @NamedQuery(name="todasAsignaturas",
             query="")
-})
+})*/
 public class Asignatura {
+	private int curso;
 	private String anio,modalidad,nombre;
 	private long id;
 	private long usuario;
-	public Asignatura(String anio, String modalidad, String nombre, int curso,long usuario) {
+	public Asignatura(String anio, String modalidad, String nombre, int curso,long usuario,long id) {
 		this.anio = anio;
 		this.modalidad = modalidad;
 		this.nombre = nombre;
 		this.curso = curso;
-		this.usuario = usuario;
+		this.setUsuario(usuario);
+		this.id = id;
 	}
 
 	public String getAnio() {
@@ -50,10 +52,18 @@ public class Asignatura {
 	@GeneratedValue
 	public long getId(){
 		return id;
+	}	
+	public void setId(long id){
+		this.id = id;
 	}
-	
 	public void setCurso(int curso) {
 		this.curso = curso;
 	}
-	private int curso;
+	public long getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(long usuario) {
+		this.usuario = usuario;
+	}
 }

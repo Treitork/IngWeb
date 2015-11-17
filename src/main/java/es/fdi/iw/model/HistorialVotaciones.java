@@ -7,10 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 @Entity
-@NamedQueries({
+/*@NamedQueries({
     @NamedQuery(name="todoHistorial",
             query="")
-})
+})*/
 public class HistorialVotaciones {
 private Date fecha;
 private String propietario;
@@ -33,4 +33,15 @@ public String getPropietario() {
 public long getId() {
 	return id;
 }
+public void setFecha(Date fecha) {
+	this.fecha = fecha;
 }
+public void setPropietario(String propietario) {
+	this.propietario = propietario;
+}
+public void setId(long id) {
+	this.id = id;
+}
+
+
+}		

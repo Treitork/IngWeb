@@ -7,10 +7,10 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 //#
 @Entity
-@NamedQueries({
+/*@NamedQueries({
     @NamedQuery(name="todasCategorias",
             query="")
-})
+})*/
 public class Categoria {
 	private String nombre;
 	private int puntuacion;
@@ -27,6 +27,18 @@ public class Categoria {
 		return id;
 	}
 	
+public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setPuntuacion(int puntuacion) {
+		this.puntuacion = puntuacion;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 public String getNombre() {
 	return nombre;
 }

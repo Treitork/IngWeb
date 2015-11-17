@@ -15,14 +15,14 @@ import javax.persistence.OneToMany;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
-@NamedQueries({
+/*@NamedQueries({
 @NamedQuery(name="todosUsuarios",
 query="select u from Usuario u"),
 @NamedQuery(name="usuarioLogin",
 query="select u from Usuario u where u.login = :loginParam"),
 @NamedQuery(name="borrarUsuario",
 query="delete from Usuario u where u.id= :idParam")
-})
+})*/
 
 public class Usuario {
 private long id;
@@ -31,6 +31,31 @@ private String hashedAndSalted;
 private boolean activo;
 private String nombre,apellidos,login,imagen,rol;
 private Integer puntuacion;
+public String getHashedAndSalted() {
+	return hashedAndSalted;
+}
+public void setHashedAndSalted(String hashedAndSalted) {
+	this.hashedAndSalted = hashedAndSalted;
+}
+public String getLogin() {
+	return login;
+}
+public void setLogin(String login) {
+	this.login = login;
+}
+public void setNombre(String nombre) {
+	this.nombre = nombre;
+}
+public void setApellidos(String apellidos) {
+	this.apellidos = apellidos;
+}
+public void setRol(String rol) {
+	this.rol = rol;
+}
+public void setPuntuacion(Integer puntuacion) {
+	this.puntuacion = puntuacion;
+}
+
 private List<Asignatura> clases;
 private List<Votacion> recibidas;
 private List<HistorialVotaciones> historial;
