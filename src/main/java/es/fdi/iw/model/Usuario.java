@@ -18,8 +18,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 /*@NamedQueries({
 @NamedQuery(name="todosUsuarios",
 query="select u from Usuario u"),
-@NamedQuery(name="usuarioLogin",
-query="select u from Usuario u where u.login = :loginParam"),
+@NamedQuery(name="usuarioemail",
+query="select u from Usuario u where u.email = :emailParam"),
 @NamedQuery(name="borrarUsuario",
 query="delete from Usuario u where u.id= :idParam")
 })*/
@@ -29,7 +29,7 @@ private long id;
 private static BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
 private String hashedAndSalted;
 private boolean activo;
-private String nombre,apellidos,login,imagen,rol;
+private String nombre,apellidos,email,imagen,rol;
 private Integer puntuacion;
 public String getHashedAndSalted() {
 	return hashedAndSalted;
@@ -37,12 +37,8 @@ public String getHashedAndSalted() {
 public void setHashedAndSalted(String hashedAndSalted) {
 	this.hashedAndSalted = hashedAndSalted;
 }
-public String getLogin() {
-	return login;
-}
-public void setLogin(String login) {
-	this.login = login;
-}
+
+
 public void setNombre(String nombre) {
 	this.nombre = nombre;
 }
@@ -61,10 +57,10 @@ private List<Votacion> recibidas;
 private List<HistorialVotaciones> historial;
 
 public Usuario(){}
-public Usuario(String nombre, String apellidos, String login, String rol) {
+public Usuario(String nombre, String apellidos, String email, String rol) {
 	this.nombre = nombre;
 	this.apellidos = apellidos;
-	this.login = login;
+	this.email = email;
 	this.rol = rol;
 	this.clases = null;
 	this.recibidas = null;
@@ -72,11 +68,12 @@ public Usuario(String nombre, String apellidos, String login, String rol) {
 	this.activo = true;
 }
 
-public static Usuario crearUsuario(String nombre, String apellidos, String login, String rol){
+public static Usuario crearUsuario(String nombre,String email, String apellidos, String pass, String rol){
 	Usuario u = new Usuario();
 	u.nombre = nombre;
 	u.apellidos = apellidos;
-	u.hashedAndSalted = bcryptEncoder.encode(login);
+	u.email = email;
+	u.hashedAndSalted = bcryptEncoder.encode(pass);
 	u.rol = rol;
 	u.clases = null;
 	u.recibidas = null;
@@ -85,8 +82,8 @@ public static Usuario crearUsuario(String nombre, String apellidos, String login
 	return u;
 }
 
-public boolean esValidalogin(String login) {
-	return bcryptEncoder.matches(login, hashedAndSalted);		
+public boolean esValidaEmail(String pass) {
+	return bcryptEncoder.matches(pass, hashedAndSalted);		
 }
 
 /** añade asignatura al usuario */
@@ -126,16 +123,16 @@ public String getApellidos() {
 	return apellidos;
 }
 @Column(unique=true)
-public String getlogin() {
-	return login;
+public String getemail() {
+	return email;
 }
 
 public String getImagen() {
 	return imagen;
 }
 
-public void setlogin(String login) {
-	this.login = login;
+public void setemail(String email) {
+	this.email = email;
 }
 public void setClases(List<Asignatura> clases) {
 	this.clases = clases;

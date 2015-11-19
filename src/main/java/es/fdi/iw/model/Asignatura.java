@@ -47,7 +47,6 @@ public class Asignatura {
 	public int getCurso() {
 		return curso;
 	}
-	
 	@Id
 	@GeneratedValue
 	public long getId(){
