@@ -58,7 +58,8 @@
 						<c:when test="${not empty user}">
 							<li><a href="${prefix}user?u=${e:forHtmlContent(user.id)}">${e:forHtmlContent(user.login)}</a>
 							</li>
-							<li><a href="${prefix}logout">Salir</a></li>
+							<li><a href="${prefix}logout">Salir</a>
+							</li>
 						</c:when>
 						<c:otherwise>
 							<li><a href="login">Accede</a></li>

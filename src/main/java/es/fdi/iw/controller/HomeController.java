@@ -418,4 +418,24 @@ model.addAttribute("pageTitle","Registro �OmnisCracia�");
 			Model model, HttpSession session) {
 		return "signin";
 	}
+	
+	@RequestMapping(value = "/perfilUsuario", method = RequestMethod.GET)
+	public String perfilUsuario(Model model) {
+		return "perfilUsuario";
+	}	
+	
+	@RequestMapping(value = "/contact", method = RequestMethod.GET)
+	public String contact(Model model) {
+		return "contact";
+	}	
+	
+	@RequestMapping(value = "/mejoresAlumnos", method = RequestMethod.GET)
+	public String mejoresAlumnos(Model model) {
+		return "mejoresAlumnos";
+	}	
+	
+	@RequestMapping(value = "/mejoresProfes", method = RequestMethod.GET)
+	public String mejoresProfest(Model model) {
+		return "mejoresProfes";
+	}	
 }
