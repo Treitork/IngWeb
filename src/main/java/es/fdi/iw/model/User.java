@@ -49,7 +49,6 @@ public class User {
 	public boolean isPassValid(String pass) {
 		return bcryptEncoder.matches(pass, hashedAndSalted);		
 	}
-	
 	/**
 	 * Generate a hashed&salted hex-string from a user's pass and salt
 	 * @param pass to use; no length-limit!
@@ -61,7 +60,6 @@ public class User {
 	public static String generateHashedAndSalted(String pass) {
 		/*
 		Código viejo: sólo 1 iteración de SHA-1. bCrypt es mucho más seguro (itera 1024 veces...)
-		
 		Además, bcryptEncoder guarda la sal junto a la contraseña
 		byte[] saltBytes = hexStringToByteArray(user.salt);
 		byte[] passBytes = pass.getBytes();

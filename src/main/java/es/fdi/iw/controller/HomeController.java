@@ -40,6 +40,7 @@ import es.fdi.iw.ContextInitializer;
 import es.fdi.iw.model.Author;
 import es.fdi.iw.model.Book;
 import es.fdi.iw.model.User;
+import es.fdi.iw.model.Usuario;
 
 /**
  * Una aplicaci√≥n de ejemplo para IW.
@@ -65,7 +66,6 @@ public class HomeController {
 			Model model, HttpSession session) {
 		
 		logger.info("Login attempt from '{}' while visiting '{}'", formLogin, formSource);
-		
 		// validate request
 		if (formLogin == null || formLogin.length() < 4 || formPass == null || formPass.length() < 4) {
 			model.addAttribute("loginError", "usuarios y contrase√±as: 4 caracteres m√≠nimo");
@@ -324,6 +324,8 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String empty(Locale locale, Model model) {
+		logger.info("HASH de USUARIO " + String.valueOf(new Usuario().hashCode()));
+		logger.info("HASH de USUAR " + String.valueOf(new User().hashCode()));
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
 		Date date = new Date();
@@ -332,7 +334,7 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate);
-		model.addAttribute("pageTitle", "Inicio ∑OmmisCracia∑");
+		model.addAttribute("pageTitle", "Inicio ÔøΩOmmisCraciaÔøΩ");
 		
 		return "home";
 	}	
@@ -396,13 +398,13 @@ public class HomeController {
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String login(Model model) {
-model.addAttribute("pageTitle","Ingresar ∑OmnisCracia∑");
+model.addAttribute("pageTitle","Ingresar ÔøΩOmnisCraciaÔøΩ");
 		return "login";
 	}
 	
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)
 	public String signIn(Model model) {
-model.addAttribute("pageTitle","Registro ∑OmnisCracia∑");
+model.addAttribute("pageTitle","Registro ÔøΩOmnisCraciaÔøΩ");
 		return "signin";
 	}
 	

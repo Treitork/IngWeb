@@ -25,12 +25,13 @@ query="delete from Usuario u where u.id= :idParam")
 })*/
 
 public class Usuario {
-private long id;
 private static BCryptPasswordEncoder bcryptEncoder = new BCryptPasswordEncoder();
+private long id;
 private String hashedAndSalted;
 private boolean activo;
 private String nombre,apellidos,email,imagen,rol;
 private Integer puntuacion;
+
 public String getHashedAndSalted() {
 	return hashedAndSalted;
 }
@@ -57,16 +58,6 @@ private List<Votacion> recibidas;
 private List<HistorialVotaciones> historial;
 
 public Usuario(){}
-public Usuario(String nombre, String apellidos, String email, String rol) {
-	this.nombre = nombre;
-	this.apellidos = apellidos;
-	this.email = email;
-	this.rol = rol;
-	this.clases = null;
-	this.recibidas = null;
-	this.historial = null;
-	this.activo = true;
-}
 
 public static Usuario crearUsuario(String nombre,String email, String apellidos, String pass, String rol){
 	Usuario u = new Usuario();
@@ -123,7 +114,7 @@ public String getApellidos() {
 	return apellidos;
 }
 @Column(unique=true)
-public String getemail() {
+public String getEmail() {
 	return email;
 }
 
@@ -131,7 +122,7 @@ public String getImagen() {
 	return imagen;
 }
 
-public void setemail(String email) {
+public void setEmail(String email) {
 	this.email = email;
 }
 public void setClases(List<Asignatura> clases) {

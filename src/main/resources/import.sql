@@ -1,6 +1,7 @@
 insert into User values (0, '$2a$10$08Q7cGYjNw2nLcmblfpOdeF5tbO2H04W3vF86v/1OOmU6ojKhHc/K', 'admin', 'admin');
 insert into User values (1, '$2a$10$ld2WZ99kqW8C5x7cbnCzteYkGzN62waU.zeSvHeBgt2sa30gHnrZq', 'user', 'user');
 insert into User values (2, '$2a$10$KdoEy6tQTbrJ.pRx/oteYubJU/90fkSsvIiIpQoDGH..lvzLgDOly', 'test', 'user');
+insert into Usuario value (0,'$2a$08$9gXUtcsm2OzESFjjxUEw2eqNWaat4peZIvPKJzRtIlwJ0Y5Owzr3K',true,'a','b','c','d','e',3)
 insert INTO AUTHOR VALUES(1,'Adams','Adam')
 insert INTO AUTHOR VALUES(2,'Bobbie','Bob')
 insert INTO AUTHOR VALUES(3,'Carlos','Carl')
