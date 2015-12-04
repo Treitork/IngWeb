@@ -12,14 +12,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.UUID;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,21 +27,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import es.fdi.iw.ContextInitializer;
-import es.fdi.iw.model.Author;
-import es.fdi.iw.model.Book;
-import es.fdi.iw.model.User;
+import es.fdi.iw.model.Usuario;
 
-/**
- * . Una aplicación de ejemplo para IW.
- */
 @Controller
 public class HomeController {
 
@@ -59,7 +50,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	@Transactional
-	public String login(@RequestParam("login") String formLogin,
+	public String login(@RequestParam("email") String formLogin,
 			@RequestParam("pass") String formPass,
 			@RequestParam("source") String formSource,
 			HttpServletRequest request, HttpServletResponse response,
@@ -75,13 +66,13 @@ public class HomeController {
 					"usuarios y contraseñas: 4 caracteres mínimo");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		} else {
-			User u = null;
+			Usuario u = null;
 			try {
-				u = (User) entityManager.createNamedQuery("userByLogin")
+				u = (Usuario) entityManager.createNamedQuery("usuarioLogin")
 						.setParameter("loginParam", formLogin)
 						.getSingleResult();
-				 
-				if (u.isPassValid(formPass)) {
+				logger.info("Usuario " + u.toString());
+				if (u.esLoginValido(formPass)) {
 					logger.info("pass was valid");
 					session.setAttribute("user", u);
 					// sets the anti-csrf token
@@ -102,15 +93,6 @@ public class HomeController {
 				}
 			} catch (NoResultException nre) {
 				if (formPass.length() == 4) {
-					// UGLY: register new users if they do not exist and pass is
-					// 4 chars long
-					/*
-					 * logger.info("no-such-user; creating user {}", formLogin);
-					 * User user = User.createUser(formLogin, formPass, "user");
-					 * entityManager.persist(user); session.setAttribute("user",
-					 * user); // sets the anti-csrf token
-					 * getTokenForSession(session); return "redirect:home";
-					 */
 				} else {
 					logger.info("no such login: {}", formLogin);
 				}
@@ -135,7 +117,7 @@ public class HomeController {
 		if (!isAdmin(session) || !isTokenValid(session, token)) {
 			return new ResponseEntity<String>(
 					"Error: no such user or bad auth", HttpStatus.FORBIDDEN);
-		} else if (entityManager.createNamedQuery("delUser")
+		} else if (entityManager.createNamedQuery("borrarUsuario")
 				.setParameter("idParam", id).executeUpdate() == 1) {
 			return new ResponseEntity<String>("Ok: user " + id + " removed",
 					HttpStatus.OK);
@@ -198,131 +180,6 @@ public class HomeController {
 		return "user";
 	}
 
-	/**
-	 * Displays single-book details
-	 */
-	@RequestMapping(value = "/book/{id}", method = RequestMethod.GET)
-	public String book(@PathVariable("id") long id,
-			HttpServletResponse response, Model model) {
-		Book b = entityManager.find(Book.class, id);
-		if (b == null) {
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			logger.error("No such book: {}", id);
-		} else {
-			model.addAttribute("book", b);
-		}
-		model.addAttribute("prefix", "../");
-		return "book";
-	}
-
-	/**
-	 * Delete a book
-	 */
-	@RequestMapping(value = "/book/{id}", method = RequestMethod.DELETE)
-	@Transactional
-	@ResponseBody
-	public String rmbook(@PathVariable("id") long id,
-			HttpServletResponse response, Model model) {
-		try {
-			Book b = entityManager.find(Book.class, id);
-			for (Author a : b.getAuthors()) {
-				a.getWritings().remove(b);
-				entityManager.persist(a);
-			}
-			entityManager.remove(b);
-			response.setStatus(HttpServletResponse.SC_OK);
-			return "OK";
-		} catch (NoResultException nre) {
-			logger.error("No such book: {}", id, nre);
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			return "ERR";
-		}
-	}
-
-	/*
-	 * List all books
-	 */
-	@RequestMapping(value = "/books", method = RequestMethod.GET)
-	@Transactional
-	public String books(Model model) {
-		model.addAttribute("books", entityManager.createNamedQuery("allBooks")
-				.getResultList());
-		model.addAttribute("owners", entityManager.createNamedQuery("allUsers")
-				.getResultList());
-		model.addAttribute("authors",
-				entityManager.createNamedQuery("allAuthors").getResultList());
-		return "books";
-	}
-
-	/*
-	 * Add a book
-	 */
-	@RequestMapping(value = "/book", method = RequestMethod.POST)
-	@Transactional
-	public String book(@RequestParam("owner") long ownerId,
-			@RequestParam("authors") long[] authorIds,
-			@RequestParam("title") String title,
-			@RequestParam("description") String description, Model model) {
-		Book b = new Book();
-		b.setTitle(title);
-		b.setDescription(description);
-		for (long aid : authorIds) {
-			// adding authors to book is useless, since author is the owning
-			// side (= has no mappedBy)
-			Author a = entityManager.find(Author.class, aid);
-			a.getWritings().add(b);
-			entityManager.persist(a);
-		}
-		b.setOwner(entityManager.getReference(User.class, ownerId));
-		entityManager.persist(b);
-		entityManager.flush();
-		logger.info("Book " + b.getId() + " written ok - owned by "
-				+ b.getOwner().getLogin() + " written by " + b.getAuthors());
-
-		return "redirect:book/" + b.getId();
-	}
-
-	/**
-	 * Load book authors for a given book via post; return as JSON
-	 */
-	@RequestMapping(value = "/bookAuthors")
-	@ResponseBody
-	@Transactional
-	// needed to allow lazy init to work
-	public ResponseEntity<String> bookAuthors(@RequestParam("id") long id,
-			HttpServletRequest request) {
-		try {
-			Book book = (Book) entityManager.find(Book.class, id);
-			List<Author> authors = book.getAuthors();
-			StringBuilder sb = new StringBuilder("[");
-			for (Author a : authors) {
-				if (sb.length() > 1)
-					sb.append(",");
-				sb.append("{ " + "\"id\": \"" + a.getId() + "\", "
-						+ "\"familyName\": \"" + a.getFamilyName() + "\", "
-						+ "\"lastName\": \"" + a.getLastName() + "\"}");
-			}
-			return new ResponseEntity<String>(sb + "]", HttpStatus.OK);
-		} catch (NoResultException nre) {
-			logger.error("No such book: {}", id, nre);
-		}
-		return new ResponseEntity<String>("Error: libro no existe",
-				HttpStatus.BAD_REQUEST);
-	}
-
-	/**
-	 * Displays author details
-	 */
-	@RequestMapping(value = "/author/{id}", method = RequestMethod.GET)
-	public String author(@PathVariable("id") long id, Model model) {
-		try {
-			model.addAttribute("author", entityManager.find(Author.class, id));
-		} catch (NoResultException nre) {
-			logger.error("No such author: {}", id, nre);
-		}
-		model.addAttribute("prefix", "../");
-		return "author";
-	}
 
 	/**
 	 * Returns a users' photo
@@ -393,8 +250,8 @@ public class HomeController {
 	public String about(Locale locale, Model model) {
 		logger.info("User is looking up 'about us'");
 		@SuppressWarnings("unchecked")
-		List<User> us = (List<User>) entityManager.createQuery(
-				"select u from User u").getResultList();
+		List<Usuario> us = (List<Usuario>) entityManager.createQuery(
+				"select u from Usuario u").getResultList();
 		System.err.println(us.size());
 		model.addAttribute("users", us);
 		model.addAttribute("pageTitle", "¿Quiénes somos?");
@@ -441,9 +298,9 @@ public class HomeController {
 	 * Returns true if the user is logged in and is an admin
 	 */
 	static boolean isAdmin(HttpSession session) {
-		User u = (User) session.getAttribute("user");
+		Usuario u = (Usuario) session.getAttribute("user");
 		if (u != null) {
-			return u.getRole().equals("admin");
+			return u.getRol().equals("admin");
 		} else {
 			return false;
 		}
@@ -463,9 +320,12 @@ public class HomeController {
 
 	@RequestMapping(value = "/signin", method = RequestMethod.POST)
 	@Transactional
-	public String signIn(@RequestParam("login") String formEmail,
-			@RequestParam("pass") String formPass,
+	public String signIn(
 			@RequestParam("source") String formSource,
+			@RequestParam("email") String formEmail,
+			@RequestParam("pass") String formPass,
+			@RequestParam("firstName") String formName,
+			@RequestParam("lastName") String formLastNAme,
 			HttpServletRequest request, HttpServletResponse response,
 			Model model, HttpSession session) {
 		// model.addAttribute("pageTitle","Registro OmnisCracia");
@@ -477,7 +337,7 @@ public class HomeController {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			return "redirect:home";
 		} else {
-			User user = User.createUser(formEmail, formPass, "user");
+			Usuario user = Usuario.crearUsuario(formEmail, formPass, formName, formLastNAme, "user");
 			entityManager.persist(user);
 			session.setAttribute("user", user);
 			// sets the anti-csrf token

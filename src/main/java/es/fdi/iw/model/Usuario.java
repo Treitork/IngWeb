@@ -11,15 +11,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 /* Queries */
-/*
+
 @NamedQueries({
 @NamedQuery(name="todosUsuarios",
 query="select u from Usuario u"),
 @NamedQuery(name="usuarioLogin",
-query="select u from Usuario u where u.login = :loginParam"),
+query="select u from Usuario u where email = :loginParam"),
 @NamedQuery(name="borrarUsuario",
 query="delete from Usuario u where u.id= :idParam")
-})*/
+})
 
 /* Clase */
 public class Usuario {
@@ -39,7 +39,7 @@ private String imagen;
 public Usuario(){}
 
 /* Metodos */
-public static Usuario crearUsuario(String nombre, String apellidos, String login, String email,String rol){
+public static Usuario crearUsuario(String email,String login,String nombre,String apellidos,String rol){
 	Usuario u = new Usuario();
 	u.email = email;
 	u.hashedAndSalted = bcryptEncoder.encode(login);
@@ -52,7 +52,7 @@ public static Usuario crearUsuario(String nombre, String apellidos, String login
 	return u;
 }
 
-public boolean esValidalogin(String login) {
+public boolean esLoginValido(String login) {
 	return bcryptEncoder.matches(login, hashedAndSalted);		
 }
 
@@ -134,6 +134,10 @@ public String getImagen() {
 public void setImagen(String imagen) {
 	this.imagen = imagen;
 }
+
 /* Tablas del Join */
+// OneToMany
+// Una tabla que me devuelva las votaciones que he hecho el usuario concreto
+// Una tabla que devuelva las asignaturas en las que esta el usuario  concreto
 
 }

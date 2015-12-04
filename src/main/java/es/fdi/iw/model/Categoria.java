@@ -1,8 +1,10 @@
 package es.fdi.iw.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
+// @Embeddable
 /* Queries */
 // ... //
 
@@ -25,6 +27,7 @@ this.puntuacion = puntuacion;
 // ... //
 
 /* Getters & Setters */
+@Id
 public long getId_votacion() {
 	return id_votacion;
 }
