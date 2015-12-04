@@ -1,32 +1,89 @@
 package es.fdi.iw.model;
 
+import java.util.Date;
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+@Entity
+/* Queries */
+// ... //
+
+/* Clase */
 public class Votacion {
-private Integer idModelo;
-private String emisor,receptor,comentario;
-private List<Categoria> votacion;
-public Votacion(Integer idModelo, String emisor, String receptor, String comentario, List<Categoria> votacion) {
-	this.idModelo = idModelo;
-	this.emisor = emisor;
-	this.receptor = receptor;
-	this.comentario = comentario;
-	this.votacion = votacion;
+/* Atributos */
+private long id;
+private long id_emisor;
+private long id_receptor;
+private Date fecha;
+private List<Categoria> categorias;
+private String votacion;
+
+/* Constructores */
+public Votacion(){}
+
+/* Metodos */
+public Votacion crearVotacion(long id,long id_emisor,long id_receptor){
+	Votacion v = new Votacion();
+	return v;
 }
-public Integer getIdModelo() {
-	return idModelo;
+
+/* Getters & Setters */
+@Id
+@GeneratedValue
+public long getId() {
+	return id;
 }
-public String getEmisor() {
-	return emisor;
+
+public void setId(long id) {
+	this.id = id;
 }
-public String getReceptor() {
-	return receptor;
+
+public long getId_emisor() {
+	return id_emisor;
 }
-public String getComentario() {
-	return comentario;
+
+public void setId_emisor(long id_emisor) {
+	this.id_emisor = id_emisor;
 }
-public List<Categoria> getVotacion() {
+
+public long getId_receptor() {
+	return id_receptor;
+}
+
+public void setId_receptor(long id_receptor) {
+	this.id_receptor = id_receptor;
+}
+
+@Temporal(TemporalType.DATE)
+public Date getFecha(){
+	return fecha;
+}
+
+public void setFecha(Date fecha){
+this.fecha = fecha;
+}
+
+@OneToMany(targetEntity=Categoria.class, fetch=FetchType.EAGER)
+public List<Categoria> getCategorias(){
+	return categorias;
+}
+
+public void setCategorias(List<Categoria> categorias){
+	this.categorias = categorias;
+}
+
+public String getVotacion() {
 	return votacion;
 }
 
+public void setVotacion(String votacion) {
+	this.votacion = votacion;
+}
+/* Tablas del Join */
 }
