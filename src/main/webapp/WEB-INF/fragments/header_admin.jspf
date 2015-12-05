@@ -56,7 +56,7 @@
 
 	//When page loads...
 	$(".tab_content").hide(); //Hide all content
-	$("ul.tabs li:first").addClass("active").show(); //Activate first tab
+	$("ul.tabs li:first").addClaoss("active").show(); //Activate first tab
 	$(".tab_content:first").show(); //Show first tab content
 
 	//On Click Event
@@ -103,7 +103,7 @@
 				<ul class="nav navbar-nav navbar-right">
 					<c:choose>
 						<c:when test="${not empty user}">
-							<li><a href="${prefix}user?u=${e:forHtmlContent(user.id)}">${e:forHtmlContent(user.login)}</a>
+							<li><a href="${prefix}user?u=${e:forHtmlContent(user.id)}">${e:forHtmlContent(user.email)}</a>
 							</li>
 							<li><a href="${prefix}logout">Salir</a>
 							</li>
