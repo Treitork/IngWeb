@@ -1,0 +1,2 @@
+insert into Usuario values (1,TRUE,'Aguila','saguila@ucm.es','$2a$10$ld2WZ99kqW8C5x7cbnCzteYkGzN62waU.zeSvHeBgt2sa30gHnrZq','no-image','Sebastian',0,'user');
+insert into Usuario values (2,TRUE,'Martin','luisfpal@ucm.es','$2a$10$ld2WZ99kqW8C5x7cbnCzteYkGzN62waU.zeSvHeBgt2sa30gHnrZq','no-image','Luis',0,'admin');
