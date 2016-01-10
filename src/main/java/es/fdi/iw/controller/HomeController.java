@@ -363,25 +363,55 @@ public class HomeController {
 		return "contact";
 	}
 
+	@RequestMapping(value = "/busquedaUsuario", method = RequestMethod.POST)
+	public String busquedaUsuario(Model model,
+			@RequestParam("usuarioBusqueda") String formBuscar) {
+		model.addAttribute("pageTitle", "Resutlado de la busqueda");
+		List<Usuario> lista = null;
+		lista = (List<Usuario>)entityManager.createNamedQuery("mejoresAlumnos").getResultList();
+		//for(Usuario u:lista){
+		// logger.info(u.getEmail() + "\n"); pruebas.
+		//}
+		//lista = lista.
+		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
+		pagedListHolder.setPageSize(9);
+		List<Usuario> pagedList = pagedListHolder.getPageList();
+		
+		return "usersresult";
+	}
+	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/mejoresAlumnos", method = RequestMethod.GET)
 	public String mejoresAlumnos(Model model) {
-		return "mejoresAlumnos";
+		model.addAttribute("cabecera","Mejores Alumnos");
+		List<Usuario> lista = null;
+		lista = (List<Usuario>)entityManager.createNamedQuery("mejoresAlumnos").getResultList();
+		//for(Usuario u:lista){
+		// logger.info(u.getEmail() + "\n"); pruebas.
+		//}
+		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
+		pagedListHolder.setPageSize(9);
+		List<Usuario> pagedList = pagedListHolder.getPageList();
+		model.addAttribute("pagedListUsuarios", pagedList);
+		return "usersresults";
 	}
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/mejoresProfes", method = RequestMethod.GET)
 	public String mejoresProfest(Model model) {
+		model.addAttribute("cabecera","Mejores Profesores");
 		List<Usuario> lista = null;
-		lista = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
-		for(Usuario u:lista){
-		logger.info(u.getEmail() + "\n");
-		}
+		lista = (List<Usuario>)entityManager.createNamedQuery("mejoresProfesores").getResultList();
+		//for(Usuario u:lista){
+		// logger.info(u.getEmail() + "\n"); pruebas.
+		//}
 		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
 		pagedListHolder.setPageSize(9);
 		List<Usuario> pagedList = pagedListHolder.getPageList();
 		model.addAttribute("pagedListUsuarios", pagedList);
-		return "usuarios";
+		return "usersresults";
 	}
+	
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String admin(Model model) {
