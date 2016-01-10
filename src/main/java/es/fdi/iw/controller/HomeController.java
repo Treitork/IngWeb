@@ -369,6 +369,8 @@ public class HomeController {
 
 	@RequestMapping(value = "/mejoresProfes", method = RequestMethod.GET)
 	public String mejoresProfest(Model model) {
+	//	List<Usuario> u = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
+		//model.addAttribute("usuarios",u);
 		return "mejoresProfes";
 	}
 
@@ -376,4 +378,11 @@ public class HomeController {
 	public String admin(Model model) {
 		return "admin";
 	}
+	/*@RequestMapping(value="/buscarUsuario",method = RequestMethod.POST)
+	public String buscarUsuario(
+			@RequestParam("usuarioBusqueda") String formUsuario){
+		@SuppressWarnings("unchecked")
+		List<Usuario> u = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
+		return "";
+	}*/
 }
