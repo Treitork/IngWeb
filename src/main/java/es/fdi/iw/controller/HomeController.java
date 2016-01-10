@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import es.fdi.iw.ContextInitializer;
+import es.fdi.iw.model.MensajeModeracion;
 import es.fdi.iw.model.Usuario;
 
 @Controller
@@ -228,7 +229,13 @@ public class HomeController {
 				DateFormat.LONG, locale);
 
 		String formattedDate = dateFormat.format(date);
-
+		/*@RequestMapping(value="/buscarUsuario",method = RequestMethod.POST)
+		public String buscarUsuario(
+				@RequestParam("usuarioBusqueda") String formUsuario){
+			@SuppressWarnings("unchecked")
+			List<Usuario> u = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
+			return "";
+		}*/
 		model.addAttribute("serverTime", formattedDate);
 		model.addAttribute("pageTitle", "Inicio OmmisCracia");
 
@@ -352,6 +359,19 @@ public class HomeController {
 		}
 	}
 
+	@RequestMapping(value = "/mensajeModeracion", method = RequestMethod.GET)
+	public String mensajeModeracion(Model model) {
+		return "mensajemoderacion";
+	}
+	
+	@RequestMapping(value = "/mensajeModeracion", method = RequestMethod.POST)
+	public String mensajeModeracion(HttpSession sesion,
+			@RequestParam("contenido") String contenido) {
+		MensajeModeracion m = new MensajeModeracion();
+		m.crearMensajeModeracion(sesion.getId(),contenido);
+		return "mensajemoderacion";
+	}
+	
 	@RequestMapping(value = "/perfilUsuario", method = RequestMethod.GET)
 	public String perfilUsuario(Model model) {
 		return "perfilUsuario";
@@ -363,21 +383,20 @@ public class HomeController {
 		return "contact";
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/busquedaUsuario", method = RequestMethod.POST)
 	public String busquedaUsuario(Model model,
-			@RequestParam("usuarioBusqueda") String formBuscar) {
+			@RequestParam("busqueda") String formBuscar
+			) {
+		model.addAttribute("cabecera","Resultados Busqueada");
 		model.addAttribute("pageTitle", "Resutlado de la busqueda");
 		List<Usuario> lista = null;
-		lista = (List<Usuario>)entityManager.createNamedQuery("mejoresAlumnos").getResultList();
-		//for(Usuario u:lista){
-		// logger.info(u.getEmail() + "\n"); pruebas.
-		//}
-		//lista = lista.
+		lista = (List<Usuario>)entityManager.createNamedQuery("busquedaUsuario").setParameter("idParam", formBuscar).getResultList();
 		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
 		pagedListHolder.setPageSize(9);
 		List<Usuario> pagedList = pagedListHolder.getPageList();
-		
-		return "usersresult";
+		model.addAttribute("pagedListUsuarios", pagedList);
+		return "redirect:usersresult";
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -417,11 +436,4 @@ public class HomeController {
 	public String admin(Model model) {
 		return "admin";
 	}
-	/*@RequestMapping(value="/buscarUsuario",method = RequestMethod.POST)
-	public String buscarUsuario(
-			@RequestParam("usuarioBusqueda") String formUsuario){
-		@SuppressWarnings("unchecked")
-		List<Usuario> u = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
-		return "";
-	}*/
 }
