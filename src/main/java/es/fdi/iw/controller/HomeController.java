@@ -368,7 +368,7 @@ public class HomeController {
 	public String mensajeModeracion(HttpSession sesion,
 			@RequestParam("contenido") String contenido) {
 		MensajeModeracion m = new MensajeModeracion();
-		m.crearMensajeModeracion(sesion.getId(),contenido);
+		m.crearMensajeModeracion(sesion.getId(),contenido,"mierda");
 		return "mensajemoderacion";
 	}
 	
@@ -391,7 +391,8 @@ public class HomeController {
 		model.addAttribute("cabecera","Resultados Busqueada");
 		model.addAttribute("pageTitle", "Resutlado de la busqueda");
 		List<Usuario> lista = null;
-		lista = (List<Usuario>)entityManager.createNamedQuery("busquedaUsuario").setParameter("idParam", formBuscar).getResultList();
+		lista = (List<Usuario>)entityManager.createNamedQuery("busquedaUsuario").setParameter("param1", formBuscar).getResultList();
+		for(Usuario u:lista) logger.info(u.getEmail() + "\n");
 		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
 		pagedListHolder.setPageSize(9);
 		List<Usuario> pagedList = pagedListHolder.getPageList();
@@ -405,9 +406,6 @@ public class HomeController {
 		model.addAttribute("cabecera","Mejores Alumnos");
 		List<Usuario> lista = null;
 		lista = (List<Usuario>)entityManager.createNamedQuery("mejoresAlumnos").getResultList();
-		//for(Usuario u:lista){
-		// logger.info(u.getEmail() + "\n"); pruebas.
-		//}
 		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
 		pagedListHolder.setPageSize(9);
 		List<Usuario> pagedList = pagedListHolder.getPageList();
@@ -421,9 +419,6 @@ public class HomeController {
 		model.addAttribute("cabecera","Mejores Profesores");
 		List<Usuario> lista = null;
 		lista = (List<Usuario>)entityManager.createNamedQuery("mejoresProfesores").getResultList();
-		//for(Usuario u:lista){
-		// logger.info(u.getEmail() + "\n"); pruebas.
-		//}
 		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
 		pagedListHolder.setPageSize(9);
 		List<Usuario> pagedList = pagedListHolder.getPageList();
