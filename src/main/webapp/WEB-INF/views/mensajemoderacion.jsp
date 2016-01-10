@@ -12,8 +12,8 @@
                     </div>
                     <div class="control-group form-group">
                         <div class="controls">
-                            <label>Phone Number:</label>
-                            <input type="tel" class="form-control" id="phone" required data-validation-required-message="Please enter your phone number.">
+                            <label>Titulo:</label>
+                            <input type="tel" class="form-control" id="titulo" required data-validation-required-message="">
                         </div>
                     </div>
                     <div class="control-group form-group">

@@ -20,7 +20,7 @@ import javax.persistence.TemporalType;
     @NamedQuery(name="votosEmitidosUsuario",
             query="select from VOTOS v inner join Usuarios u on u.id=v.id_emisor where u.id=:idParam"),
     @NamedQuery(name="votosRecibidosUsuario",
-    query="select from VOTOS v inner join Usuarios u on u.id=v.id_ where u.id=:idParam"),
+    query="select from VOTOS v inner join Usuarios u on u.id=v.id_ where u.id=:idParam")
 })
 
 /* Clase */
