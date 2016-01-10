@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -367,11 +368,19 @@ public class HomeController {
 		return "mejoresAlumnos";
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/mejoresProfes", method = RequestMethod.GET)
 	public String mejoresProfest(Model model) {
-	//	List<Usuario> u = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
-		//model.addAttribute("usuarios",u);
-		return "mejoresProfes";
+		List<Usuario> lista = null;
+		lista = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
+		for(Usuario u:lista){
+		logger.info(u.getEmail() + "\n");
+		}
+		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
+		pagedListHolder.setPageSize(9);
+		List<Usuario> pagedList = pagedListHolder.getPageList();
+		model.addAttribute("pagedListUsuarios", pagedList);
+		return "usuarios";
 	}
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)

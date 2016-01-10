@@ -15,19 +15,20 @@
                 </ol>
             </div>
         </div>
-        <!-- /.row -->
-
-        <!-- Projects Row -->
+        <c:set var="counter" value="0" scope="page" />
         <div class="row">
+<c:forEach items="${pagedListUsuarios}" var="usuarios">
             <div class="col-md-4 img-portfolio">
                 <a href="portfolio-item.html">
                     <img class="img-responsive img-hover" src="http://placehold.it/700x400" alt="">
                 </a>
                 <h3>
-                    <a href="portfolio-item.html">USER1</a>
+                    <a href="portfolio-item.html">${usuarios.nombre} ${usuarios.apellidos}</a>
                 </h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
-            </div> 
+            </div>
+   <c:set var="counter" value="${count + 1}" scope="page"/>
+   </c:forEach>
    </div>
         <hr>
 

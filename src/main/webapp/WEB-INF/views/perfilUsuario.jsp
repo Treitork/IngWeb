@@ -10,7 +10,7 @@
 
         <!-- Page Heading/Breadcrumbs -->
             <div class="row">
-                <h1 class="page-header">Perfil <small>${e:forHtmlContent(user.rol)}</small></h1>
+                <h1 class="page-header">Perfil <small><c:choose><c:when test="${e:forHtmlContent(user.rol)=='user'}">alumno</c:when><c:otherwise>${e:forHtmlContent(user.rol)}</c:otherwise></c:choose></small></h1>
                 <div class="col-md-3 ">
 					<img src="resources/img/Anonimo.jpg" alt="foto perfil">
            		</div>
