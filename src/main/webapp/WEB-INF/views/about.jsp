@@ -1,49 +1,136 @@
 <%@ include file="../fragments/header.jspf" %>
+	<!-- Page Content -->
+    <div class="container">
 
-<script type="text/javascript">
-$(function() {
-	$(".x").click(function(){
-		var id=$(this).attr("id").substring("del_".length);
-		console.log("deleting", id);
-		delUser(id);
-	});
-})
+        <!-- Page Heading/Breadcrumbs -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Sobre nosotros
+                    <small>Nuestro equipo</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="index.html">Home</a>
+                    </li>
+                    <li class="active">About</li>
+                </ol>
+            </div>
+        </div>
+        <!-- /.row -->
 
-function delUser(id) {
-	$.post("delUser", {id: id, csrf: "${e:forJavaScript(csrf_token)}"}, 
-			function(data) {
-				$("#del_"+id).parent().parent().remove();
-			});
-}
-</script>
+        <!-- /.row -->
 
-<div id="principal">
+        <!-- Team Members -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">El equipo de desarrollo</h2>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+                    <div class="caption">
+                        <h3>Fredy<br>
+                            <small>Desarrollador</small>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste saepe et quisquam nesciunt maxime.</p>
+                        <ul class="list-inline">
+                            <li><a href="#"><i class="fa fa-2x fa-facebook-square"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-2x fa-linkedin-square"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-2x fa-twitter-square"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 text-center">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+                    <div class="caption">
+                        <h3>Luis<br>
+                            <small>Desarrollador</small>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste saepe et quisquam nesciunt maxime.</p>
+                        <ul class="list-inline">
+                            <li><a href="#"><i class="fa fa-2x fa-facebook-square"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-2x fa-linkedin-square"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-2x fa-twitter-square"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+                    <div class="caption">
+                        <h3>Sebastián<br>
+                            <small>Desarrollador</small>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste saepe et quisquam nesciunt maxime.</p>
+                        <ul class="list-inline">
+                            <li><a href="#"><i class="fa fa-2x fa-facebook-square"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-2x fa-linkedin-square"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-2x fa-twitter-square"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 text-center">
+                <div class="thumbnail">
+                    <img class="img-responsive" src="http://placehold.it/750x450" alt="">
+                    <div class="caption">
+                        <h3>Cristian<br>
+                            <small>Desarrollador</small>
+                        </h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste saepe et quisquam nesciunt maxime.</p>
+                        <ul class="list-inline">
+                            <li><a href="#"><i class="fa fa-2x fa-facebook-square"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-2x fa-linkedin-square"></i></a>
+                            </li>
+                            <li><a href="#"><i class="fa fa-2x fa-twitter-square"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.row -->
 
-<h1>Sobre esta aplicación</h1>
-<ul>
-	<li>El autor de esta aplicación es Manuel Freire, y los fuentes actualizados están disponibles
-		<a href="https://github.com/manuel-freire/iw">en Github</a>.
-	<li>Esta aplicación se distribuye bajo licencia BSD-Simplificada: 
-		esencialmente por amor al arte, y puedes reutilizarla impunemente 
-		siempre y cuando cites fuente y autoría en tu leeme.html ó equivalente.</li>
-	<li>Realmente, esta segunda página sólo sirve para que veas que la sesión se mantiene entre
-		páginas, y que me puedo registrar (hacer login) en cualquier página si pierdo mi sesión --
-		pero "sin cambiar" de página.</li>
-</ul>
+        <!-- Our Customers -->
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">Nuestros clientes</h2>
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <img class="img-responsive customer-img" src="http://placehold.it/500x300" alt="">
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <img class="img-responsive customer-img" src="http://placehold.it/500x300" alt="">
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <img class="img-responsive customer-img" src="http://placehold.it/500x300" alt="">
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <img class="img-responsive customer-img" src="http://placehold.it/500x300" alt="">
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <img class="img-responsive customer-img" src="http://placehold.it/500x300" alt="">
+            </div>
+            <div class="col-md-2 col-sm-4 col-xs-6">
+                <img class="img-responsive customer-img" src="http://placehold.it/500x300" alt="">
+            </div>
+        </div>
+        <!-- /.row -->
 
-<h1>Usuarios del sistema</h1>
-<table class="users">
-<thead>
-	<tr><td>id<td>login<td>rol<td>hash+salt<td>photo</tr>
-</thead>
-<tbody>
-	<c:forEach items="${users}" var="u">
-		<!--<tr><td>${u.id}<td>${e:forHtmlContent(u.login)}<td>${u.role}-->
-		<td>${u.hashedAndSalted}<td><img src="user/photo?id=${u.id}"/>
-		<td><button class="x" id="del_${u.id}">x</button></tr>
-	</c:forEach>
-</tbody>	
-</table>
+        <hr>
 
-</div>
-<%@ include file="../fragments/footer.jspf" %>
+		<%@ include file="../fragments/footer.jspf" %>
