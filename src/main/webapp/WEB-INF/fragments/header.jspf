@@ -48,7 +48,7 @@
 						class="icon-bar"></span>
 				</button>
 				<a class="navbar-brand" href="home">Inicio</a>
- <form class="navbar-form navbar-left" id="buscar" action="busquedaUsuario" method="POST">
+ <form class="navbar-form navbar-left" id="buscar" action="busquedaUsuario" method="GET">
   <div class="form-group">
   <input type="text" name="busqueda" id="busqueda" class="form-control" placeholder="Encuentra a un Usuario ...">
   </div>

@@ -384,7 +384,7 @@ public class HomeController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/busquedaUsuario", method = RequestMethod.POST)
+	@RequestMapping(value = "/busquedaUsuario", method = RequestMethod.GET)
 	public String busquedaUsuario(Model model,
 			@RequestParam("busqueda") String formBuscar
 			) {
@@ -397,7 +397,7 @@ public class HomeController {
 		pagedListHolder.setPageSize(9);
 		List<Usuario> pagedList = pagedListHolder.getPageList();
 		model.addAttribute("pagedListUsuarios", pagedList);
-		return "redirect:usersresult";
+		return "usersresults";
 	}
 	
 	@SuppressWarnings("unchecked")
