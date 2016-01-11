@@ -25,7 +25,7 @@ public class ContextInitializer implements ServletContextInitializer {
         log.debug("Got the constructor");
     }
 
-
+    @Override
     public void onStartup(ServletContext servletContext	) {
     	try {
     		props.load(getClass().getResourceAsStream("/application.properties")); 
