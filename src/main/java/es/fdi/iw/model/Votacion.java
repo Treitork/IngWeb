@@ -14,14 +14,14 @@ import javax.persistence.TemporalType;
 
 @Entity
 /* Queries */
-@NamedQueries({
+/*@NamedQueries({
     @NamedQuery(name="todosVotos",
             query="select v Votos v order by FECHA desc"),
     @NamedQuery(name="votosEmitidosUsuario",
             query="select from VOTOS v inner join Usuarios u on u.id=v.id_emisor where u.id=:idParam"),
     @NamedQuery(name="votosRecibidosUsuario",
     query="select from VOTOS v inner join Usuarios u on u.id=v.id_ where u.id=:idParam")
-})
+})*/
 
 /* Clase */
 public class Votacion {

@@ -8,12 +8,12 @@ import javax.persistence.NamedQuery;
 @Entity
 // @Embeddable
 /* Queries */
-@NamedQueries({
+/*@NamedQueries({
     @NamedQuery(name="todasCategorias",
             query="select c from Categoria c"),
     @NamedQuery(name="deleteBook",
             query="delete from Book o where o.id=:idParam")
-})
+})*/
 // ... //
 
 /* Clase */
