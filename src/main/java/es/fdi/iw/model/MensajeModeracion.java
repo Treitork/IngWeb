@@ -19,17 +19,10 @@ import javax.persistence.NamedQuery;
 public class MensajeModeracion {
 /* Atributos */	
 private long id;
-private String emisor;
-private String titulo;
-public String getTitulo() {
-	return titulo;
-}
-
-public void setTitulo(String titulo) {
-	this.titulo = titulo;
-}
-
+private long idEmisor;
+private String motivo;
 private String mensaje;
+
 
 /* Constructores */
 public MensajeModeracion(){}
@@ -37,9 +30,8 @@ public MensajeModeracion(){}
 /* Metodos */
 public MensajeModeracion crearMensajeModeracion(String emisor,String mensaje,String titulo){
 	MensajeModeracion m = new MensajeModeracion();
-	m.emisor = emisor;
-	m.mensaje = mensaje;
-	m.titulo = titulo;
+	
+	m.mensaje = mensaje;;
 	return m;
 }
 
@@ -54,12 +46,21 @@ public void setId(long id) {
 	this.id = id;
 }
 
-public String getEmisor() {
-	return emisor;
+
+public long getIdEmisor() {
+	return idEmisor;
 }
 
-public void setEmisor(String emisor) {
-	this.emisor = emisor;
+public void setIdEmisor(long idEmisor) {
+	this.idEmisor = idEmisor;
+}
+
+public String getMotivo() {
+	return motivo;
+}
+
+public void setMotivo(String motivo) {
+	this.motivo = motivo;
 }
 
 public String getMensaje() {

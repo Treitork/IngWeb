@@ -21,7 +21,7 @@ public class Categoria {
 /* Atributos */
 private long id_votacion;
 private String categoria;
-private int puntuacion;
+private double puntuacion;
 
 /* Constructores */
 public Categoria(){}
@@ -52,11 +52,11 @@ public void setCategoria(String categoria) {
 	this.categoria = categoria;
 }
 
-public int getPuntuacion() {
+public double getPuntuacion() {
 	return puntuacion;
 }
 
-public void setPuntuacion(int puntuacion) {
+public void setPuntuacion(double puntuacion) {
 	this.puntuacion = puntuacion;
 }
 }
