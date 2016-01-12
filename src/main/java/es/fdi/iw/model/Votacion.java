@@ -31,7 +31,7 @@ private long id_emisor;
 private long id_receptor;
 private Date fecha;
 private List<Categoria> categorias;
-private String votacion;
+private String comentario;
 
 /* Constructores */
 public Votacion(){}
@@ -87,12 +87,12 @@ public void setCategorias(List<Categoria> categorias){
 	this.categorias = categorias;
 }
 
-public String getVotacion() {
-	return votacion;
+public String getComentario() {
+	return comentario;
 }
 
-public void setVotacion(String votacion) {
-	this.votacion = votacion;
+public void setComentario(String comentario) {
+	this.comentario = comentario;
 }
 /* Tablas del Join */
 }
