@@ -37,6 +37,11 @@ import es.fdi.iw.ContextInitializer;
 import es.fdi.iw.model.MensajeModeracion;
 import es.fdi.iw.model.Usuario;
 
+// entityManager.find(Usuario,id)
+// Reescribir en la sesion
+// Session set (atribute Usuario u)
+//
+
 @Controller
 public class HomeController {
 
