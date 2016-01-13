@@ -1,10 +1,14 @@
 package es.fdi.iw.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -37,9 +41,10 @@ private String hashedAndSalted;
 private String nombre;
 private String apellidos;
 private String rol;
-private Integer puntuacion_media;
+private Integer puntuacion;
 private boolean activo;
 private String imagen;
+private List<Asignatura> asignaturas;
 
 /* Constructores */
 public Usuario(){}
@@ -52,7 +57,7 @@ public static Usuario crearUsuario(String email,String login,String nombre,Strin
 	u.nombre = nombre;
 	u.apellidos = apellidos;
 	u.rol = rol;
-	u.puntuacion_media = 0;
+	u.puntuacion = 0;
 	u.activo = true;
 	u.imagen ="void";
 	return u;
@@ -73,6 +78,15 @@ public long getId(){
 	return id;
 }
 
+@OneToMany(targetEntity=Categoria.class, fetch=FetchType.EAGER)
+public List<Asignatura> getAsignaturas() {
+	return asignaturas;
+}
+
+public void setAsignaturas(List<Asignatura> asignaturas) {
+	this.asignaturas = asignaturas;
+}
+
 public void setId(long id) {
 	this.id = id;
 }
@@ -80,7 +94,6 @@ public void setId(long id) {
 public String getEmail() {
 	return email;
 }
-
 public void setEmail(String email) {
 	this.email = email;
 }
@@ -117,12 +130,12 @@ public void setRol(String rol) {
 	this.rol = rol;
 }
 
-public Integer getPuntuacion_media() {
-	return puntuacion_media;
+public Integer getPuntuacion() {
+	return puntuacion;
 }
 
-public void setPuntuacion_media(Integer puntuacion_media) {
-	this.puntuacion_media = puntuacion_media;
+public void setPuntuacion(Integer puntuacion) {
+	this.puntuacion = puntuacion;
 }
 
 public boolean isActivo() {

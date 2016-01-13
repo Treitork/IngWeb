@@ -32,6 +32,7 @@ private long id_receptor;
 private Date fecha;
 private List<Categoria> categorias;
 private String comentario;
+private double puntuacionMedia;
 
 /* Constructores */
 public Votacion(){}
@@ -78,15 +79,6 @@ public void setFecha(Date fecha){
 this.fecha = fecha;
 }
 
-@OneToMany(targetEntity=Categoria.class, fetch=FetchType.EAGER)
-public List<Categoria> getCategorias(){
-	return categorias;
-}
-
-public void setCategorias(List<Categoria> categorias){
-	this.categorias = categorias;
-}
-
 public String getComentario() {
 	return comentario;
 }
@@ -94,5 +86,14 @@ public String getComentario() {
 public void setComentario(String comentario) {
 	this.comentario = comentario;
 }
+
+public double getPuntuacionMedia() {
+	return puntuacionMedia;
+}
+
+public void setPuntuacionMedia(double puntuacionMedia) {
+	this.puntuacionMedia = puntuacionMedia;
+}
+
 /* Tablas del Join */
 }

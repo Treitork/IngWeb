@@ -19,7 +19,8 @@
 						<li >Nombre ${e:forHtmlContent(user.nombre)}</li>
 						<li >correo ${e:forHtmlContent(user.email)}</li>
 						<li >rol ${e:forHtmlContent(user.rol)}</li>
-						<li>puntuacion ${e:forHtmlContent(user.puntuacion_media)}</li>
+						<li>puntuacion ${e:forHtmlContent(user.puntuacion)}</li>
+						<li><a href="/mensajeModeracion">Mensaje de Moderacion</a></li>
 					</ul>
             	</div>
             </div>
