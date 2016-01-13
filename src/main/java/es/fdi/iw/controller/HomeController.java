@@ -28,6 +28,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,11 +38,12 @@ import org.springframework.web.multipart.MultipartFile;
 import es.fdi.iw.ContextInitializer;
 import es.fdi.iw.model.MensajeModeracion;
 import es.fdi.iw.model.Usuario;
+import scala.annotation.meta.setter;
 
 // entityManager.find(Usuario,id)
 // Reescribir en la sesion
 // Session set (atribute Usuario u)
-//
+// @ModelAttribute("user")
 
 @Controller
 public class HomeController {
@@ -364,8 +367,11 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/mensajeModeracion", method = RequestMethod.GET)
-	public String mensajeModeracion(Model model) {
+	@RequestMapping(value = "/mensajeModeracion/{idVotacion}", method = RequestMethod.GET)
+	public String mensajeModeracion(
+			@PathVariable("idVotacion") long idVotacion,
+			Model model) {
+		model.addAttribute("idVotacion",idVotacion);
 		return "mensajemoderacion";
 	}
 	
@@ -374,7 +380,8 @@ public class HomeController {
 			@RequestParam("mensaje") String mensajeForm,
 			@RequestParam("motivo") String motivoForm,
 			Model model) {
-
+long idVotacion = (Long) sesion.getAttribute("idVotacion");
+//long idUsuario = sesion.getId();
 		return "mensajemoderacion";
 	}
 	
@@ -383,6 +390,11 @@ public class HomeController {
 		return "perfilUsuario";
 	}
 
+	@RequestMapping(value = "/miPerfil", method = RequestMethod.GET)
+	public String miPerfil(Model model) {
+		return "miperfil";
+	}
+	
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
 	public String contact(Model model) {
 		model.addAttribute("pageTitle", "Contáctanos");
