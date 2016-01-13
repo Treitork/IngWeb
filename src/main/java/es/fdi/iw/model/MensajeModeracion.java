@@ -29,10 +29,12 @@ private String mensaje;
 public MensajeModeracion(){}
 
 /* Metodos */
-public MensajeModeracion crearMensajeModeracion(String emisor,String mensaje,String titulo){
+public MensajeModeracion crearMensajeModeracion(long idEmisor,long idVotacion,String motivo,String mensaje){
 	MensajeModeracion m = new MensajeModeracion();
-	
-	m.mensaje = mensaje;;
+	m.idEmisor = idEmisor;
+	m.idVotacion = idVotacion;
+	m.motivo = motivo;
+	m.mensaje = mensaje;
 	return m;
 }
 

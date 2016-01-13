@@ -371,9 +371,10 @@ public class HomeController {
 	
 	@RequestMapping(value = "/mensajeModeracion", method = RequestMethod.POST)
 	public String mensajeModeracion(HttpSession sesion,
-			@RequestParam("contenido") String contenido) {
-		MensajeModeracion m = new MensajeModeracion();
-		m.crearMensajeModeracion(sesion.getId(),contenido,"mierda");
+			@RequestParam("mensaje") String mensajeForm,
+			@RequestParam("motivo") String motivoForm,
+			Model model) {
+
 		return "mensajemoderacion";
 	}
 	
