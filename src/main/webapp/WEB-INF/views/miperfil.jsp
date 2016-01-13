@@ -20,7 +20,7 @@
 						<li >correo ${e:forHtmlContent(user.email)}</li>
 						<li >rol ${e:forHtmlContent(user.rol)}</li>
 						<li>puntuacion ${e:forHtmlContent(user.puntuacion)}</li>
-						<li><a href="/mensajeModeracion?=0">Mensaje de Moderacion</a></li>
+						<li><a href="${prefix}mensajeModeracion/-1">Mensaje de Moderacion</a></li>
 					</ul>
             	</div>
             </div>

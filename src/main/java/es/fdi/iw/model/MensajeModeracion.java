@@ -37,6 +37,14 @@ public MensajeModeracion crearMensajeModeracion(long idEmisor,long idVotacion,St
 	m.mensaje = mensaje;
 	return m;
 }
+public MensajeModeracion crearMensajeModeracion(long idEmisor,String motivo,String mensaje){
+	MensajeModeracion m = new MensajeModeracion();
+	m.idEmisor = idEmisor;
+	m.idVotacion = idVotacion;
+	m.motivo = motivo;
+	m.mensaje = mensaje;
+	return m;
+}
 
 /* Getters & Setters*/
 @Id

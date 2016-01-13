@@ -2,7 +2,7 @@
 
   <div class="col-md-8">
                 <h3>Mensaje de moderacion</h3>
-                <form name="enviarMensajeModeracion" id="formularioMensajeModeracion" action="/mensajeModeracion" novalidate method="POST">
+                <form name="enviarMensajeModeracion" id="formularioMensajeModeracion" action="/mensajeModeracion/${idvotacion}" novalidate method="POST">
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Motivo:</label>
@@ -12,7 +12,7 @@
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Mensaje:</label>
-                            <textarea rows="10" cols="100" class="form-control" id="contenido" name="contenido" maxlength="999" style="resize:none"></textarea>
+                            <textarea rows="10" cols="100" class="form-control" id="mensaje" name="mensaje" maxlength="999" style="resize:none"></textarea>
                         </div>
                     </div>
                     <div id="success"></div>

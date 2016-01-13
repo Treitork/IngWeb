@@ -367,30 +367,43 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/mensajeModeracion/{idVotacion}", method = RequestMethod.GET)
+	@RequestMapping(value = "/mensajeModeracion/{idvotacion}", method = RequestMethod.GET)
 	public String mensajeModeracion(
-			@PathVariable("idVotacion") long idVotacion,
+			@PathVariable("idvotacion") long idVotacion,
 			Model model) {
-		model.addAttribute("idVotacion",idVotacion);
+		model.addAttribute("idvotacion",idVotacion);
 		return "mensajemoderacion";
 	}
 	
-	@RequestMapping(value = "/mensajeModeracion", method = RequestMethod.POST)
+	@RequestMapping(value = "/mensajeModeracion/{idvotacion}", method = RequestMethod.POST)
+	@Transactional
 	public String mensajeModeracion(HttpSession sesion,
-			//@RequestParam("mensaje") String mensajeForm,
-		//	@RequestParam("motivo") String motivoForm,
+			@PathVariable("idvotacion") long idVotacion,
+			@RequestParam("mensaje") String mensajeForm,
+			@RequestParam("motivo") String motivoForm,
 			Model model) {
-//long idVotacion = (Long) sesion.getAttribute("idVotacion");
-//long idUsuario = sesion.getId();
-		return "mensajemoderacion";
+			Usuario u = (Usuario) sesion.getAttribute("user");
+			MensajeModeracion m = new MensajeModeracion();
+		if (idVotacion == -1) //No tiene nada que ver con votaciones el reporte.
+			m = m.crearMensajeModeracion(u.getId(),motivoForm, mensajeForm);
+		else
+			m = m.crearMensajeModeracion(u.getId(), idVotacion, motivoForm, mensajeForm);
+		entityManager.persist(m);
+		return "home";
 	}
 	
-	@RequestMapping(value = "/perfilUsuario/{idUsuario}", method = RequestMethod.GET)
-	public String perfilUsuario(Model model,
-			@PathVariable("idUsuario") long idUsuario) {
-		model.addAttribute("usuarioSelec",entityManager.find(Usuario.class, idUsuario));
-		model.addAttribute("prefix", "../");
-		return "perfilUsuario";
+	@RequestMapping(value = "/perfilUsuario/{idusuario}", method = RequestMethod.GET)
+	@Transactional
+	public String perfilUsuario(Model model,@PathVariable("idusuario") long idUsuario,HttpServletResponse response) {
+		Usuario u = entityManager.find(Usuario.class, idUsuario);
+		if(u == null){
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			logger.error("No se encuentra el usuario {}", idUsuario);
+		}
+		else
+		model.addAttribute("usuarioSelec",u);
+		model.addAttribute("prefix", "./");
+		return "perfilusuario";
 	}
 
 	@RequestMapping(value = "/miPerfil", method = RequestMethod.GET)

@@ -19,11 +19,9 @@
         <div class="row">
 <c:forEach items="${pagedListUsuarios}" var="usuarios">
             <div class="col-md-4 img-portfolio">
-                <a href="${prefix}perfilUsuario?u=${usuarios.id}">
                     <img class="img-responsive img-hover" src="http://placehold.it/700x400" alt="">
-                </a>
                 <h3>
-                    <a href="portfolio-item.html">${usuarios.nombre} ${usuarios.apellidos}</a>
+                    <a href="${prefix}perfilUsuario/${usuarios.id}">${usuarios.nombre} ${usuarios.apellidos}</a>
                 </h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae.</p>
             </div>
