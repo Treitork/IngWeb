@@ -377,10 +377,10 @@ public class HomeController {
 	
 	@RequestMapping(value = "/mensajeModeracion", method = RequestMethod.POST)
 	public String mensajeModeracion(HttpSession sesion,
-			@RequestParam("mensaje") String mensajeForm,
-			@RequestParam("motivo") String motivoForm,
+			//@RequestParam("mensaje") String mensajeForm,
+		//	@RequestParam("motivo") String motivoForm,
 			Model model) {
-long idVotacion = (Long) sesion.getAttribute("idVotacion");
+//long idVotacion = (Long) sesion.getAttribute("idVotacion");
 //long idUsuario = sesion.getId();
 		return "mensajemoderacion";
 	}
@@ -388,6 +388,8 @@ long idVotacion = (Long) sesion.getAttribute("idVotacion");
 	@RequestMapping(value = "/perfilUsuario/{idUsuario}", method = RequestMethod.GET)
 	public String perfilUsuario(Model model,
 			@PathVariable("idUsuario") long idUsuario) {
+		model.addAttribute("usuarioSelec",entityManager.find(Usuario.class, idUsuario));
+		model.addAttribute("prefix", "../");
 		return "perfilUsuario";
 	}
 
