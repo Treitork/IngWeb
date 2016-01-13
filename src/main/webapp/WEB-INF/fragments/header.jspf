@@ -61,7 +61,8 @@
 				<ul class="nav navbar-nav navbar-right">
 					<c:choose>
 						<c:when test="${not empty user}">
-							<li><a href="${prefix}perfilUsuario?u=${e:forHtmlContent(user.id)}">${e:forHtmlContent(user.email)}</a>
+							<!--<li><a href="${prefix}perfilUsuario?u=${e:forHtmlContent(user.id)}">${e:forHtmlContent(user.email)}</a> -->
+							<li><a href="${prefix}miPerfil">${e:forHtmlContent(user.email)}</a>
 							</li>
 							<li><a href="${prefix}logout">Salir</a>
 							</li>

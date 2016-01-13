@@ -385,8 +385,9 @@ long idVotacion = (Long) sesion.getAttribute("idVotacion");
 		return "mensajemoderacion";
 	}
 	
-	@RequestMapping(value = "/perfilUsuario", method = RequestMethod.GET)
-	public String perfilUsuario(Model model) {
+	@RequestMapping(value = "/perfilUsuario/{idUsuario}", method = RequestMethod.GET)
+	public String perfilUsuario(Model model,
+			@PathVariable("idUsuario") long idUsuario) {
 		return "perfilUsuario";
 	}
 

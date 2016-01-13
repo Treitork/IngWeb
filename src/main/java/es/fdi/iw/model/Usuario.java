@@ -27,8 +27,8 @@ query="select u from Usuario u where email = :loginParam"),
 query="delete from Usuario u where u.id= :idParam"),
 @NamedQuery(name="notaUsuario",
 query="delete from Usuario u where u.id= :idParam"),
-@NamedQuery(name="mejoresProfesores",query="select u from Usuario u where u.rol='profesor' order by puntuacion_media desc"),
-@NamedQuery(name="mejoresAlumnos",query="select u from Usuario u where u.rol='user' order by puntuacion_media desc")
+@NamedQuery(name="mejoresProfesores",query="select u from Usuario u where u.rol='profesor' order by puntuacion desc"),
+@NamedQuery(name="mejoresAlumnos",query="select u from Usuario u where u.rol='user' order by puntuacion desc")
 })
 
 /* Clase */
