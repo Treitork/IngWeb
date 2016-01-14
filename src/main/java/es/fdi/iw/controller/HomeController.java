@@ -366,8 +366,10 @@ public class HomeController {
 			return "redirect:" + formSource;
 		}
 	}
+	
+		
 
-	@RequestMapping(value = "/mensajeModeracion/{idvotacion:\\d+}", method = RequestMethod.GET)
+	@RequestMapping(value = "/mensajeModeracion{idvotacion}", method = RequestMethod.GET)
 	public String mensajeModeracion(
 			@PathVariable("idvotacion") String idVotacion,
 			Model model) {
@@ -375,13 +377,14 @@ public class HomeController {
 		return "mensajemoderacion";
 	}
 	
-	@RequestMapping(value = "/mensajeModeracion/{idvotacion:\\d+}", method = RequestMethod.POST)
+	@RequestMapping(value = "/mensajeModeracion{idvotacion}", method = RequestMethod.POST)
 	@Transactional
 	public String mensajeModeracion(HttpSession sesion,
 			@PathVariable("idvotacion") String idVotacion,
 			@RequestParam("mensaje") String mensajeForm,
 			@RequestParam("motivo") String motivoForm,
 			Model model) {
+		model.addAttribute("prefix", "./");
 			Usuario u = (Usuario) sesion.getAttribute("user");
 			MensajeModeracion m = new MensajeModeracion();
 		if (idVotacion == "#") //No tiene nada que ver con votaciones el reporte.
@@ -392,6 +395,7 @@ public class HomeController {
 		return "home";
 	}
 	
+	//{idusuario:\\d+} con \\d+ forzamos a que sea un digito.
 	@RequestMapping(value = "/perfilUsuario{idusuario:\\d+}", method = RequestMethod.GET)
 	@Transactional
 	public String perfilUsuario(Model model,@PathVariable("idusuario") long idUsuario,HttpServletResponse response) {

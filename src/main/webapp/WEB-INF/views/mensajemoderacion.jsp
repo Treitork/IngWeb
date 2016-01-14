@@ -1,8 +1,8 @@
 <%@ include file="../fragments/header.jspf" %>
 
-  <div class="col-md-8">
-                <h3>Mensaje de moderacion</h3>
-                <form name="enviarMensajeModeracion" id="formularioMensajeModeracion" action="/mensajeModeracion/${idvotacion}" novalidate method="POST">
+<div class="container">
+	<div class="page-header"><h1>Mensaje de moderacion</h1></div>
+                <form name="enviarMensajeModeracion" id="formularioMensajeModeracion" action="${prefix}mensajeModeracion${idvotacion}" method="POST">
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Motivo:</label>
@@ -19,7 +19,7 @@
                     <!-- For success/fail messages -->
                     <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
                 </form>
-            </div>
+</div>
 
 
 <%@ include file="../fragments/footer.jspf" %>
