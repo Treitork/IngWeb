@@ -367,32 +367,32 @@ public class HomeController {
 		}
 	}
 
-	@RequestMapping(value = "/mensajeModeracion/{idvotacion}", method = RequestMethod.GET)
+	@RequestMapping(value = "/mensajeModeracion/{idvotacion:\\d+}", method = RequestMethod.GET)
 	public String mensajeModeracion(
-			@PathVariable("idvotacion") long idVotacion,
+			@PathVariable("idvotacion") String idVotacion,
 			Model model) {
 		model.addAttribute("idvotacion",idVotacion);
 		return "mensajemoderacion";
 	}
 	
-	@RequestMapping(value = "/mensajeModeracion/{idvotacion}", method = RequestMethod.POST)
+	@RequestMapping(value = "/mensajeModeracion/{idvotacion:\\d+}", method = RequestMethod.POST)
 	@Transactional
 	public String mensajeModeracion(HttpSession sesion,
-			@PathVariable("idvotacion") long idVotacion,
+			@PathVariable("idvotacion") String idVotacion,
 			@RequestParam("mensaje") String mensajeForm,
 			@RequestParam("motivo") String motivoForm,
 			Model model) {
 			Usuario u = (Usuario) sesion.getAttribute("user");
 			MensajeModeracion m = new MensajeModeracion();
-		if (idVotacion == -1) //No tiene nada que ver con votaciones el reporte.
+		if (idVotacion == "#") //No tiene nada que ver con votaciones el reporte.
 			m = m.crearMensajeModeracion(u.getId(),motivoForm, mensajeForm);
 		else
-			m = m.crearMensajeModeracion(u.getId(), idVotacion, motivoForm, mensajeForm);
+			m = m.crearMensajeModeracion(u.getId(), Integer.parseInt(idVotacion), motivoForm, mensajeForm);
 		entityManager.persist(m);
 		return "home";
 	}
 	
-	@RequestMapping(value = "/perfilUsuario/{idusuario}", method = RequestMethod.GET)
+	@RequestMapping(value = "/perfilUsuario{idusuario:\\d+}", method = RequestMethod.GET)
 	@Transactional
 	public String perfilUsuario(Model model,@PathVariable("idusuario") long idUsuario,HttpServletResponse response) {
 		Usuario u = entityManager.find(Usuario.class, idUsuario);
@@ -425,7 +425,8 @@ public class HomeController {
 		model.addAttribute("cabecera","Resultados Busqueada");
 		model.addAttribute("pageTitle", "Resutlado de la busqueda");
 		List<Usuario> lista = null;
-		lista = (List<Usuario>)entityManager.createNamedQuery("busquedaUsuario").setParameter("param1", formBuscar).getResultList();
+		lista = (List<Usuario>)entityManager.createNamedQuery("busquedaUsuario")
+					.setParameter("param1", formBuscar + "%").getResultList();
 		for(Usuario u:lista) logger.info(u.getEmail() + "\n");
 		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
 		pagedListHolder.setPageSize(9);
@@ -439,7 +440,8 @@ public class HomeController {
 	public String mejoresAlumnos(Model model) {
 		model.addAttribute("cabecera","Mejores Alumnos");
 		List<Usuario> lista = null;
-		lista = (List<Usuario>)entityManager.createNamedQuery("mejoresAlumnos").getResultList();
+		lista = (List<Usuario>)entityManager
+					.createNamedQuery("mejoresAlumnos").getResultList();
 		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
 		pagedListHolder.setPageSize(9);
 		List<Usuario> pagedList = pagedListHolder.getPageList();
