@@ -387,7 +387,8 @@ public class HomeController {
 		model.addAttribute("prefix", "./");
 			Usuario u = (Usuario) sesion.getAttribute("user");
 			MensajeModeracion m = new MensajeModeracion();
-		if (idVotacion == "#") //No tiene nada que ver con votaciones el reporte.
+		
+		if (idVotacion.isEmpty())//No tiene nada que ver con votaciones el reporte.
 			m = m.crearMensajeModeracion(u.getId(),motivoForm, mensajeForm);
 		else
 			m = m.crearMensajeModeracion(u.getId(), Integer.parseInt(idVotacion), motivoForm, mensajeForm);
