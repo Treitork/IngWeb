@@ -30,7 +30,6 @@ private long id;
 private long id_emisor;
 private long id_receptor;
 private Date fecha;
-private List<Categoria> categorias;
 private String comentario;
 private double puntuacionMedia;
 

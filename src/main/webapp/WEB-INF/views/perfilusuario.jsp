@@ -21,6 +21,9 @@
 						<li >rol ${usuarioSelec.rol}</li>
 						<li>puntuacion ${usuarioSelec.puntuacion}</li>
 					</ul>
+					<form action="${prefix}realizarValoracion${usuario.id}" method="GET">
+				<button type="submit" class="btn btn-primary">Realizar valoracion</button>
+				</form>
             	</div>
             </div>
         <!-- /.row -->

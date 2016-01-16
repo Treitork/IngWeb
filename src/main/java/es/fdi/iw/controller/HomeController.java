@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import es.fdi.iw.ContextInitializer;
+import es.fdi.iw.model.Categoria;
 import es.fdi.iw.model.MensajeModeracion;
 import es.fdi.iw.model.Usuario;
 import scala.annotation.meta.setter;
@@ -466,6 +467,49 @@ public class HomeController {
 		model.addAttribute("pagedListUsuarios", pagedList);
 		return "usersresults";
 	}
+	
+	@RequestMapping(value = "/realizarValoracion", method = RequestMethod.GET) //valoracion.jsp	
+	public String realizarValoracion(Model model) {
+		model.addAttribute("prefix", "./");
+		return "valoracion";
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/realizarValoracion", method = RequestMethod.POST) //valoracion.jsp
+	public String realizarValoracion(Model model,@RequestParam("puntuacion") double puntuacion,
+			@RequestParam("categoria") String categoria,HttpSession session) {
+		List<Categoria> lista = null;
+		Categoria c = new Categoria().crearCategoria(categoria, puntuacion);
+		if(session.getAttribute("valoraciones") != null)
+			lista = ((List<Categoria>)session.getAttribute("valoraciones"));
+			lista.add(c);
+			session.setAttribute("valoraciones", lista);
+			model.addAttribute("prefix","./");
+		return "voto";
+	}
+	
+	@RequestMapping(value = "/realizarVotacion{idUsuario}", method = RequestMethod.GET) //voto.jsp
+	public String realizarVotacion(Model model,@PathVariable("idUsuario") long idUsuario,HttpSession session) {
+		model.addAttribute("prefix","./");
+		session.setAttribute("usuarioVotacion", idUsuario);
+		return "voto";
+	}
+	
+	
+	@RequestMapping(value = "/realizarVotacion", method = RequestMethod.POST) //voto.jsp
+	public String realizarVotacion(Model model,HttpSession session) {
+		model.addAttribute("prefix","./");
+		long idUsuarioVotacion =(Long) session.getAttribute("usuarioVotacion");
+		List<Categoria> lista = (List<Categoria>) session.getAttribute("valoraciones");
+		for(Categoria c:lista){
+			//c.setId_votacion(id_votacion);
+			entityManager.persist(c);
+			}
+		session.removeAttribute("valoraciones");
+		session.removeAttribute("usuarioVotacion");
+		return "home";
+	}
+	
 	
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)

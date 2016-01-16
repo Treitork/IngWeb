@@ -19,7 +19,7 @@ import javax.persistence.NamedQuery;
 public class MensajeModeracion {
 /* Atributos */	
 private long id;
-private long idVotacion;
+private Integer idVotacion;
 private long idEmisor;
 private String motivo;
 private String mensaje;
@@ -29,7 +29,7 @@ private String mensaje;
 public MensajeModeracion(){}
 
 /* Metodos */
-public MensajeModeracion crearMensajeModeracion(long idEmisor,long idVotacion,String motivo,String mensaje){
+public MensajeModeracion crearMensajeModeracion(long idEmisor,Integer idVotacion,String motivo,String mensaje){
 	MensajeModeracion m = new MensajeModeracion();
 	m.idEmisor = idEmisor;
 	m.idVotacion = idVotacion;
@@ -82,11 +82,11 @@ public void setMensaje(String mensaje) {
 	this.mensaje = mensaje;
 }
 
-public long getIdVotacion() {
+public Integer getIdVotacion() {
 	return idVotacion;
 }
 
-public void setIdVotacion(long idVotacion) {
+public void setIdVotacion(Integer idVotacion) {
 	this.idVotacion = idVotacion;
 }
 
