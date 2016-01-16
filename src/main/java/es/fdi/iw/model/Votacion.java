@@ -1,5 +1,6 @@
 package es.fdi.iw.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -32,15 +33,17 @@ private long id_receptor;
 private Date fecha;
 private String comentario;
 private double puntuacionMedia;
+private ArrayList<Categoria> valoraciones;
 
 /* Constructores */
 public Votacion(){}
 
 /* Metodos */
-public Votacion crearVotacion(long id_emisor,long id_receptor){
+public Votacion crearVotacion(long id_emisor,long id_receptor,ArrayList<Categoria> votaciones){
 	Votacion v = new Votacion();
 	v.id_emisor = id_emisor;
 	v.id_receptor = id_receptor;
+	v.valoraciones = votaciones;
 	return v;
 }
 
@@ -53,6 +56,15 @@ public long getId() {
 
 public void setId(long id) {
 	this.id = id;
+}
+
+@OneToMany(targetEntity=Categoria.class, fetch=FetchType.EAGER)
+public ArrayList<Categoria> getValoraciones() {
+	return valoraciones;
+}
+
+public void setValoraciones(ArrayList<Categoria> valoraciones) {
+	this.valoraciones = valoraciones;
 }
 
 public long getId_emisor() {

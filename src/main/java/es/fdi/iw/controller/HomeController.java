@@ -504,9 +504,7 @@ public class HomeController {
 		model.addAttribute("prefix","./");
 		Integer idUsuarioVotacion =Integer.parseInt((String)session.getAttribute("usuarioVotacion"));
 		ArrayList<Categoria> lista = (ArrayList<Categoria>) session.getAttribute("valoraciones");
-		for(Categoria c:lista)
-			entityManager.persist(c);
-		Votacion v = new Votacion();
+		
 		v.crearVotacion(Integer.parseInt((String)session.getId()),
 				Integer.parseInt((String)session.getAttribute("idusuario")));
 		entityManager.persist(v);

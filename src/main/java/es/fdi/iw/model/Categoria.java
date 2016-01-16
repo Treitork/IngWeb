@@ -20,14 +20,12 @@ import javax.persistence.NamedQuery;
 public class Categoria {
 /* Atributos */
 private long id;
-private long id_votacion;
 private String categoria;
 private double puntuacion;
 
 /* Constructores */
 public Categoria(){}
-public Categoria(long id_votacion,String categoria,double puntuacion){
-this.id_votacion = id_votacion;
+public Categoria(String categoria,double puntuacion){
 this.categoria = categoria;
 this.puntuacion = puntuacion;
 }
@@ -50,14 +48,6 @@ public long getId() {
 
 public void setId(long id) {
 	this.id = id;
-}
-
-public long getId_votacion() {
-	return id_votacion;
-}
-
-public void setId_votacion(long id_votacion) {
-	this.id_votacion = id_votacion;
 }
 
 public String getCategoria(){

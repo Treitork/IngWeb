@@ -1,6 +1,4 @@
 <%@ include file="../fragments/header.jspf" %>
-
-
 <div class="container">
 	<div class="page-header"><h1>Valoración</h1></div>
                 <form name="realizarValoracion" id="realizarValoracion" action="${prefix}realizarValoracion" method="POST">
@@ -28,5 +26,4 @@
                     <button type="submit" class="btn btn-primary">Añadir a la votacion</button>
                 </form>
 </div>
-
 <%@ include file="../fragments/footer.jspf" %>
