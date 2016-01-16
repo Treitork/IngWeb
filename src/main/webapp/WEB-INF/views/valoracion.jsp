@@ -2,8 +2,8 @@
 
 
 <div class="container">
-	<div class="page-header"><h1>Valoracion</h1></div>
-                <form name="realizaValoracion" id="formularioMensajeModeracion" action="${prefix}añadirValoracion" method="POST">
+	<div class="page-header"><h1>Valoración</h1></div>
+                <form name="realizarValoracion" id="realizarValoracion" action="${prefix}realizarValoracion" method="POST">
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Categoria:</label>
@@ -12,6 +12,7 @@
                     </div>
                     <div class="control-group form-group">
                         <div class="controls">
+                        <label>Puntuación</label>	
                             <select id="puntuacion" name="puntuacion">
                             <option value="0">0</option>
                             <option value="1">1</option>

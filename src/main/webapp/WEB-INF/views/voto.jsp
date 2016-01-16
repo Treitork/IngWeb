@@ -1,12 +1,15 @@
 <%@ include file="../fragments/header.jspf" %>
 <div class="container">
-	<div class="page-header"><h1>Valoracion</h1></div>
+	<div class="page-header"><h1>Votación</h1></div>
+<c:choose>
+<c:when test="${not empty valoraciones}">
 <table>
 <thead>
 <th>Categoria</th>
 <th>Puntuacion</th>
 </thead>
 <tbody>
+
 <c:forEach items="${valoraciones}" var="valoraciones">
 <tr>
 <td>${valoraciones.categoria}</td>
@@ -15,6 +18,9 @@
 </c:forEach>
 </tbody>
 </table>
+<br>
+</c:when>
+</c:choose>
 <form action="${prefix}realizarValoracion" method="GET">
 <button type="submit" class="btn btn-primary">Añadir Valoracion</button>
 </form>

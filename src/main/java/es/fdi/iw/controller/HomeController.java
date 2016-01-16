@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -39,6 +40,7 @@ import es.fdi.iw.ContextInitializer;
 import es.fdi.iw.model.Categoria;
 import es.fdi.iw.model.MensajeModeracion;
 import es.fdi.iw.model.Usuario;
+import es.fdi.iw.model.Votacion;
 import scala.annotation.meta.setter;
 
 // entityManager.find(Usuario,id)
@@ -476,22 +478,23 @@ public class HomeController {
 	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/realizarValoracion", method = RequestMethod.POST) //valoracion.jsp
-	public String realizarValoracion(Model model,@RequestParam("puntuacion") double puntuacion,
+	public String realizarValoracion(Model model,@RequestParam("puntuacion") String puntuacion,
 			@RequestParam("categoria") String categoria,HttpSession session) {
-		List<Categoria> lista = null;
-		Categoria c = new Categoria().crearCategoria(categoria, puntuacion);
+		logger.info(System.lineSeparator() +"puntuacion " + puntuacion + " categoria "+ categoria);
+		ArrayList<Categoria> lista = new ArrayList<Categoria>();
+		Categoria c = new Categoria().crearCategoria(categoria, Integer.parseInt(puntuacion));
 		if(session.getAttribute("valoraciones") != null)
-			lista = ((List<Categoria>)session.getAttribute("valoraciones"));
-			lista.add(c);
-			session.setAttribute("valoraciones", lista);
-			model.addAttribute("prefix","./");
+		lista = ((ArrayList<Categoria>)session.getAttribute("valoraciones"));
+		lista.add(c);
+		session.setAttribute("valoraciones", lista);
+		model.addAttribute("prefix","./");
 		return "voto";
 	}
 	
-	@RequestMapping(value = "/realizarVotacion{idUsuario}", method = RequestMethod.GET) //voto.jsp
-	public String realizarVotacion(Model model,@PathVariable("idUsuario") long idUsuario,HttpSession session) {
+	@RequestMapping(value = "/realizarVotacion{idusuario}", method = RequestMethod.GET) //voto.jsp
+	public String realizarVotacion(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
 		model.addAttribute("prefix","./");
-		session.setAttribute("usuarioVotacion", idUsuario);
+		session.setAttribute("usuarioVotacion",idUsuario);
 		return "voto";
 	}
 	
@@ -499,12 +502,14 @@ public class HomeController {
 	@RequestMapping(value = "/realizarVotacion", method = RequestMethod.POST) //voto.jsp
 	public String realizarVotacion(Model model,HttpSession session) {
 		model.addAttribute("prefix","./");
-		long idUsuarioVotacion =(Long) session.getAttribute("usuarioVotacion");
-		List<Categoria> lista = (List<Categoria>) session.getAttribute("valoraciones");
-		for(Categoria c:lista){
-			//c.setId_votacion(id_votacion);
+		Integer idUsuarioVotacion =Integer.parseInt((String)session.getAttribute("usuarioVotacion"));
+		ArrayList<Categoria> lista = (ArrayList<Categoria>) session.getAttribute("valoraciones");
+		for(Categoria c:lista)
 			entityManager.persist(c);
-			}
+		Votacion v = new Votacion();
+		v.crearVotacion(Integer.parseInt((String)session.getId()),
+				Integer.parseInt((String)session.getAttribute("idusuario")));
+		entityManager.persist(v);
 		session.removeAttribute("valoraciones");
 		session.removeAttribute("usuarioVotacion");
 		return "home";
