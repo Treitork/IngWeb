@@ -36,8 +36,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import es.fdi.iw.ContextInitializer;
+import es.fdi.iw.model.Categoria;
 import es.fdi.iw.model.MensajeModeracion;
 import es.fdi.iw.model.Usuario;
+import es.fdi.iw.model.Votacion;
 import scala.annotation.meta.setter;
 
 // entityManager.find(Usuario,id)
@@ -409,6 +411,39 @@ public class HomeController {
 		model.addAttribute("usuarioSelec",u);
 		model.addAttribute("prefix", "./");
 		return "perfilusuario";
+	}
+	
+	@RequestMapping(value = "/votacion{idusuario:\\d+}", method = RequestMethod.GET)
+	@Transactional
+	public String votacionUsuario(Model model,@PathVariable("idusuario") long idUsuario,HttpServletResponse response) {
+		Usuario u = entityManager.find(Usuario.class, idUsuario);
+		if(u == null){
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			logger.error("No se encuentra el usuario {}", idUsuario);
+		}
+		else
+		model.addAttribute("usuarioSelec",u);
+		model.addAttribute("prefix", "./");
+		return "votacion";
+	}
+	
+	@RequestMapping(value = "/votacion{idvotacion}", method = RequestMethod.POST)
+	@Transactional
+	public String votacion(HttpSession sesion,
+			@PathVariable("idvotacion") int idVotacion,
+			@RequestParam("idemisor") String emisorForm, //falta
+			@RequestParam("categorias") List<Categoria> categoriasForm, //falta
+			@RequestParam("comentario") String comentForm,
+			@RequestParam("puntuacion") double puntacionForm, //falta
+			Model model) {
+		model.addAttribute("prefix", "./");
+			Usuario u = (Usuario) sesion.getAttribute("user");
+			Date fecha = new Date();
+			fecha.getTime();
+			Votacion votacion = new Votacion();
+		votacion = votacion.crearVotacion(u.getId(), idVotacion, fecha, categoriasForm, comentForm, puntacionForm);
+		entityManager.persist(votacion);
+		return "home";
 	}
 
 	@RequestMapping(value = "/miPerfil", method = RequestMethod.GET)

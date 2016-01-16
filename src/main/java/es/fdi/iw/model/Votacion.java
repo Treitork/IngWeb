@@ -38,8 +38,15 @@ private double puntuacionMedia;
 public Votacion(){}
 
 /* Metodos */
-public Votacion crearVotacion(long id,long id_emisor,long id_receptor){
+public Votacion crearVotacion(long id_emisor,long id_receptor, 
+		Date fecha, List<Categoria> categorias, String comentario, double puntuacionMedia){
 	Votacion v = new Votacion();
+	v.id_emisor = id_emisor;
+	v.id_receptor = id_receptor;
+	v.fecha = fecha;
+	v.categorias = categorias;
+	v.comentario = comentario;
+	v.puntuacionMedia = puntuacionMedia;
 	return v;
 }
 

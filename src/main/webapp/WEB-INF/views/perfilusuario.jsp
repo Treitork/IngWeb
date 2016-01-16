@@ -20,6 +20,7 @@
 						<li >correo ${usuarioSelec.email}</li>
 						<li >rol ${usuarioSelec.rol}</li>
 						<li>puntuacion ${usuarioSelec.puntuacion}</li>
+						<li><a href="${prefix}votacion${usuarioSelec.id}">Valorar</a></li>
 					</ul>
             	</div>
             </div>
