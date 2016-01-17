@@ -416,6 +416,7 @@ public class HomeController {
 
 	@RequestMapping(value = "/miPerfil", method = RequestMethod.GET)
 	public String miPerfil(Model model) {
+		model.addAttribute("pageTitle", "Mi Perfil");
 		return "miperfil";
 	}
 	
@@ -446,7 +447,7 @@ public class HomeController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/mejoresAlumnos", method = RequestMethod.GET)
 	public String mejoresAlumnos(Model model) {
-		model.addAttribute("cabecera","Mejores Alumnos");
+		model.addAttribute("pageTitle", "Alumnos");
 		List<Usuario> lista = null;
 		lista = (List<Usuario>)entityManager
 					.createNamedQuery("mejoresAlumnos").getResultList();
@@ -460,7 +461,7 @@ public class HomeController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/mejoresProfes", method = RequestMethod.GET)
 	public String mejoresProfest(Model model) {
-		model.addAttribute("cabecera","Mejores Profesores");
+		model.addAttribute("pageTitle", "Profesores");
 		List<Usuario> lista = null;
 		lista = (List<Usuario>)entityManager.createNamedQuery("mejoresProfesores").getResultList();
 		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
