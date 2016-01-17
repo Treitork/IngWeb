@@ -37,8 +37,13 @@
 			</ul>
 		</div>
 	</div>
+	<c:forEach items="${lista}" var="votacion">
+
+		<h1>PROBANDOOOOOO</h1>
+
+	</c:forEach>
 	<!-- /.row -->
-	
+
 	<!-- Image Header -->
 	<div class="row">
 

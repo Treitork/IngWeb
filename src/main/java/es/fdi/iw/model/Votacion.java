@@ -24,6 +24,12 @@ import javax.persistence.TemporalType;
     query="select from VOTOS v inner join Usuarios u on u.id=v.id_ where u.id=:idParam")
 })*/
 
+
+@NamedQueries({
+	@NamedQuery(name="buscarVotaciones",
+	query="select u from Votacion u where u.id_receptor = :param1")
+})
+
 /* Clase */
 public class Votacion {
 /* Atributos */

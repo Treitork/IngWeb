@@ -414,9 +414,16 @@ public class HomeController {
 		return "perfilusuario";
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/miPerfil", method = RequestMethod.GET)
-	public String miPerfil(Model model) {
+	public String miPerfil(Model model, HttpSession sesion) {
 		model.addAttribute("pageTitle", "Mi Perfil");
+		List<Votacion> lista = null;
+		Usuario u = (Usuario) sesion.getAttribute("user");
+		long id = u.getId();
+		lista = (List<Votacion>)entityManager.createNamedQuery("buscarVotaciones")
+					.setParameter("param1", id).getResultList();
+		model.addAttribute("lista", lista);
 		return "miperfil";
 	}
 	
