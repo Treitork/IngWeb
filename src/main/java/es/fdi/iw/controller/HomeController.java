@@ -36,6 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import es.fdi.iw.ContextInitializer;
+import es.fdi.iw.model.Asignatura;
 import es.fdi.iw.model.Categoria;
 import es.fdi.iw.model.MensajeModeracion;
 import es.fdi.iw.model.Usuario;
@@ -494,17 +495,52 @@ public class HomeController {
 	public String mejoresProfest(Model model) {
 		model.addAttribute("cabecera","Mejores Profesores");
 		List<Usuario> lista = null;
-		lista = (List<Usuario>)entityManager.createNamedQuery("mejoresProfesores").getResultList();
+		lista = (List<Usuario>)entityManager
+				.createNamedQuery("mejoresProfesores").getResultList();
 		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
 		pagedListHolder.setPageSize(9);
 		List<Usuario> pagedList = pagedListHolder.getPageList();
 		model.addAttribute("pagedListUsuarios", pagedList);
 		return "usersresults";
 	}
-	
-
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String admin(Model model) {
+		List<Asignatura> asignaturas= null;
+		asignaturas = (List<Asignatura>)entityManager
+					.createNamedQuery("todasAsignaturas").getResultList();
+		model.addAttribute("TodasAsignaturas",asignaturas);
+		List<Usuario> usuarios = null;
+				usuarios = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
+		model.addAttribute("todosUsuarios",usuarios);
 		return "admin";
 	}
+	
+	@RequestMapping(value = "/admin1", method = RequestMethod.POST)
+	@Transactional
+	public String nuevaAsignatura(@RequestParam("source") String formSource,
+			@RequestParam("email") String formEmail,
+			@RequestParam("pass") String formPass,
+			@RequestParam("firstName") String formName,
+			@RequestParam("lastName") String formLastNAme,
+			HttpServletRequest request, HttpServletResponse response,
+			Model model, HttpSession session) {
+		// model.addAttribute("pageTitle","Registro OmnisCracia");
+		// logger.info("no-such-user; creating user {}", formEmail);
+		if (formEmail == null || formEmail.length() < 4 || formPass == null
+				|| formPass.length() < 4) {
+			model.addAttribute("loginError",
+					"usuarios y contraseñas: 4 caracteres mínimo");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			return "redirect:home";
+		} else {
+			Usuario user = Usuario.crearUsuario(formEmail, formPass, formName, formLastNAme, "user");
+			entityManager.persist(user);
+			session.setAttribute("user", user);
+			// sets the anti-csrf token
+			getTokenForSession(session);
+			return "redirect:" + formSource;
+		}
+	}
+	
 }

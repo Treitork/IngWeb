@@ -17,7 +17,7 @@
         </div>
         <c:set var="counter" value="0" scope="page" />
         <div class="row">
-<c:forEach items="${pagedListUsuarios}" var="usuarios">
+	<c:forEach items="${pagedListUsuarios}" var="usuarios">
             <div class="col-md-4 img-portfolio">
                     <img class="img-responsive img-hover" src="http://placehold.it/700x400" alt="">
                 <h3>

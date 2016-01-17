@@ -1,6 +1,5 @@
 <%@ include file="../fragments/header_admin.jspf" %>
 	
-	
 	<aside id="sidebar" class="column" style="height: 1700px;">
 		<form class="quick_search">
 			<input type="text" value="Quick Search" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
@@ -8,9 +7,9 @@
 		<hr>
 			<h3>Asignaturas</h3>
 		<ul class="toggle">
-			<li class="icn_new_article"><a href="#clear">Añadir Asignatura</a></li>
+			<li class="icn_new_article"><a href="#FormularioPrueba">Añadir Asignatura</a></li>
 			<li class="icn_edit_article"><a href="#">Editar Asignatura</a></li>
-			<li class="icn_categories"><a href="#tab1">Ver Asignaturas</a></li>
+			<li class="icn_categories"><a href="#listaAsignaturas">Ver Asignaturas</a></li>
 		</ul>
 		<h3>Mensajes</h3>
 		<ul class="toggle">
@@ -26,8 +25,8 @@
 		</ul>
 		<h3>Usuarios</h3>
 		<ul class="toggle">
-			<li class="icn_add_user"><a href="#">Add New User</a></li>
-			<li class="icn_view_users"><a href="#">View Users</a></li>
+			<li class="icn_add_user"><a href="#NuevoUsuario">Añadir Usuario</a></li>
+			<li class="icn_view_users"><a href="#listaUsuarios">Lista de Usuarios</a></li>
 			<li class="icn_profile"><a href="#">Your Profile</a></li>
 		</ul>
 		<h3>Admin</h3>
@@ -65,11 +64,173 @@
 				<div class="clear"></div>
 			</div>
 		</article><!-- end of stats article -->
+		<article class="module width_full2">
+			<header><h3>Nueva Asignatura</h3></header>		
+			<form action="admin" method="POST" lass="form-horizontal">	
+				<div class="module_content" id="FormularioPrueba">
+						<fieldset>
+							<label>Nombre de la asignatura</label>
+							<input type="text" id="Asignatura">
+						</fieldset>
+						<fieldset>
+							<label>Curso</label>
+							<input type="text" id="Curso">
+						</fieldset>
+						<fieldset>
+							<label>Año</label>
+							<input type="text" id="Anio">
+						</fieldset>
+					<button type="submit" name="Añadir" value="admin" >Añadir</button>
+					<button value="Resetear" id="asignaturas-reset">Reset</button>
+				</div> 
+			</form>	
+		</article><!-- end of stats article -->
+		
+		<article class="module width_3_quarter" id ="listaAsignaturas">
+		<header>
+		<h3 class="tabs_involved">Lista de Asignaturas</h3>
+		</header>
+		<div class="tab_container">
+			<div id="tab1" class="tab_content" style="display: block;">
+			<table id="table_id" class="tablesorter" cellspacing="0" > 
+			<thead> 
+				<tr> 
+   					<th class="header"></th> 
+    				<th class="header">Nombre</th> 
+    				<th class="header">Curso</th> 
+    				<th class="header">Año</th> 
+    				<th class="header">Acción</th>
+				</tr> 
+			</thead> 
+			<tbody> 
+				<c:forEach items="${TodasAsignaturas}" var="asignaturas">
+				<tr>
+            		<td><input type="checkbox"></td> 
+            		<td>${asignaturas.nombre}</td>
+            		<td>${asignaturas.grupo}</td>
+            		<td>${asignaturas.anio }</td>
+                    <td>
+                    	<input type="image" src="resources/img/img_admin/icn_edit.png" title="Edit">
+                    	<input type="image" src="resources/img/img_admin/icn_trash.png" title="Trash">
+                    </td>
+                    </tr> 
+   				<c:set var="counter" value="${count + 1}" scope="page"/>
+   				</c:forEach>   				
+			</tbody> 
+			</table >
+			</div><!-- end of #tab1 -->			
+		</div><!-- final de lista de asignaturas -->
+		</article><!-- end of list messages -->	
+		
+		<!-- Inicio añadir usuario -->
+		<article class="module width_3_quarter"  id ="NuevoUsuario">
+		<header>
+			<h3 class="tabs_involved">Nuevo Usuario</h3>
+			</header>
+			<form class="form-horizontal" action="admin1" method="POST">
+			<div class="form-group">
+				<label for="inputName" class="col-sm-2 control-label">Nombre</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="firstName" id="nombre"
+						placeholder="Nombre">
+				</div>
+			</div>
+	
+			<div class="form-group">
+				<label for="inputLastName" class="col-sm-2 control-label">Apellidos</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="lastName"
+						id="apellidos" placeholder="Apellidos">
+				</div>
+			</div>
+	
+			<div class="form-group">
+				<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+				<div class="col-sm-10">
+					<input type="email" class="form-control" name="email" id="email"
+						placeholder="Email">
+				</div>
+			</div>
+	
+			<div class="form-group">
+				<label for="inputPassword" class="col-sm-2 control-label">Contraseña</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" name="pass" id="pass"
+						placeholder="Contraseña">
+				</div>
+			</div>
+	
+			<div class="form-group">
+				<label for="inputRepassword" class="col-sm-2 control-label">Repitir
+					contraseña</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" id="repass"
+						placeholder="Repita contraseña">
+				</div>
+			</div>
+	
+	
+			<div class="form-group">
+				<label for="inputRepassword" class="col-sm-2 control-label">Rol</label>
+				<div class="col-lg-6">
+					<div class="input-group">
+						<input type="radio" name="sex" value="Profesor">Profesor <input
+							type="radio" name="sex" value="Alumno">Alumno
+					</div>
+				</div>
+			</div>
+	
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default">Registrar</button>
+				</div>
+			</div>
+			</form>
+		</article><!-- final añadir usuario -->
+		
+		
+		
+		<!-- Lista usuarios -->
+		<article class="module width_3_quarter"  id ="listaUsuarios">
+		<header>
+		<h3 class="tabs_involved">Lista Usuarios</h3>
+		</header>
+		<div class="tab_container">
+			<div id="tab1" class="tab_content" style="display: block;">
+			<table id="tableUsuarios" class="tablesorter" cellspacing="0" > 
+			<thead> 
+				<tr> 
+   					<th class="header"></th> 
+    				<th class="header">Nombre</th> 
+    				<th class="header">Apellidos</th> 
+    				<th class="header">email</th> 
+    				<th class="header">Rol</th>
+    				<th class="header">Acción</th>
+				</tr> 
+			</thead> 
+			<tbody> 
+				<c:forEach items="${todosUsuarios}" var="usuarios">
+				<tr>
+            		<td><input type="checkbox"></td> 
+            		<td>${usuarios.nombre}</td>
+            		<td>${usuarios.apellidos}</td>
+            		<td>${usuarios.email }</td>
+            		<td>${usuarios.rol }</td>
+                    <td>
+                    	<input type="image" src="resources/img/img_admin/icn_edit.png" title="Edit">
+                    	<input type="image" src="resources/img/img_admin/icn_trash.png" title="Trash">
+                    </td>
+                    </tr> 
+   				<c:set var="counter" value="${count + 1}" scope="page"/>
+   				</c:forEach>   				
+			</tbody> 
+			</table >
+			</div><!-- end of #tab1 -->			
+		</div><!-- final de lista de usuarios -->
+		</article><!-- final lista de usuarios -->
+		
 		
 		<article class="module width_3_quarter">
-		<header><h3 class="tabs_involved">List Messages</h3>
-		</header>
-
 		<div class="tab_container">
 			<div id="tab1" class="tab_content" style="display: block;">
 			<table class="tablesorter" cellspacing="0" > 
@@ -211,7 +372,7 @@
 		</div><!-- end of .tab_container -->
 		
 		</article><!-- end of list votes -->
-		
+		<script src="resources/js/jquery.dataTables.min.js" type="text/javascript"></script>
 		
 
 <%@ include file="../fragments/footer.jspf" %>
