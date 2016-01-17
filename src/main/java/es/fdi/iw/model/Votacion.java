@@ -33,13 +33,13 @@ private long id_receptor;
 private Date fecha;
 private String comentario;
 private double puntuacionMedia;
-private ArrayList<Categoria> valoraciones;
+private List<Categoria> valoraciones;
 
 /* Constructores */
 public Votacion(){}
 
 /* Metodos */
-public Votacion crearVotacion(long id_emisor,long id_receptor,ArrayList<Categoria> votaciones){
+public Votacion crearVotacion(long id_emisor,long id_receptor,List<Categoria> votaciones){
 	Votacion v = new Votacion();
 	v.id_emisor = id_emisor;
 	v.id_receptor = id_receptor;
@@ -59,11 +59,11 @@ public void setId(long id) {
 }
 
 @OneToMany(targetEntity=Categoria.class, fetch=FetchType.EAGER)
-public ArrayList<Categoria> getValoraciones() {
+public List<Categoria> getValoraciones() {
 	return valoraciones;
 }
 
-public void setValoraciones(ArrayList<Categoria> valoraciones) {
+public void setValoraciones(List<Categoria> valoraciones) {
 	this.valoraciones = valoraciones;
 }
 

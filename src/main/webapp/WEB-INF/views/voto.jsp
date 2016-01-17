@@ -1,22 +1,19 @@
 <%@ include file="../fragments/header.jspf" %>
 <div class="container">
-	<div class="page-header"><h1>Votación</h1></div>
+	<div class="page-header"><h1>Votación</h1><small>${usuariovotacion}</small></div>
 <c:choose>
 <c:when test="${not empty valoraciones}">
-<table>
-<thead>
-<th>Categoria</th>
-<th>Puntuacion</th>
-</thead>
-<tbody>
-
+<table class="table">
+<tr>
+<th>Categoría</th>
+<th>Puntuación</th>
+<tr>
 <c:forEach items="${valoraciones}" var="valoraciones">
 <tr>
 <td>${valoraciones.categoria}</td>
 <td>${valoraciones.puntuacion}</td>
 </tr>
 </c:forEach>
-</tbody>
 </table>
 <br>
 </c:when>
@@ -26,7 +23,7 @@
 </form>
 <br/>
 <br>
-<form name="realizarVotacion" id="realizarVotacion" action="${prefix}realizarVotacion${idusuario}" method="POST">
+<form name="realizarVotacion" id="realizarVotacion" action="${prefix}realizarVotacion" method="POST">
 <div class="control-group form-group">
 <div class="controls">
 <label>Comentario</label>

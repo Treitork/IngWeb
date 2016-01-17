@@ -480,7 +480,6 @@ public class HomeController {
 	@RequestMapping(value = "/realizarValoracion", method = RequestMethod.POST) //valoracion.jsp
 	public String realizarValoracion(Model model,@RequestParam("puntuacion") String puntuacion,
 			@RequestParam("categoria") String categoria,HttpSession session) {
-		logger.info(System.lineSeparator() +"puntuacion " + puntuacion + " categoria "+ categoria);
 		ArrayList<Categoria> lista = new ArrayList<Categoria>();
 		Categoria c = new Categoria().crearCategoria(categoria, Integer.parseInt(puntuacion));
 		if(session.getAttribute("valoraciones") != null)
@@ -502,11 +501,12 @@ public class HomeController {
 	@RequestMapping(value = "/realizarVotacion", method = RequestMethod.POST) //voto.jsp
 	public String realizarVotacion(Model model,HttpSession session) {
 		model.addAttribute("prefix","./");
-		Integer idUsuarioVotacion =Integer.parseInt((String)session.getAttribute("usuarioVotacion"));
-		ArrayList<Categoria> lista = (ArrayList<Categoria>) session.getAttribute("valoraciones");
-		
-		v.crearVotacion(Integer.parseInt((String)session.getId()),
-				Integer.parseInt((String)session.getAttribute("idusuario")));
+		long idEmisor = ((Usuario)session.getAttribute("user")).getId();
+		Integer idUsuarioVotacion = Integer.parseInt((String)session.getAttribute("usuarioVotacion"));
+		ArrayList<Categoria> lista = new ArrayList<Categoria>();
+		lista = (ArrayList<Categoria>) session.getAttribute("valoraciones");
+		Votacion v = new Votacion(); 
+		v.crearVotacion(idEmisor,idUsuarioVotacion,lista);
 		entityManager.persist(v);
 		session.removeAttribute("valoraciones");
 		session.removeAttribute("usuarioVotacion");
