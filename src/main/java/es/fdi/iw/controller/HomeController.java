@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -413,42 +414,17 @@ public class HomeController {
 		model.addAttribute("prefix", "./");
 		return "perfilusuario";
 	}
-	
-	@RequestMapping(value = "/votacion{idusuario:\\d+}", method = RequestMethod.GET)
-	@Transactional
-	public String votacionUsuario(Model model,@PathVariable("idusuario") long idUsuario,HttpServletResponse response) {
-		Usuario u = entityManager.find(Usuario.class, idUsuario);
-		if(u == null){
-			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			logger.error("No se encuentra el usuario {}", idUsuario);
-		}
-		else
-		model.addAttribute("usuarioSelec",u);
-		model.addAttribute("prefix", "./");
-		return "votacion";
-	}
-	
-	@RequestMapping(value = "/votacion{idvotacion}", method = RequestMethod.POST)
-	@Transactional
-	public String votacion(HttpSession sesion,
-			@PathVariable("idvotacion") int idVotacion,
-			@RequestParam("idemisor") String emisorForm, //falta
-			@RequestParam("categorias") List<Categoria> categoriasForm, //falta
-			@RequestParam("comentario") String comentForm,
-			@RequestParam("puntuacion") double puntacionForm, //falta
-			Model model) {
-		model.addAttribute("prefix", "./");
-			Usuario u = (Usuario) sesion.getAttribute("user");
-			Date fecha = new Date();
-			fecha.getTime();
-			Votacion votacion = new Votacion();
-		votacion = votacion.crearVotacion(u.getId(), idVotacion, fecha, categoriasForm, comentForm, puntacionForm);
-		entityManager.persist(votacion);
-		return "home";
-	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/miPerfil", method = RequestMethod.GET)
-	public String miPerfil(Model model) {
+	public String miPerfil(Model model, HttpSession sesion) {
+		model.addAttribute("pageTitle", "Mi Perfil");
+		List<Votacion> lista = null;
+		Usuario u = (Usuario) sesion.getAttribute("user");
+		long id = u.getId();
+		lista = (List<Votacion>)entityManager.createNamedQuery("buscarVotaciones")
+					.setParameter("param1", id).getResultList();
+		model.addAttribute("lista", lista);
 		return "miperfil";
 	}
 	
@@ -479,7 +455,7 @@ public class HomeController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/mejoresAlumnos", method = RequestMethod.GET)
 	public String mejoresAlumnos(Model model) {
-		model.addAttribute("cabecera","Mejores Alumnos");
+		model.addAttribute("pageTitle", "Alumnos");
 		List<Usuario> lista = null;
 		lista = (List<Usuario>)entityManager
 					.createNamedQuery("mejoresAlumnos").getResultList();
@@ -493,16 +469,59 @@ public class HomeController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/mejoresProfes", method = RequestMethod.GET)
 	public String mejoresProfest(Model model) {
-		model.addAttribute("cabecera","Mejores Profesores");
+		model.addAttribute("pageTitle", "Profesores");
 		List<Usuario> lista = null;
-		lista = (List<Usuario>)entityManager
-				.createNamedQuery("mejoresProfesores").getResultList();
+		lista = (List<Usuario>)entityManager.createNamedQuery("mejoresProfesores").getResultList();
 		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
 		pagedListHolder.setPageSize(9);
 		List<Usuario> pagedList = pagedListHolder.getPageList();
 		model.addAttribute("pagedListUsuarios", pagedList);
 		return "usersresults";
 	}
+	
+	@RequestMapping(value = "/realizarValoracion", method = RequestMethod.GET) //valoracion.jsp	
+	public String realizarValoracion(Model model) {
+		model.addAttribute("prefix", "./");
+		return "valoracion";
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/realizarValoracion", method = RequestMethod.POST) //valoracion.jsp
+	public String realizarValoracion(Model model,@RequestParam("puntuacion") String puntuacion,
+			@RequestParam("categoria") String categoria,HttpSession session) {
+		ArrayList<Categoria> lista = new ArrayList<Categoria>();
+		Categoria c = new Categoria().crearCategoria(categoria, Integer.parseInt(puntuacion));
+		if(session.getAttribute("valoraciones") != null)
+		lista = ((ArrayList<Categoria>)session.getAttribute("valoraciones"));
+		lista.add(c);
+		session.setAttribute("valoraciones", lista);
+		model.addAttribute("prefix","./");
+		return "voto";
+	}
+	
+	@RequestMapping(value = "/realizarVotacion{idusuario}", method = RequestMethod.GET) //voto.jsp
+	public String realizarVotacion(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
+		model.addAttribute("prefix","./");
+		session.setAttribute("usuarioVotacion",idUsuario);
+		return "voto";
+	}
+	
+	
+	@RequestMapping(value = "/realizarVotacion", method = RequestMethod.POST) //voto.jsp
+	public String realizarVotacion(Model model,HttpSession session) {
+		model.addAttribute("prefix","./");
+		long idEmisor = ((Usuario)session.getAttribute("user")).getId();
+		Integer idUsuarioVotacion = Integer.parseInt((String)session.getAttribute("usuarioVotacion"));
+		ArrayList<Categoria> lista = new ArrayList<Categoria>();
+		lista = (ArrayList<Categoria>) session.getAttribute("valoraciones");
+		Votacion v = new Votacion(); 
+		v.crearVotacion(idEmisor,idUsuarioVotacion,lista);
+		entityManager.persist(v);
+		session.removeAttribute("valoraciones");
+		session.removeAttribute("usuarioVotacion");
+		return "home";
+	}
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String admin(Model model) {

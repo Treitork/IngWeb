@@ -20,6 +20,4 @@
                     <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
                 </form>
 </div>
-
-
 <%@ include file="../fragments/footer.jspf" %>

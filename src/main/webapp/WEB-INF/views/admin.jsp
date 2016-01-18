@@ -83,7 +83,7 @@
 					<button type="submit" name="Añadir" value="admin" >Añadir</button>
 					<button value="Resetear" id="asignaturas-reset">Reset</button>
 				</div> 
-			</form>	
+			</form>	<!-- ********Esta parte no funciona -->
 		</article><!-- end of stats article -->
 		
 		<article class="module width_3_quarter" id ="listaAsignaturas">
@@ -120,7 +120,7 @@
 			</table >
 			</div><!-- end of #tab1 -->			
 		</div><!-- final de lista de asignaturas -->
-		</article><!-- end of list messages -->	
+		</article>
 		
 		<!-- Inicio añadir usuario -->
 		<article class="module width_3_quarter"  id ="NuevoUsuario">

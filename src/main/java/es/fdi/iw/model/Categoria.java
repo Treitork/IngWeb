@@ -19,29 +19,35 @@ import javax.persistence.NamedQuery;
 /* Clase */
 public class Categoria {
 /* Atributos */
-private long id_votacion;
+private long id;
 private String categoria;
 private double puntuacion;
 
 /* Constructores */
 public Categoria(){}
-public Categoria(long id_votacion,String categoria,int puntuacion){
-this.id_votacion = id_votacion;
+public Categoria(String categoria,double puntuacion){
 this.categoria = categoria;
 this.puntuacion = puntuacion;
 }
 
 /* Metodos */
+public Categoria crearCategoria(String categoria,double puntuacion){
+	Categoria c = new Categoria();
+	c.categoria=categoria;
+	c.puntuacion=puntuacion;
+	return c;
+}
 // ... //
 
 /* Getters & Setters */
+
 @Id
-public long getId_votacion() {
-	return id_votacion;
+public long getId() {
+	return id;
 }
 
-public void setId_votacion(long id_votacion) {
-	this.id_votacion = id_votacion;
+public void setId(long id) {
+	this.id = id;
 }
 
 public String getCategoria(){

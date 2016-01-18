@@ -1,5 +1,6 @@
 package es.fdi.iw.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
@@ -23,6 +24,12 @@ import javax.persistence.TemporalType;
     query="select from VOTOS v inner join Usuarios u on u.id=v.id_ where u.id=:idParam")
 })*/
 
+
+@NamedQueries({
+	@NamedQuery(name="buscarVotaciones",
+	query="select u from Votacion u where u.id_receptor = :param1")
+})
+
 /* Clase */
 public class Votacion {
 /* Atributos */
@@ -30,23 +37,19 @@ private long id;
 private long id_emisor;
 private long id_receptor;
 private Date fecha;
-private List<Categoria> categorias;
 private String comentario;
 private double puntuacionMedia;
+private List<Categoria> valoraciones;
 
 /* Constructores */
 public Votacion(){}
 
 /* Metodos */
-public Votacion crearVotacion(long id_emisor,long id_receptor, 
-		Date fecha, List<Categoria> categorias, String comentario, double puntuacionMedia){
+public Votacion crearVotacion(long id_emisor,long id_receptor,List<Categoria> votaciones){
 	Votacion v = new Votacion();
 	v.id_emisor = id_emisor;
 	v.id_receptor = id_receptor;
-	v.fecha = fecha;
-	v.categorias = categorias;
-	v.comentario = comentario;
-	v.puntuacionMedia = puntuacionMedia;
+	v.valoraciones = votaciones;
 	return v;
 }
 
@@ -59,6 +62,15 @@ public long getId() {
 
 public void setId(long id) {
 	this.id = id;
+}
+
+@OneToMany(targetEntity=Categoria.class, fetch=FetchType.EAGER)
+public List<Categoria> getValoraciones() {
+	return valoraciones;
+}
+
+public void setValoraciones(List<Categoria> valoraciones) {
+	this.valoraciones = valoraciones;
 }
 
 public long getId_emisor() {
