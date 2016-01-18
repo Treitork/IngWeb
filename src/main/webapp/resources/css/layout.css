@@ -198,6 +198,7 @@ background: #E0E0E3 url(../img/img_admin/sidebar.png) repeat;
 float: left;
 min-height: 500px;
 margin-top: -4px;
+position: fixed;
 }
 
 #sidebar hr {
@@ -365,8 +366,9 @@ section#main {
 width: 77%;
 min-height: 500px;
 background: url(../img/img_admin/sidebar_shadow.png) repeat-y left top;
-float: left;
+float: right;
 margin-top: -2px;
+position: relative;
 }
 
 #main h3 {
@@ -423,6 +425,9 @@ color: #666;}
 
 .width_full {
 width: 95%;
+}
+.width_full2 {
+width: 70%;
 }
 
 .width_half {
@@ -768,7 +773,7 @@ box-shadow: inset 0 2px 2px #ccc, 0 0 10px #ADDCE6;
 }
 
 .submit_link {
-float: right;
+float: left;
 margin-right: 3%;
 padding: 5px 0;
 }
