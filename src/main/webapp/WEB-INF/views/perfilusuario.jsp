@@ -1,5 +1,5 @@
 <%@ include file="../fragments/header.jspf" %>
-    <!-- Page Content -->
+	    <!-- Page Content -->
     	<!-- jQuery -->
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script src="resources/js/grafica.js"></script>
@@ -10,17 +10,20 @@
 
         <!-- Page Heading/Breadcrumbs -->
             <div class="row">
-                <h1 class="page-header">Perfil <small>${e:forHtmlContent(user.rol)}</small></h1>
+                <h1 class="page-header">Perfil <small><c:choose><c:when test="${(usuarioSelec.rol)=='user'}">alumno</c:when><c:otherwise>${usuarioSelec.rol}</c:otherwise></c:choose></small></h1>
                 <div class="col-md-3 ">
 					<img src="resources/img/Anonimo.jpg" alt="foto perfil">
            		</div>
           		<div class="col-md-3 ">
 	           		<ul>
-						<li >Nombre ${e:forHtmlContent(user.nombre)}</li>
-						<li >correo ${e:forHtmlContent(user.email)}</li>
-						<li >rol ${e:forHtmlContent(user.rol)}</li>
-						<li>puntuacion ${e:forHtmlContent(user.puntuacion_media)}</li>
+						<li >Nombre ${usuarioSelec.nombre}</li>
+						<li >correo ${usuarioSelec.email}</li>
+						<li >rol ${usuarioSelec.rol}</li>
+						<li>puntuacion ${usuarioSelec.puntuacion}</li>
 					</ul>
+					<form action="${prefix}realizarVotacion${usuarioSelec.id}" method="GET">
+				<button type="submit" class="btn btn-primary">Realizar valoracion</button>
+				</form>
             	</div>
             </div>
         <!-- /.row -->
@@ -269,5 +272,8 @@
         <!-- /.row -->
 
         <hr>
+
+
+
 
 <%@ include file="../fragments/footer.jspf" %>

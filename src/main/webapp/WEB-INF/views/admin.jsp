@@ -6,19 +6,25 @@
 			<input type="text" value="Quick Search" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;">
 		</form>
 		<hr>
-		<h3>Messages</h3>
+			<h3>Asignaturas</h3>
 		<ul class="toggle">
-			<li class="icn_new_article"><a href="#clear">New Message</a></li>
+			<li class="icn_new_article"><a href="#clear">Añadir Asignatura</a></li>
+			<li class="icn_edit_article"><a href="#">Editar Asignatura</a></li>
+			<li class="icn_categories"><a href="#tab1">Ver Asignaturas</a></li>
+		</ul>
+		<h3>Mensajes</h3>
+		<ul class="toggle">
+			<li class="icn_new_article"><a href="#clear">Nu Message</a></li>
 			<li class="icn_edit_article"><a href="#">Edit Message</a></li>
 			<li class="icn_categories"><a href="#tab1">List Messages</a></li>
 		</ul>
-		<h3>Votes</h3>
+		<h3>Votos</h3>
 		<ul class="toggle">
 			<li class="icn_new_article"><a href="#">New Vote</a></li>
 			<li class="icn_edit_article"><a href="#">Edit Vote</a></li>
 			<li class="icn_categories"><a href="#votes">List Votes</a></li>
 		</ul>
-		<h3>Users</h3>
+		<h3>Usuarios</h3>
 		<ul class="toggle">
 			<li class="icn_add_user"><a href="#">Add New User</a></li>
 			<li class="icn_view_users"><a href="#">View Users</a></li>

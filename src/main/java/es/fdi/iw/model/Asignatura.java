@@ -3,9 +3,15 @@ package es.fdi.iw.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 @Entity
 /* Queries */
+@NamedQueries({
+    @NamedQuery(name="todasAsignaturas",
+            query="select a from Asignatura a")
+})
 // ... //
 
 /* Clase */

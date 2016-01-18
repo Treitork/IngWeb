@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -21,19 +22,31 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.support.PagedListHolder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import es.fdi.iw.ContextInitializer;
+import es.fdi.iw.model.Categoria;
+import es.fdi.iw.model.MensajeModeracion;
 import es.fdi.iw.model.Usuario;
+import es.fdi.iw.model.Votacion;
+import scala.annotation.meta.setter;
+
+// entityManager.find(Usuario,id)
+// Reescribir en la sesion
+// Session set (atribute Usuario u)
+// @ModelAttribute("user")
 
 @Controller
 public class HomeController {
@@ -227,7 +240,13 @@ public class HomeController {
 				DateFormat.LONG, locale);
 
 		String formattedDate = dateFormat.format(date);
-
+		/*@RequestMapping(value="/buscarUsuario",method = RequestMethod.POST)
+		public String buscarUsuario(
+				@RequestParam("usuarioBusqueda") String formUsuario){
+			@SuppressWarnings("unchecked")
+			List<Usuario> u = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
+			return "";
+		}*/
 		model.addAttribute("serverTime", formattedDate);
 		model.addAttribute("pageTitle", "Inicio OmmisCracia");
 
@@ -350,39 +369,162 @@ public class HomeController {
 			return "redirect:" + formSource;
 		}
 	}
+	
+		
 
-	@RequestMapping(value = "/perfilUsuario", method = RequestMethod.GET)
-	public String perfilUsuario(Model model) {
-		return "perfilUsuario";
+	@RequestMapping(value = "/mensajeModeracion{idvotacion}", method = RequestMethod.GET)
+	public String mensajeModeracion(
+			@PathVariable("idvotacion") String idVotacion,
+			Model model) {
+		model.addAttribute("idvotacion",idVotacion);
+		return "mensajemoderacion";
+	}
+	
+	@RequestMapping(value = "/mensajeModeracion{idvotacion}", method = RequestMethod.POST)
+	@Transactional
+	public String mensajeModeracion(HttpSession sesion,
+			@PathVariable("idvotacion") String idVotacion,
+			@RequestParam("mensaje") String mensajeForm,
+			@RequestParam("motivo") String motivoForm,
+			Model model) {
+		model.addAttribute("prefix", "./");
+			Usuario u = (Usuario) sesion.getAttribute("user");
+			MensajeModeracion m = new MensajeModeracion();
+		
+		if (idVotacion.isEmpty())//No tiene nada que ver con votaciones el reporte.
+			m = m.crearMensajeModeracion(u.getId(),motivoForm, mensajeForm);
+		else
+			m = m.crearMensajeModeracion(u.getId(), Integer.parseInt(idVotacion), motivoForm, mensajeForm);
+		entityManager.persist(m);
+		return "home";
+	}
+	
+	//{idusuario:\\d+} con \\d+ forzamos a que sea un digito.
+	@RequestMapping(value = "/perfilUsuario{idusuario:\\d+}", method = RequestMethod.GET)
+	@Transactional
+	public String perfilUsuario(Model model,@PathVariable("idusuario") long idUsuario,HttpServletResponse response) {
+		Usuario u = entityManager.find(Usuario.class, idUsuario);
+		if(u == null){
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			logger.error("No se encuentra el usuario {}", idUsuario);
+		}
+		else
+		model.addAttribute("usuarioSelec",u);
+		model.addAttribute("prefix", "./");
+		return "perfilusuario";
 	}
 
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/miPerfil", method = RequestMethod.GET)
+	public String miPerfil(Model model, HttpSession sesion) {
+		model.addAttribute("pageTitle", "Mi Perfil");
+		List<Votacion> lista = null;
+		Usuario u = (Usuario) sesion.getAttribute("user");
+		long id = u.getId();
+		lista = (List<Votacion>)entityManager.createNamedQuery("buscarVotaciones")
+					.setParameter("param1", id).getResultList();
+		model.addAttribute("lista", lista);
+		return "miperfil";
+	}
+	
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
 	public String contact(Model model) {
 		model.addAttribute("pageTitle", "Contáctanos");
 		return "contact";
 	}
 
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/busquedaUsuario", method = RequestMethod.GET)
+	public String busquedaUsuario(Model model,
+			@RequestParam("busqueda") String formBuscar
+			) {
+		model.addAttribute("cabecera","Resultados Busqueada");
+		model.addAttribute("pageTitle", "Resutlado de la busqueda");
+		List<Usuario> lista = null;
+		lista = (List<Usuario>)entityManager.createNamedQuery("busquedaUsuario")
+					.setParameter("param1", formBuscar + "%").getResultList();
+		for(Usuario u:lista) logger.info(u.getEmail() + "\n");
+		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
+		pagedListHolder.setPageSize(9);
+		List<Usuario> pagedList = pagedListHolder.getPageList();
+		model.addAttribute("pagedListUsuarios", pagedList);
+		return "usersresults";
+	}
+	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/mejoresAlumnos", method = RequestMethod.GET)
 	public String mejoresAlumnos(Model model) {
-		return "mejoresAlumnos";
+		model.addAttribute("pageTitle", "Alumnos");
+		List<Usuario> lista = null;
+		lista = (List<Usuario>)entityManager
+					.createNamedQuery("mejoresAlumnos").getResultList();
+		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
+		pagedListHolder.setPageSize(9);
+		List<Usuario> pagedList = pagedListHolder.getPageList();
+		model.addAttribute("pagedListUsuarios", pagedList);
+		return "usersresults";
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/mejoresProfes", method = RequestMethod.GET)
 	public String mejoresProfest(Model model) {
-	//	List<Usuario> u = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
-		//model.addAttribute("usuarios",u);
-		return "mejoresProfes";
+		model.addAttribute("pageTitle", "Profesores");
+		List<Usuario> lista = null;
+		lista = (List<Usuario>)entityManager.createNamedQuery("mejoresProfesores").getResultList();
+		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
+		pagedListHolder.setPageSize(9);
+		List<Usuario> pagedList = pagedListHolder.getPageList();
+		model.addAttribute("pagedListUsuarios", pagedList);
+		return "usersresults";
 	}
+	
+	@RequestMapping(value = "/realizarValoracion", method = RequestMethod.GET) //valoracion.jsp	
+	public String realizarValoracion(Model model) {
+		model.addAttribute("prefix", "./");
+		return "valoracion";
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/realizarValoracion", method = RequestMethod.POST) //valoracion.jsp
+	public String realizarValoracion(Model model,@RequestParam("puntuacion") String puntuacion,
+			@RequestParam("categoria") String categoria,HttpSession session) {
+		ArrayList<Categoria> lista = new ArrayList<Categoria>();
+		Categoria c = new Categoria().crearCategoria(categoria, Integer.parseInt(puntuacion));
+		if(session.getAttribute("valoraciones") != null)
+		lista = ((ArrayList<Categoria>)session.getAttribute("valoraciones"));
+		lista.add(c);
+		session.setAttribute("valoraciones", lista);
+		model.addAttribute("prefix","./");
+		return "voto";
+	}
+	
+	@RequestMapping(value = "/realizarVotacion{idusuario}", method = RequestMethod.GET) //voto.jsp
+	public String realizarVotacion(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
+		model.addAttribute("prefix","./");
+		session.setAttribute("usuarioVotacion",idUsuario);
+		return "voto";
+	}
+	
+	
+	@RequestMapping(value = "/realizarVotacion", method = RequestMethod.POST) //voto.jsp
+	public String realizarVotacion(Model model,HttpSession session) {
+		model.addAttribute("prefix","./");
+		long idEmisor = ((Usuario)session.getAttribute("user")).getId();
+		Integer idUsuarioVotacion = Integer.parseInt((String)session.getAttribute("usuarioVotacion"));
+		ArrayList<Categoria> lista = new ArrayList<Categoria>();
+		lista = (ArrayList<Categoria>) session.getAttribute("valoraciones");
+		Votacion v = new Votacion(); 
+		v.crearVotacion(idEmisor,idUsuarioVotacion,lista);
+		entityManager.persist(v);
+		session.removeAttribute("valoraciones");
+		session.removeAttribute("usuarioVotacion");
+		return "home";
+	}
+	
+	
 
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String admin(Model model) {
 		return "admin";
 	}
-	/*@RequestMapping(value="/buscarUsuario",method = RequestMethod.POST)
-	public String buscarUsuario(
-			@RequestParam("usuarioBusqueda") String formUsuario){
-		@SuppressWarnings("unchecked")
-		List<Usuario> u = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
-		return "";
-	}*/
 }
