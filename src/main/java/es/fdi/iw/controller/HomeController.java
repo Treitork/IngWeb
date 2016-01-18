@@ -535,9 +535,9 @@ public class HomeController {
 		return "admin";
 	}
 	
-	@RequestMapping(value = "/admin1", method = RequestMethod.POST)
+	@RequestMapping(value = "/adminAddUser", method = RequestMethod.POST)
 	@Transactional
-	public String nuevaAsignatura(@RequestParam("source") String formSource,
+	public String admin2(@RequestParam("source") String formSource,
 			@RequestParam("email") String formEmail,
 			@RequestParam("pass") String formPass,
 			@RequestParam("firstName") String formName,
@@ -551,15 +551,32 @@ public class HomeController {
 			model.addAttribute("loginError",
 					"usuarios y contraseñas: 4 caracteres mínimo");
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			return "redirect:home";
+
 		} else {
 			Usuario user = Usuario.crearUsuario(formEmail, formPass, formName, formLastNAme, "user");
 			entityManager.persist(user);
 			session.setAttribute("user", user);
 			// sets the anti-csrf token
 			getTokenForSession(session);
-			return "redirect:" + formSource;
+			
 		}
+		return "redirect:" + formSource;
 	}
-	
+	@RequestMapping(value = "/adminAddAsignatura", method = RequestMethod.POST)
+	@Transactional
+	public String admin3(@RequestParam("source") String formSource,
+			@RequestParam("Asignatura") String formAsignatura,
+			@RequestParam("Curso") String formCurso,
+			@RequestParam("Anio") int formAnio,
+			HttpServletRequest request, HttpServletResponse response,
+			Model model, HttpSession session) {
+			// model.addAttribute("pageTitle","Registro OmnisCracia");
+			// logger.info("no-such-user; creating user {}", formEmail);
+			Asignatura asig = Asignatura.crearAsignatura(formAsignatura, formCurso, formAnio);
+			entityManager.persist(asig);
+			session.setAttribute("admin", asig);
+			// sets the anti-csrf token
+			getTokenForSession(session);	
+			return "redirect:" + formSource;
+	}
 }

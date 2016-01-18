@@ -10,7 +10,9 @@ import javax.persistence.NamedQuery;
 /* Queries */
 @NamedQueries({
     @NamedQuery(name="todasAsignaturas",
-            query="select a from Asignatura a")
+            query="select a from Asignatura a"),
+    @NamedQuery(name="buscarAsignatura",
+			query="select u from Asignatura u where nombre = :Asignatura "),
 })
 // ... //
 
@@ -25,14 +27,16 @@ private int anio;
 /* Constructores */
 public Asignatura(){}
 
-/* Metodos */
-public Asignatura crearAsignatura(String nombre,String grupo,int anio){
-Asignatura a = new Asignatura();
-a.nombre = nombre;
-a.grupo = grupo;
-a.anio = anio;
-return a;	
+public static Asignatura crearAsignatura(String formAsignatura, String formCurso, int formAnio) {
+	// TODO Auto-generated constructor stub
+	Asignatura a = new Asignatura();
+	a.nombre = formAsignatura;
+	a.grupo = formCurso;
+	a.anio = formAnio;
+	return a;
 }
+
+/* Metodos */
 
 /* Getters & Setters */
 @Id
