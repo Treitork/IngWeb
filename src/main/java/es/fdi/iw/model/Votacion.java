@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
@@ -75,7 +77,7 @@ public class Votacion {
 	public void setId(long id) {
 		this.id = id;
 	}
-
+	@Cascade({CascadeType.ALL})
 	@OneToMany(targetEntity = Categoria.class, fetch = FetchType.EAGER)
 	public List<Categoria> getValoraciones() {
 		return valoraciones;
