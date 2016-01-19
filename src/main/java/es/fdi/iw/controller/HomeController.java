@@ -116,7 +116,7 @@ public class HomeController {
 		}
 
 		// redirects to view from which login was requested
-		return "home";
+		return "redirect:" + formSource;
 	}
 
 	/**

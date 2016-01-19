@@ -101,7 +101,6 @@ public class Votacion {
 		this.id_receptor = id_receptor;
 	}
 
-	@DateTimeFormat
 	public Date getFecha() {
 		return fecha;
 	}
