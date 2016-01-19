@@ -139,10 +139,10 @@
 								<td>${asignaturas.nombre}</td>
 								<td>${asignaturas.grupo}</td>
 								<td>${asignaturas.anio }</td>
-								<td><input type="image"
+								<td><a href=""><input type="image"
 									src="resources/img/img_admin/icn_edit.png" title="Edit">
 									<input type="image" src="resources/img/img_admin/icn_trash.png"
-									title="Trash"></td>
+									title="Trash"></a></td>
 							</tr>
 							<c:set var="counter" value="${count + 1}" scope="page" />
 						</c:forEach>

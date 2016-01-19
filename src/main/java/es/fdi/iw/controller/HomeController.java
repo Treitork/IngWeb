@@ -116,7 +116,7 @@ public class HomeController {
 		}
 
 		// redirects to view from which login was requested
-		return "redirect:" + formSource;
+		return "home";
 	}
 
 	/**
@@ -511,14 +511,15 @@ public class HomeController {
 
 
 	@RequestMapping(value = "/realizarVotacion", method = RequestMethod.POST) //voto.jsp
-	public String realizarVotacion(Model model,HttpSession session) {
+	@Transactional
+	public String realizarVotacion(Model model,HttpSession session,@RequestParam("comentario") String comentario) {
 		model.addAttribute("prefix","./");
 		long idEmisor = ((Usuario)session.getAttribute("user")).getId();
 		Integer idUsuarioVotacion = Integer.parseInt((String)session.getAttribute("usuarioVotacion"));
 		ArrayList<Categoria> lista = new ArrayList<Categoria>();
 		lista = (ArrayList<Categoria>) session.getAttribute("valoraciones");
 		Votacion v = new Votacion(); 
-		v.crearVotacion(idEmisor,idUsuarioVotacion,lista);
+		v = v.crearVotacion(idEmisor,idUsuarioVotacion,lista,comentario);
 		entityManager.persist(v);
 		session.removeAttribute("valoraciones");
 		session.removeAttribute("usuarioVotacion");

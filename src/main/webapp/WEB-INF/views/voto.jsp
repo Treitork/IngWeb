@@ -27,7 +27,7 @@
 <div class="control-group form-group">
 <div class="controls">
 <label>Comentario</label>
-<textarea rows="10" cols="100" class="form-control" id="mensaje" name="mensaje" maxlength="999" style="resize:none"></textarea>
+<textarea rows="10" cols="100" class="form-control" id="comentario" name="comentario" maxlength="999" style="resize:none"></textarea>
 </div>
 </div>
 <div id="success"></div>

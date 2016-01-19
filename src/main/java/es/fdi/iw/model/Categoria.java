@@ -1,6 +1,7 @@
 package es.fdi.iw.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -8,61 +9,72 @@ import javax.persistence.NamedQuery;
 @Entity
 // @Embeddable
 /* Queries */
-/*@NamedQueries({
-    @NamedQuery(name="todasCategorias",
-            query="select c from Categoria c"),
-    @NamedQuery(name="deleteBook",
-            query="delete from Book o where o.id=:idParam")
-})*/
+/*
+ * @NamedQueries({
+ * 
+ * @NamedQuery(name="todasCategorias", query="select c from Categoria c"),
+ * 
+ * @NamedQuery(name="deleteBook",
+ * query="delete from Book o where o.id=:idParam") })
+ */
 // ... //
-
 /* Clase */
 public class Categoria {
-/* Atributos */
-private long id;
-private String categoria;
-private double puntuacion;
+	/* Atributos */
+	private long id;
+	private String categoria;
+	private double puntuacion;
 
-/* Constructores */
-public Categoria(){}
-public Categoria(String categoria,double puntuacion){
-this.categoria = categoria;
-this.puntuacion = puntuacion;
-}
+	/* Constructores */
+	public Categoria() {
+	}
 
-/* Metodos */
-public Categoria crearCategoria(String categoria,double puntuacion){
-	Categoria c = new Categoria();
-	c.categoria=categoria;
-	c.puntuacion=puntuacion;
-	return c;
-}
-// ... //
+	public Categoria(String categoria, double puntuacion) {
+		this.categoria = categoria;
+		this.puntuacion = puntuacion;
+	}
 
-/* Getters & Setters */
+	/* Metodos */
+	public Categoria crearCategoria(String categoria, double puntuacion) {
+		Categoria c = new Categoria();
+		c.categoria = categoria;
+		c.puntuacion = puntuacion;
+		return c;
+	}
 
-@Id
-public long getId() {
-	return id;
-}
+	@Override
+	public String toString() {
+		return "Categoria [id=" + id + ", categoria=" + categoria
+				+ ", puntuacion=" + puntuacion + "]";
+	}
 
-public void setId(long id) {
-	this.id = id;
-}
+	// ... //
 
-public String getCategoria(){
-	return categoria;
-}
+	/* Getters & Setters */
 
-public void setCategoria(String categoria) {
-	this.categoria = categoria;
-}
+	@Id
+	@GeneratedValue	
+	public long getId() {
+		return id;
+	}
 
-public double getPuntuacion() {
-	return puntuacion;
-}
+	public void setId(long id) {
+		this.id = id;
+	}
 
-public void setPuntuacion(double puntuacion) {
-	this.puntuacion = puntuacion;
-}
+	public String getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
+
+	public double getPuntuacion() {
+		return puntuacion;
+	}
+
+	public void setPuntuacion(double puntuacion) {
+		this.puntuacion = puntuacion;
+	}
 }
