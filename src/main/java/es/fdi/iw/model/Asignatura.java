@@ -12,7 +12,7 @@ import javax.persistence.NamedQuery;
     @NamedQuery(name="todasAsignaturas",
             query="select a from Asignatura a"),
     @NamedQuery(name="buscarAsignatura",
-			query="select u from Asignatura u where nombre = :Asignatura "),
+			query="select u from Asignatura u where nombre = :Asignatura ")
 })
 // ... //
 
