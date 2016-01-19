@@ -20,7 +20,6 @@
 						<li >correo ${usuarioSelec.email}</li>
 						<li >rol ${usuarioSelec.rol}</li>
 						<li>puntuacion ${usuarioSelec.puntuacion}</li>
-						<li><a href="${prefix}votacion${usuarioSelec.id}">Valorar</a></li>
 					</ul>
 					<form action="${prefix}realizarVotacion${usuarioSelec.id}" method="GET">
 				<button type="submit" class="btn btn-primary">Realizar valoracion</button>

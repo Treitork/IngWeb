@@ -173,10 +173,10 @@ public class HomeController {
 				stream.write(bytes);
 				stream.close();
 				return "You successfully uploaded "
-						+ id
-						+ " into "
-						+ ContextInitializer.getFile("user", id)
-								.getAbsolutePath() + "!";
+				+ id
+				+ " into "
+				+ ContextInitializer.getFile("user", id)
+				.getAbsolutePath() + "!";
 			} catch (Exception e) {
 				return "You failed to upload " + id + " => " + e.getMessage();
 			}
@@ -370,17 +370,17 @@ public class HomeController {
 			return "redirect:" + formSource;
 		}
 	}
-	
-		
+
+
 
 	@RequestMapping(value = "/mensajeModeracion{idvotacion}", method = RequestMethod.GET)
 	public String mensajeModeracion(
 			@PathVariable("idvotacion") String idVotacion,
 			Model model) {
-		model.addAttribute("idvotacion",idVotacion);
+		model.addAttribute("pageTitle", "Moderación");
 		return "mensajemoderacion";
 	}
-	
+
 	@RequestMapping(value = "/mensajeModeracion{idvotacion}", method = RequestMethod.POST)
 	@Transactional
 	public String mensajeModeracion(HttpSession sesion,
@@ -389,9 +389,9 @@ public class HomeController {
 			@RequestParam("motivo") String motivoForm,
 			Model model) {
 		model.addAttribute("prefix", "./");
-			Usuario u = (Usuario) sesion.getAttribute("user");
-			MensajeModeracion m = new MensajeModeracion();
-		
+		Usuario u = (Usuario) sesion.getAttribute("user");
+		MensajeModeracion m = new MensajeModeracion();
+
 		if (idVotacion.isEmpty())//No tiene nada que ver con votaciones el reporte.
 			m = m.crearMensajeModeracion(u.getId(),motivoForm, mensajeForm);
 		else
@@ -399,7 +399,7 @@ public class HomeController {
 		entityManager.persist(m);
 		return "home";
 	}
-	
+
 	//{idusuario:\\d+} con \\d+ forzamos a que sea un digito.
 	@RequestMapping(value = "/perfilUsuario{idusuario:\\d+}", method = RequestMethod.GET)
 	@Transactional
@@ -410,7 +410,8 @@ public class HomeController {
 			logger.error("No se encuentra el usuario {}", idUsuario);
 		}
 		else
-		model.addAttribute("usuarioSelec",u);
+			model.addAttribute("usuarioSelec",u);
+		model.addAttribute("pageTitle", "PerfilUsuario" + idUsuario);
 		model.addAttribute("prefix", "./");
 		return "perfilusuario";
 	}
@@ -422,12 +423,13 @@ public class HomeController {
 		List<Votacion> lista = null;
 		Usuario u = (Usuario) sesion.getAttribute("user");
 		long id = u.getId();
-		lista = (List<Votacion>)entityManager.createNamedQuery("buscarVotaciones")
-					.setParameter("param1", id).getResultList();
+		/*lista = entityManager.createNamedQuery("buscarVotaciones")
+				.setParameter("param1", id).getResultList();*/
+		lista = entityManager.createNamedQuery("allVotes").getResultList();
 		model.addAttribute("lista", lista);
 		return "miperfil";
 	}
-	
+
 	@RequestMapping(value = "/contact", method = RequestMethod.GET)
 	public String contact(Model model) {
 		model.addAttribute("pageTitle", "Contáctanos");
@@ -440,10 +442,10 @@ public class HomeController {
 			@RequestParam("busqueda") String formBuscar
 			) {
 		model.addAttribute("cabecera","Resultados Busqueada");
-		model.addAttribute("pageTitle", "Resutlado de la busqueda");
+		model.addAttribute("pageTitle", "Resultado de la busqueda");
 		List<Usuario> lista = null;
 		lista = (List<Usuario>)entityManager.createNamedQuery("busquedaUsuario")
-					.setParameter("param1", formBuscar + "%").getResultList();
+				.setParameter("param1", formBuscar + "%").getResultList();
 		for(Usuario u:lista) logger.info(u.getEmail() + "\n");
 		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
 		pagedListHolder.setPageSize(9);
@@ -451,14 +453,14 @@ public class HomeController {
 		model.addAttribute("pagedListUsuarios", pagedList);
 		return "usersresults";
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/mejoresAlumnos", method = RequestMethod.GET)
 	public String mejoresAlumnos(Model model) {
 		model.addAttribute("pageTitle", "Alumnos");
 		List<Usuario> lista = null;
 		lista = (List<Usuario>)entityManager
-					.createNamedQuery("mejoresAlumnos").getResultList();
+				.createNamedQuery("mejoresAlumnos").getResultList();
 		PagedListHolder<Usuario> pagedListHolder = new PagedListHolder<Usuario>(lista);
 		pagedListHolder.setPageSize(9);
 		List<Usuario> pagedList = pagedListHolder.getPageList();
@@ -478,13 +480,14 @@ public class HomeController {
 		model.addAttribute("pagedListUsuarios", pagedList);
 		return "usersresults";
 	}
-	
+
 	@RequestMapping(value = "/realizarValoracion", method = RequestMethod.GET) //valoracion.jsp	
 	public String realizarValoracion(Model model) {
 		model.addAttribute("prefix", "./");
+		model.addAttribute("pageTitle", "Valoración");
 		return "valoracion";
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/realizarValoracion", method = RequestMethod.POST) //valoracion.jsp
 	public String realizarValoracion(Model model,@RequestParam("puntuacion") String puntuacion,
@@ -492,21 +495,21 @@ public class HomeController {
 		ArrayList<Categoria> lista = new ArrayList<Categoria>();
 		Categoria c = new Categoria().crearCategoria(categoria, Integer.parseInt(puntuacion));
 		if(session.getAttribute("valoraciones") != null)
-		lista = ((ArrayList<Categoria>)session.getAttribute("valoraciones"));
+			lista = ((ArrayList<Categoria>)session.getAttribute("valoraciones"));
 		lista.add(c);
 		session.setAttribute("valoraciones", lista);
 		model.addAttribute("prefix","./");
 		return "voto";
 	}
-	
+
 	@RequestMapping(value = "/realizarVotacion{idusuario}", method = RequestMethod.GET) //voto.jsp
 	public String realizarVotacion(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
 		model.addAttribute("prefix","./");
 		session.setAttribute("usuarioVotacion",idUsuario);
 		return "voto";
 	}
-	
-	
+
+
 	@RequestMapping(value = "/realizarVotacion", method = RequestMethod.POST) //voto.jsp
 	public String realizarVotacion(Model model,HttpSession session) {
 		model.addAttribute("prefix","./");
@@ -521,20 +524,20 @@ public class HomeController {
 		session.removeAttribute("usuarioVotacion");
 		return "home";
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String admin(Model model) {
 		List<Asignatura> asignaturas= null;
 		asignaturas = (List<Asignatura>)entityManager
-					.createNamedQuery("todasAsignaturas").getResultList();
+				.createNamedQuery("todasAsignaturas").getResultList();
 		model.addAttribute("TodasAsignaturas",asignaturas);
 		List<Usuario> usuarios = null;
-				usuarios = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
+		usuarios = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
 		model.addAttribute("todosUsuarios",usuarios);
 		return "admin";
 	}
-	
+
 	@RequestMapping(value = "/adminAddUser", method = RequestMethod.POST)
 	@Transactional
 	public String admin2(@RequestParam("source") String formSource,
@@ -558,7 +561,7 @@ public class HomeController {
 			session.setAttribute("user", user);
 			// sets the anti-csrf token
 			getTokenForSession(session);
-			
+
 		}
 		return "redirect:" + formSource;
 	}
@@ -570,13 +573,13 @@ public class HomeController {
 			@RequestParam("Anio") int formAnio,
 			HttpServletRequest request, HttpServletResponse response,
 			Model model, HttpSession session) {
-			// model.addAttribute("pageTitle","Registro OmnisCracia");
-			// logger.info("no-such-user; creating user {}", formEmail);
-			Asignatura asig = Asignatura.crearAsignatura(formAsignatura, formCurso, formAnio);
-			entityManager.persist(asig);
-			session.setAttribute("admin", asig);
-			// sets the anti-csrf token
-			getTokenForSession(session);	
-			return "redirect:" + formSource;
+		// model.addAttribute("pageTitle","Registro OmnisCracia");
+		// logger.info("no-such-user; creating user {}", formEmail);
+		Asignatura asig = Asignatura.crearAsignatura(formAsignatura, formCurso, formAnio);
+		entityManager.persist(asig);
+		session.setAttribute("admin", asig);
+		// sets the anti-csrf token
+		getTokenForSession(session);	
+		return "redirect:" + formSource;
 	}
 }

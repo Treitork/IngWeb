@@ -27,7 +27,9 @@ import javax.persistence.TemporalType;
 
 @NamedQueries({
 	@NamedQuery(name="buscarVotaciones",
-	query="select u from Votacion u where u.id_receptor = :param1")
+	query="select u from Votacion u where u.id_receptor = :param1"),
+	@NamedQuery(name="allVotes",
+	query="select u from Votacion u")
 })
 
 /* Clase */
