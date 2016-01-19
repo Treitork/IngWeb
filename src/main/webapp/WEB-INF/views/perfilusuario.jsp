@@ -68,7 +68,7 @@
                     <div class="panel-body">
                         <h4>Votaciones recibidas</h4>
                         <p>Consulta las votaciones que he recibido.</p>
-     <form action="${prefix}mostrarVotaciones${usuarioSelec.id}" method="GET">
+     <form action="${prefix}mostrarVotacionesRecibidas${usuarioSelec.id}" method="GET">
 				<button type="submit" class="btn btn-primary">Ver valoraciones</button>
 				</form>
                     </div>

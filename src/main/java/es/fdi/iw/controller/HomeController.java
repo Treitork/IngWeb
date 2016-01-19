@@ -583,4 +583,31 @@ public class HomeController {
 		getTokenForSession(session);	
 		return "redirect:" + formSource;
 	}
+	@RequestMapping(value = "/mostrarVotacionesRealizadas{idusuario}", method = RequestMethod.GET) //voto.jsp
+	public String mostrarVotacionesRealizadas(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
+		model.addAttribute("prefix","./");
+		session.setAttribute("usuarioVotacion",idUsuario);
+		return "votaciones";
+	}
+	
+	@Transactional
+	@RequestMapping(value = "/mostrarVotacionesRecibidas{idusuario:\\d+}", method = RequestMethod.GET) //voto.jsp
+	public String mostrarVotacionesRecibidas(Model model,@PathVariable("idusuario") long idUsuario,HttpSession session) {
+		model.addAttribute("header","Valoraciones Recibidas");
+		model.addAttribute("prefix","./");
+		List<Votacion> recibidas = null;
+		recibidas = (List<Votacion>) entityManager.createNamedQuery("buscarVotacionesRecibidas")
+				.setParameter("param1", idUsuario).getResultList();
+		session.setAttribute("usuarioVotacion",idUsuario);
+		model.addAttribute("votaciones",recibidas);
+		return "votaciones";
+	}
+	@RequestMapping(value = "/mostrarAsignaturas{idusuario}", method = RequestMethod.GET) //voto.jsp
+	public String mostrarAsignaturas(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
+		model.addAttribute("prefix","./");
+		session.setAttribute("usuarioVotacion",idUsuario);
+		return "home";
+	}
 }
+
+

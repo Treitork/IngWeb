@@ -11,12 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.springframework.format.annotation.DateTimeFormat;
+
 
 @Entity
 /* Queries */
@@ -34,7 +31,8 @@ import org.springframework.format.annotation.DateTimeFormat;
  * ) })
  */
 @NamedQueries({
-		@NamedQuery(name = "buscarVotaciones", query = "select u from Votacion u where u.id_receptor = :param1"),
+		@NamedQuery(name = "buscarVotacionesRecibidas", query = "select u from Votacion u where u.id_receptor = :param1"),
+		@NamedQuery(name = "buscarVotacionesRealizadas", query = "select u from Votacion u where u.id_emisor = :param1"),
 		@NamedQuery(name = "allVotes", query = "select u from Votacion u") })
 /* Clase */
 public class Votacion {
@@ -65,6 +63,13 @@ public class Votacion {
 			puntuacion += c.getPuntuacion();
 		v.puntuacionMedia = puntuacion / votaciones.size();
 		return v;
+	}
+
+	@Override
+	public String toString() {
+		return "Votacion [id=" + id + ", id_emisor=" + id_emisor + ", id_receptor=" + id_receptor + ", fecha=" + fecha
+				+ ", comentario=" + comentario + ", puntuacionMedia=" + puntuacionMedia + ", valoraciones="
+				+ valoraciones + "]";
 	}
 
 	/* Getters & Setters */
