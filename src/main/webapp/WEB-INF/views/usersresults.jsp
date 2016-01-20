@@ -24,7 +24,7 @@
 					<a href="${prefix}perfilUsuario${usuarios.id}">${usuarios.nombre}
 						${usuarios.apellidos}</a>
 				</h3>
-				<p>Pulsame para ver mas información</p>
+				<p>Púlsame para ver mas información</p>
 			</div>
 			<c:set var="counter" value="${count + 1}" scope="page" />
 		</c:forEach>

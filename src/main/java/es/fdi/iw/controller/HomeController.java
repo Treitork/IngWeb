@@ -152,72 +152,6 @@ public class HomeController {
 	}
 
 	/**
-	 * Uploads a photo for a user
-	 * 
-	 * @param id
-	 *            of user
-	 * @param photo
-	 *            to upload
-	 * @return
-	 */
-	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public @ResponseBody String handleFileUpload(
-			@RequestParam("photo") MultipartFile photo,
-			@RequestParam("id") String id) {
-		if (!photo.isEmpty()) {
-			try {
-				byte[] bytes = photo.getBytes();
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(ContextInitializer.getFile("user",
-								id)));
-				stream.write(bytes);
-				stream.close();
-				return "You successfully uploaded "
-				+ id
-				+ " into "
-				+ ContextInitializer.getFile("user", id)
-				.getAbsolutePath() + "!";
-			} catch (Exception e) {
-				return "You failed to upload " + id + " => " + e.getMessage();
-			}
-		} else {
-			return "You failed to upload a photo for " + id
-					+ " because the file was empty.";
-		}
-	}
-
-	/**
-	 * Displays user details
-	 */
-	@RequestMapping(value = "/user", method = RequestMethod.GET)
-	public String user(HttpSession session, HttpServletRequest request) {
-		return "user";
-	}
-
-
-	/**
-	 * Returns a users' photo
-	 * 
-	 * @param id
-	 *            id of user to get photo from
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/user/photo", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-	public byte[] userPhoto(@RequestParam("id") String id) throws IOException {
-		File f = ContextInitializer.getFile("user", id);
-		InputStream in = null;
-		if (f.exists()) {
-			in = new BufferedInputStream(new FileInputStream(f));
-		} else {
-			in = new BufferedInputStream(this.getClass().getClassLoader()
-					.getResourceAsStream("unknown-user.jpg"));
-		}
-
-		return IOUtils.toByteArray(in);
-	}
-
-	/**
 	 * Toggles debug mode
 	 */
 	@RequestMapping(value = "/debug", method = RequestMethod.GET)
@@ -420,12 +354,10 @@ public class HomeController {
 	@RequestMapping(value = "/miPerfil", method = RequestMethod.GET)
 	public String miPerfil(Model model, HttpSession sesion) {
 		model.addAttribute("pageTitle", "Mi Perfil");
+		
 		List<Votacion> lista = null;
 		Usuario u = (Usuario) sesion.getAttribute("user");
-		long id = u.getId();
-		/*lista = entityManager.createNamedQuery("buscarVotaciones")
-				.setParameter("param1", id).getResultList();*/
-		lista = entityManager.createNamedQuery("allVotes").getResultList();
+		model.addAttribute("usuarioSelec",u);
 		model.addAttribute("lista", lista);
 		return "miperfil";
 	}

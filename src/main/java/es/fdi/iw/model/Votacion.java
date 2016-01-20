@@ -32,8 +32,8 @@ import org.hibernate.annotations.CascadeType;
  */
 @NamedQueries({
 		@NamedQuery(name = "buscarVotacionesRecibidas", query = "select u from Votacion u where u.id_receptor = :param1"),
-		@NamedQuery(name = "buscarVotacionesRealizadas", query = "select u from Votacion u where u.id_emisor = :param1"),
-		@NamedQuery(name = "allVotes", query = "select u from Votacion u") })
+		@NamedQuery(name = "buscarVotacionesRealizadas", query = "select u from Votacion u where u.id_emisor = :param1")
+})
 /* Clase */
 public class Votacion {
 	/* Atributos */
