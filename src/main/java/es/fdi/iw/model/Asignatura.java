@@ -17,6 +17,8 @@ import javax.persistence.NamedQuery;
 	query="delete from Asignatura u where u.id= :idParam"),
     @NamedQuery(name="editarAsignatura",
 	query="update Asignatura set nombre= :formAsignatura , grupo= :formCurso , anio = :formAnio  where id= :idParam")
+
+
 })
 // ... //
 

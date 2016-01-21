@@ -1,5 +1,7 @@
 <%@ include file="../fragments/header_admin.jspf"%>
 
+
+
 <aside id="sidebar" class="column" style="height: 1700px;">
 	<form class="quick_search">
 		<input type="text" value="Quick Search"
@@ -182,10 +184,10 @@
 		</header>
 		<div class="tab_container" id="tabAsignaturas">
 			<div id="tab1" class="tab_content" style="display: block;">
-				<table id="table_id" class="tablesorter" cellspacing="0">
+				<table id="table_Asignaturas" class="tablesorter" cellspacing="0">
 					<thead>
 						<tr>
-							<th class="header"></th>
+
 							<th class="header">Id</th>
 							<th class="header">Nombre</th>
 							<th class="header">Curso</th>
@@ -354,15 +356,13 @@
 		</header>
 		<div class="tab_container">
 			<div id="tab1" class="tab_content" style="display: block;">
-				<table id="tableUsuarios" class="tablesorter" cellspacing="0">
+				<table id="table_Usuarios" class="tablesorter" cellspacing="0">
 					<thead>
 						<tr>
-							<th class="header"></th>
 							<th class="header">Id</th>
 							<th class="header">Nombre</th>
 							<th class="header">Apellidos</th>
 							<th class="header">email</th>
-							<th class="header">Rol</th>
 							<th class="header">Acción</th>
 						</tr>
 					</thead>
@@ -373,7 +373,6 @@
 								<td>${usuarios.nombre}</td>
 								<td>${usuarios.apellidos}</td>
 								<td>${usuarios.email }</td>
-								<td>${usuarios.rol }</td>
 								<td><a >
 						
 									<input type="image" src="resources/img/img_admin/icn_trash.png"
@@ -417,13 +416,7 @@
 		</footer>
 	</article>
 	<!-- end of post new article -->
-
-
-	
-	
-	<script src="resources/js/jquery.dataTables.min.js"
-		type="text/javascript"></script>
-		
-		
-<!-- <input type="image" src="resources/img/img_admin/icn_edit.png" title="Edit"> -->
+		<script src="resources/js/jquery.js"></script>
+		<script src="resources/js/jquery.dataTables.min.js" type="text/javascript"></script>
+		<script src="resources/js/paginacion.js" type="text/javascript"></script>
 	<%@ include file="../fragments/footer.jspf"%>

@@ -116,7 +116,7 @@ public class HomeController {
 		}
 
 		// redirects to view from which login was requested
-		return "home";
+		return "redirect:" + formSource;
 	}
 
 	/**
@@ -149,72 +149,6 @@ public class HomeController {
 		logger.info("User '{}' logged out", session.getAttribute("user"));
 		session.invalidate();
 		return "redirect:home";
-	}
-
-	/**
-	 * Uploads a photo for a user
-	 * 
-	 * @param id
-	 *            of user
-	 * @param photo
-	 *            to upload
-	 * @return
-	 */
-	@RequestMapping(value = "/user", method = RequestMethod.POST)
-	public @ResponseBody String handleFileUpload(
-			@RequestParam("photo") MultipartFile photo,
-			@RequestParam("id") String id) {
-		if (!photo.isEmpty()) {
-			try {
-				byte[] bytes = photo.getBytes();
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(ContextInitializer.getFile("user",
-								id)));
-				stream.write(bytes);
-				stream.close();
-				return "You successfully uploaded "
-				+ id
-				+ " into "
-				+ ContextInitializer.getFile("user", id)
-				.getAbsolutePath() + "!";
-			} catch (Exception e) {
-				return "You failed to upload " + id + " => " + e.getMessage();
-			}
-		} else {
-			return "You failed to upload a photo for " + id
-					+ " because the file was empty.";
-		}
-	}
-
-	/**
-	 * Displays user details
-	 */
-	@RequestMapping(value = "/user", method = RequestMethod.GET)
-	public String user(HttpSession session, HttpServletRequest request) {
-		return "user";
-	}
-
-
-	/**
-	 * Returns a users' photo
-	 * 
-	 * @param id
-	 *            id of user to get photo from
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value = "/user/photo", method = RequestMethod.GET, produces = MediaType.IMAGE_JPEG_VALUE)
-	public byte[] userPhoto(@RequestParam("id") String id) throws IOException {
-		File f = ContextInitializer.getFile("user", id);
-		InputStream in = null;
-		if (f.exists()) {
-			in = new BufferedInputStream(new FileInputStream(f));
-		} else {
-			in = new BufferedInputStream(this.getClass().getClassLoader()
-					.getResourceAsStream("unknown-user.jpg"));
-		}
-
-		return IOUtils.toByteArray(in);
 	}
 
 	/**
@@ -420,12 +354,10 @@ public class HomeController {
 	@RequestMapping(value = "/miPerfil", method = RequestMethod.GET)
 	public String miPerfil(Model model, HttpSession sesion) {
 		model.addAttribute("pageTitle", "Mi Perfil");
+		
 		List<Votacion> lista = null;
 		Usuario u = (Usuario) sesion.getAttribute("user");
-		long id = u.getId();
-		/*lista = entityManager.createNamedQuery("buscarVotaciones")
-				.setParameter("param1", id).getResultList();*/
-		lista = entityManager.createNamedQuery("allVotes").getResultList();
+		model.addAttribute("usuarioSelec",u);
 		model.addAttribute("lista", lista);
 		return "miperfil";
 	}
@@ -661,4 +593,37 @@ public class HomeController {
 		return "redirect:" + formSource;
 	}
 
+
+	@RequestMapping(value = "/mostrarVotacionesRealizadas{idusuario:\\d+}", method = RequestMethod.GET)
+	public String mostrarVotacionesRealizadas(Model model,@PathVariable("idusuario") long idUsuario,HttpSession session) {
+		model.addAttribute("cabecera","Valoraciones Realizadas");
+		model.addAttribute("prefix","./");
+		List<Votacion> emitidas = null;
+		emitidas = (List<Votacion>) entityManager.createNamedQuery("buscarVotacionesRealizadas")
+				.setParameter("param1", idUsuario).getResultList();
+		session.setAttribute("usuarioVotacion",idUsuario);
+		model.addAttribute("votaciones",emitidas);
+		return "votaciones";
+	}
+	
+	@Transactional
+	@RequestMapping(value = "/mostrarVotacionesRecibidas{idusuario:\\d+}", method = RequestMethod.GET)
+	public String mostrarVotacionesRecibidas(Model model,@PathVariable("idusuario") long idUsuario,HttpSession session) {
+		model.addAttribute("cabecera","Valoraciones Recibidas");
+		model.addAttribute("prefix","./");
+		List<Votacion> recibidas = null;
+		recibidas = (List<Votacion>) entityManager.createNamedQuery("buscarVotacionesRecibidas")
+				.setParameter("param1", idUsuario).getResultList();
+		session.setAttribute("usuarioVotacion",idUsuario);
+		model.addAttribute("votaciones",recibidas);
+		return "votaciones";
+	}
+	@RequestMapping(value = "/mostrarAsignaturas{idusuario}", method = RequestMethod.GET)
+	public String mostrarAsignaturas(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
+		model.addAttribute("prefix","./");
+		session.setAttribute("usuarioVotacion",idUsuario);
+		return "home";
+	}
 }
+
+

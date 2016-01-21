@@ -1,8 +1,8 @@
 $(document).ready( function () {
-    $('#table_id').DataTable();
+    $('#table_Asignaturas').DataTable();
 } );
 $(document).ready( function () {
-    $('#tableUsuarios').DataTable();
+    $('#table_Usuarios').DataTable();
 } );
 
 function deleteAsig(source,Id,Asignatura,Curso,Anio){	
@@ -19,7 +19,6 @@ function deleteAsig(source,Id,Asignatura,Curso,Anio){
 	
 	success: function(result) {
         location.reload();
-        //$("#divSettings").html(this);
     },
 	});
 	
@@ -45,7 +44,6 @@ function deleteUsuario(source,Id){
 	
 	success: function(result) {
         location.reload();
-        //$("#divSettings").html(this);
     },
 	});
 	
