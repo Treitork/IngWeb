@@ -10,30 +10,35 @@
 	<ul class="toggle">
 		<li class="icn_new_article"><a href="#NuevoAsignatura">Añadir
 				Asignatura</a></li>
-		<li class="icn_edit_article"><a href="#">Editar Asignatura</a></li>
+		<li class="icn_edit_article"><a href="#EditarAsignatura" >Editar Asignatura</a></li>
 		<li class="icn_categories"><a href="#listaAsignaturas">Ver
 				Asignaturas</a></li>
 	</ul>
-	<h3>Mensajes</h3>
+	
+	<h3>Usuarios</h3>
 	<ul class="toggle">
-		<li class="icn_new_article"><a href="#clear">Nuevo Mensaje</a></li>
-		<li class="icn_edit_article"><a href="#">Edit Message</a></li>
-		<li class="icn_categories"><a href="#tab1">List Messages</a></li>
-	</ul>
+		<li class="icn_add_user"><a href="#NuevoUsuario">Añadir
+				Usuario</a></li>
+		<li class="icn_profile"><a href="#EditarUsuarios">Editar 
+				Usuario</a></li>
+		<li class="icn_view_usersicn_profile"><a href="#listaUsuarios">Lista Usuarios</a></li>
+	</ul>	
+	
 	<h3>Votos</h3>
 	<ul class="toggle">
 		<li class="icn_new_article"><a href="#">New Vote</a></li>
 		<li class="icn_edit_article"><a href="#">Edit Vote</a></li>
 		<li class="icn_categories"><a href="#votes">List Votes</a></li>
 	</ul>
-	<h3>Usuarios</h3>
+	
+	
+	<h3>Mensajes</h3>
 	<ul class="toggle">
-		<li class="icn_add_user"><a href="#NuevoUsuario">Añadir
-				Usuario</a></li>
-		<li class="icn_view_users"><a href="#listaUsuarios">Lista de
-				Usuarios</a></li>
-		<li class="icn_profile"><a href="#">Your Profile</a></li>
-	</ul>
+		<li class="icn_new_article"><a href="#clear">Nuevo Mensaje</a></li>
+		<li class="icn_edit_article"><a href="#">Edit Message</a></li>
+		<li class="icn_categories"><a href="#tab1">List Messages</a></li>
+	</ul>	
+	
 	<h3>Admin</h3>
 	<ul class="toggle">
 		<li class="icn_settings"><a href="#">Options</a></li>
@@ -111,8 +116,9 @@
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default">Añadir</button>
-					<button value="reset" id="asignaturas-reset" class="btn btn-default">Reset</button>
+					<button type="submit" class="btn btn-default" href="#listaAsignaturas">Añadir</button>
+					<button type="reset" id="asignaturas-reset" class="btn btn-default">Reset</button>
+				</div>
 			</div>
 		</form>
 	</article>
@@ -120,11 +126,11 @@
 	
 	<!-- editar asignatura-->
 	
-	<article class="module width_full2" id ="NuevoAsignatura">
+	<article class="module width_full2" id ="EditarAsignatura">
 		<header>
 			<h3>Editar Asignatura</h3>
 		</header>
-		<form class="form-horizontal" action="adminEditAsignatura" method="POST">
+		<form class="form-horizontal" action="adminEditAsignatura" method="POST" >
 			<input type="hidden" id="source" name="source"
 				value="${requestScope['javax.servlet.forward.servlet_path']}" />
  			
@@ -132,22 +138,22 @@
 				<label for="inputLastName" class="col-sm-2 control-label">Id</label>
 				<div class="col-sm-10">
 					<input type="number" class="form-control" name="Id"
-						id="Id" placeholder=" Id de la asignatura a modificar">
+						id="editId"  value=" ">
 				</div>
 			</div>
  			
 			<div class="form-group">
-				<label for="inputName" class="col-sm-2 control-label">Nueva asignatura</label>
+				<label for="inputName" class="col-sm-2 control-label">Asignatura</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="Asignatura"
-						id="Asignatura" placeholder=" ">
+						id="editAsignatura" placeholder=" " >
 				</div>
 			</div>
 			
 			<div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">Nuevo curso</label>
+				<label for="inputEmail3" class="col-sm-2 control-label">Curso</label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" name="Curso" id="Curso"
+					<input type="text" class="form-control" name="Curso" id="editCurso"
 						placeholder=" ">
 				</div>
 			</div>
@@ -156,14 +162,14 @@
 				<label for="inputLastName" class="col-sm-2 control-label">Nuevo año</label>
 				<div class="col-sm-10">
 					<input type="number" class="form-control" name="Anio"
-						id="Anio" placeholder=" ">
+						id="editAnio" placeholder=" ">
 				</div>
 			</div>
 			
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-default">Editar</button>
-					<button value="reset" id="asignaturas-reset" class="btn btn-default">Reset</button>
+					<button type="reset" id="asignaturas-reset" class="btn btn-default">Reset</button>
 			</div>
 		</form>
 	</article>
@@ -174,7 +180,7 @@
 		<header>
 			<h3 class="tabs_involved">Lista de Asignaturas</h3>
 		</header>
-		<div class="tab_container">
+		<div class="tab_container" id="tabAsignaturas">
 			<div id="tab1" class="tab_content" style="display: block;">
 				<table id="table_id" class="tablesorter" cellspacing="0">
 					<thead>
@@ -190,15 +196,17 @@
 					<tbody>
 						<c:forEach items="${TodasAsignaturas}" var="asignaturas">
 							<tr>
-								<td><input type="checkbox"></td>
 								<td>${asignaturas.id}</td>
 								<td>${asignaturas.nombre}</td>
 								<td>${asignaturas.grupo}</td>
 								<td>${asignaturas.anio }</td>
-								<td><a href="">
+								<td>
+									<a href="#EditarAsignatura"><input type="image" src="resources/img/img_admin/icn_edit.png"
+									id ="editAsignatura" onclick="editAsig('${requestScope['javax.servlet.forward.servlet_path']}','${asignaturas.id}','${asignaturas.nombre}','${asignaturas.grupo}','${asignaturas.anio }')"
+									title="Edit"></a>
 									<input type="image" src="resources/img/img_admin/icn_trash.png"
-									id ="eliminar" onclick="deleteAsig('${requestScope['javax.servlet.forward.servlet_path']}','${asignaturas.id}','${asignaturas.nombre}','${asignaturas.grupo}','${asignaturas.anio }')"
-									title="Trash"></a></td>
+									id ="eliminarAsignatura" onclick="deleteAsig('${requestScope['javax.servlet.forward.servlet_path']}','${asignaturas.id}','${asignaturas.nombre}','${asignaturas.grupo}','${asignaturas.anio }')"
+									title="Trash"></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -267,7 +275,76 @@
 		</form>
 	</article>
 	<!-- final añadir usuario -->
+	
+	 
+	<!-- Inicio editar usuario -->
+	<!--
+	<article class="module width_3_quarter" id="#EditarUsuarios">
+		<header>
+			<h3 class="tabs_involved">Editar Usuario</h3>
+		</header>
+		<form class="form-horizontal" action="adminAddUser" method="POST">
+			<input type="hidden" id="source" name="source"
+				value="${requestScope['javax.servlet.forward.servlet_path']}" />
+				
+			<div class="form-group">
+				<label for="inputLastName" class="col-sm-2 control-label">Id</label>
+				<div class="col-sm-10">
+					<input type="number" class="form-control" name="editIdUsuario"
+						id="editIdUsuario"  value=" ">
+				</div>
+			</div>	
+				
+			<div class="form-group">
+				<label for="inputName" class="col-sm-2 control-label">Nombre</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="editNombreUsuario"
+						id="editNombreUsuario" placeholder="Nombre">
+				</div>
+			</div>
 
+			<div class="form-group">
+				<label for="inputLastName" class="col-sm-2 control-label">Apellidos</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="editApellidosUsuario"
+						id="editApellidosUsuario" placeholder="Apellidos">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+				<div class="col-sm-10">
+					<input type="email" class="form-control" name="editEmailUsuario" id="editEmailUsuario"
+						placeholder="Email">
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="inputPassword" class="col-sm-2 control-label">Contraseña</label>
+				<div class="col-sm-10">
+					<input type="password" class="form-control" name="editPassUsuario" id="editPassUsuario"
+						placeholder="Contraseña">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputRepassword" class="col-sm-2 control-label">Rol</label>
+				<div class="col-sm-10">
+					<div class="input-group">
+						<input type="radio" class="form-control" name="editRolUsuario"  id ="editRolUsuario" >
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default">Registrar</button>
+					<button type="reset" id="asignaturas-reset" class="btn btn-default">Reset</button>
+				</div>
+			</div>
+		</form>
+	</article>
+	 -->
+	<!-- final editar usuario -->
 
 
 	<!-- Lista usuarios -->
@@ -281,6 +358,7 @@
 					<thead>
 						<tr>
 							<th class="header"></th>
+							<th class="header">Id</th>
 							<th class="header">Nombre</th>
 							<th class="header">Apellidos</th>
 							<th class="header">email</th>
@@ -291,14 +369,14 @@
 					<tbody>
 						<c:forEach items="${todosUsuarios}" var="usuarios">
 							<tr>
-								<td><input type="checkbox"></td>
+								<td>${usuarios.id}</td>
 								<td>${usuarios.nombre}</td>
 								<td>${usuarios.apellidos}</td>
 								<td>${usuarios.email }</td>
 								<td>${usuarios.rol }</td>
 								<td><a >
 									<input type="image" src="resources/img/img_admin/icn_trash.png"
-									id ="eliminar" onclick="deleteAsig('${requestScope['javax.servlet.forward.servlet_path']}','${asignaturas.id}','${usuarios.nombre}','${usuarios.apellidos}}','${usuarios.rol } }')"
+									id ="eliminar" onclick="deleteUsuario('${requestScope['javax.servlet.forward.servlet_path']}','${usuarios.id}')"
 									title="Trash"></a></td>
 							</tr>
 						</c:forEach>

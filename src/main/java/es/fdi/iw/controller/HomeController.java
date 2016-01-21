@@ -510,6 +510,7 @@ public class HomeController {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/realizarVotacion", method = RequestMethod.POST) //voto.jsp
 	@Transactional
 	public String realizarVotacion(Model model,HttpSession session,@RequestParam("comentario") String comentario) {
@@ -566,6 +567,29 @@ public class HomeController {
 		}
 		return "redirect:" + formSource;
 	}
+
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/adminDeleteUser", method = RequestMethod.POST)
+	@Transactional
+	public String adminDeleteUser(@RequestParam("source") String formSource,
+			@RequestParam("Id") long formId,
+			HttpServletRequest request, HttpServletResponse response,
+			Model model, HttpSession session) {
+		// model.addAttribute("pageTitle","Registro OmnisCracia");
+		// logger.info("no-such-user; creating user {}", formEmail);
+		entityManager.createNamedQuery("borrarUsuario")
+		.setParameter("idParam", formId).executeUpdate();
+		List<Usuario> usuarios = null;
+		usuarios = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
+		model.addAttribute("todosUsuarios",usuarios);
+			// sets the anti-csrf token
+		getTokenForSession(session);		
+		return "redirect:" + formSource;
+	}
+	
+	
+	
 	@RequestMapping(value = "/adminAddAsignatura", method = RequestMethod.POST)
 	@Transactional
 	public String admin3(@RequestParam("source") String formSource,
