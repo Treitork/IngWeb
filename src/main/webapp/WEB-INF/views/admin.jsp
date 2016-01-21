@@ -375,6 +375,7 @@
 								<td>${usuarios.email }</td>
 								<td>${usuarios.rol }</td>
 								<td><a >
+						
 									<input type="image" src="resources/img/img_admin/icn_trash.png"
 									id ="eliminar" onclick="deleteUsuario('${requestScope['javax.servlet.forward.servlet_path']}','${usuarios.id}')"
 									title="Trash"></a></td>
