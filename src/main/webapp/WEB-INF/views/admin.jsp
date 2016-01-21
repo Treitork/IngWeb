@@ -1,6 +1,6 @@
 <%@ include file="../fragments/header_admin.jspf"%>
 
-
+<!-- faltan añadir añadair, modificar y eleminar una categoria, votaciones y mensajes-->
 
 <aside id="sidebar" class="column" style="height: 1700px;">
 	<form class="quick_search">
