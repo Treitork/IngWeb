@@ -583,4 +583,58 @@ public class HomeController {
 		getTokenForSession(session);	
 		return "redirect:" + formSource;
 	}
+
+
+	@RequestMapping(value = "/adminDeleteAsignatura", method = RequestMethod.POST)
+	@Transactional
+	public String adminDeleteAsignatura(@RequestParam("source") String formSource,
+			@RequestParam("Asignatura") String formAsignatura,
+			@RequestParam("Curso") String formCurso,
+			@RequestParam("Anio") int formAnio,
+			@RequestParam("Id") long formId,
+			HttpServletRequest request, HttpServletResponse response,
+			Model model, HttpSession session) {
+		// model.addAttribute("pageTitle","Registro OmnisCracia");
+		// logger.info("no-such-user; creating user {}", formEmail);
+		Asignatura asig = Asignatura.crearAsignatura(formId,formAsignatura, formCurso, formAnio);
+		logger.info("Borrando asignatura '{}' de ID '{}'", formAsignatura,formId);
+		entityManager.createNamedQuery("borrarAsignatura")
+		.setParameter("idParam", formId).executeUpdate();
+		List<Asignatura> asignaturas= null;
+		asignaturas = (List<Asignatura>)entityManager
+				.createNamedQuery("todasAsignaturas").getResultList();
+		model.addAttribute("TodasAsignaturas",asignaturas);
+		/*la tabla no se actualiza*/
+		// sets the anti-csrf token
+		getTokenForSession(session);	
+		/*por alguna razon se queda bloqueado y no sigue ejecutando */
+		return "redirect:" + formSource;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/adminEditAsignatura", method = RequestMethod.POST)
+	@Transactional
+	public String adminEditAsignatura(@RequestParam("source") String formSource,
+			@RequestParam("Asignatura") String formAsignatura,
+			@RequestParam("Curso") String formCurso,
+			@RequestParam("Anio") int formAnio,
+			@RequestParam("Id") long formId,
+			HttpServletRequest request, HttpServletResponse response,
+			Model model, HttpSession session) {
+		// model.addAttribute("pageTitle","Registro OmnisCracia");
+		// logger.info("no-such-user; creating user {}", formEmail);
+		entityManager.createNamedQuery("editarAsignatura")
+		.setParameter("idParam", formId).setParameter("formAsignatura", formAsignatura)
+		.setParameter("formCurso",formCurso).setParameter("formAnio",formAnio).executeUpdate();
+		List<Asignatura> asignaturas= null;
+		asignaturas = (List<Asignatura>)entityManager
+				.createNamedQuery("todasAsignaturas").getResultList();
+		model.addAttribute("TodasAsignaturas",asignaturas);
+		/*la tabla no se actualiza*/
+		// sets the anti-csrf token
+		getTokenForSession(session);	
+		/*por alguna razon se queda bloqueado y no sigue ejecutando */
+		return "redirect:" + formSource;
+	}
+
 }

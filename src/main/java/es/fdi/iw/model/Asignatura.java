@@ -13,6 +13,10 @@ import javax.persistence.NamedQuery;
             query="select a from Asignatura a"),
     @NamedQuery(name="buscarAsignatura",
 			query="select u from Asignatura u where nombre = :Asignatura "),
+    @NamedQuery(name="borrarAsignatura",
+	query="delete from Asignatura u where u.id= :idParam"),
+    @NamedQuery(name="editarAsignatura",
+	query="update Asignatura set nombre= :formAsignatura , grupo= :formCurso , anio = :formAnio  where id= :idParam")
 })
 // ... //
 
@@ -30,6 +34,15 @@ public Asignatura(){}
 public static Asignatura crearAsignatura(String formAsignatura, String formCurso, int formAnio) {
 	// TODO Auto-generated constructor stub
 	Asignatura a = new Asignatura();
+	a.nombre = formAsignatura;
+	a.grupo = formCurso;
+	a.anio = formAnio;
+	return a;
+}
+public static Asignatura crearAsignatura(long formId, String formAsignatura, String formCurso, int formAnio) {
+	// TODO Auto-generated method stub
+	Asignatura a = new Asignatura();
+	a.id=formId;
 	a.nombre = formAsignatura;
 	a.grupo = formCurso;
 	a.anio = formAnio;
@@ -73,4 +86,5 @@ public void setAnio(int anio) {
 	this.anio = anio;
 }
 /* Tablas del Join */
+
 }

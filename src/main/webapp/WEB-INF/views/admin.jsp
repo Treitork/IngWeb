@@ -75,6 +75,8 @@
 		</div>
 	</article>
 	<!-- end of stats article -->
+	
+	<!-- añadir asignatura-->
 	<article class="module width_full2" id ="NuevoAsignatura">
 		<header>
 			<h3>Nueva Asignatura</h3>
@@ -82,6 +84,7 @@
 		<form class="form-horizontal" action="adminAddAsignatura" method="POST">
 			<input type="hidden" id="source" name="source"
 				value="${requestScope['javax.servlet.forward.servlet_path']}" />
+					
 			<div class="form-group">
 				<label for="inputName" class="col-sm-2 control-label">Nombre</label>
 				<div class="col-sm-10">
@@ -109,13 +112,64 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-default">Añadir</button>
-					<button value="Resetear" id="asignaturas-reset" class="btn btn-default">Reset</button>
+					<button value="reset" id="asignaturas-reset" class="btn btn-default">Reset</button>
 			</div>
 		</form>
-		<!-- ********Esta parte no funciona -->
 	</article>
-	<!-- end of stats article -->
+	<!-- fin añadir asignatura-->
+	
+	<!-- editar asignatura-->
+	
+	<article class="module width_full2" id ="NuevoAsignatura">
+		<header>
+			<h3>Editar Asignatura</h3>
+		</header>
+		<form class="form-horizontal" action="adminEditAsignatura" method="POST">
+			<input type="hidden" id="source" name="source"
+				value="${requestScope['javax.servlet.forward.servlet_path']}" />
+ 			
+ 			<div class="form-group">
+				<label for="inputLastName" class="col-sm-2 control-label">Id</label>
+				<div class="col-sm-10">
+					<input type="number" class="form-control" name="Id"
+						id="Id" placeholder=" Id de la asignatura a modificar">
+				</div>
+			</div>
+ 			
+			<div class="form-group">
+				<label for="inputName" class="col-sm-2 control-label">Nueva asignatura</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="Asignatura"
+						id="Asignatura" placeholder=" ">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="inputEmail3" class="col-sm-2 control-label">Nuevo curso</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="Curso" id="Curso"
+						placeholder=" ">
+				</div>
+			</div>
 
+			<div class="form-group">
+				<label for="inputLastName" class="col-sm-2 control-label">Nuevo año</label>
+				<div class="col-sm-10">
+					<input type="number" class="form-control" name="Anio"
+						id="Anio" placeholder=" ">
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button type="submit" class="btn btn-default">Editar</button>
+					<button value="reset" id="asignaturas-reset" class="btn btn-default">Reset</button>
+			</div>
+		</form>
+	</article>
+	<!--  fin editar asignatura-->
+	
+	<!-- listas de todas las asignaturas -->
 	<article class="module width_3_quarter" id="listaAsignaturas">
 		<header>
 			<h3 class="tabs_involved">Lista de Asignaturas</h3>
@@ -126,6 +180,7 @@
 					<thead>
 						<tr>
 							<th class="header"></th>
+							<th class="header">Id</th>
 							<th class="header">Nombre</th>
 							<th class="header">Curso</th>
 							<th class="header">Año</th>
@@ -136,15 +191,15 @@
 						<c:forEach items="${TodasAsignaturas}" var="asignaturas">
 							<tr>
 								<td><input type="checkbox"></td>
+								<td>${asignaturas.id}</td>
 								<td>${asignaturas.nombre}</td>
 								<td>${asignaturas.grupo}</td>
 								<td>${asignaturas.anio }</td>
-								<td><a href=""><input type="image"
-									src="resources/img/img_admin/icn_edit.png" title="Edit">
+								<td><a href="">
 									<input type="image" src="resources/img/img_admin/icn_trash.png"
+									id ="eliminar" onclick="deleteAsig('${requestScope['javax.servlet.forward.servlet_path']}','${asignaturas.id}','${asignaturas.nombre}','${asignaturas.grupo}','${asignaturas.anio }')"
 									title="Trash"></a></td>
 							</tr>
-							<c:set var="counter" value="${count + 1}" scope="page" />
 						</c:forEach>
 					</tbody>
 				</table>
@@ -206,7 +261,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-default">Registrar</button>
-					<button value="Resetear" id="asignaturas-reset" class="btn btn-default">Reset</button>
+					<button value="reset" id="asignaturas-reset" class="btn btn-default">Reset</button>
 				</div>
 			</div>
 		</form>
@@ -241,12 +296,11 @@
 								<td>${usuarios.apellidos}</td>
 								<td>${usuarios.email }</td>
 								<td>${usuarios.rol }</td>
-								<td><input type="image"
-									src="resources/img/img_admin/icn_edit.png" title="Edit">
+								<td><a >
 									<input type="image" src="resources/img/img_admin/icn_trash.png"
-									title="Trash"></td>
+									id ="eliminar" onclick="deleteAsig('${requestScope['javax.servlet.forward.servlet_path']}','${asignaturas.id}','${usuarios.nombre}','${usuarios.apellidos}}','${usuarios.rol } }')"
+									title="Trash"></a></td>
 							</tr>
-							<c:set var="counter" value="${count + 1}" scope="page" />
 						</c:forEach>
 					</tbody>
 				</table>
@@ -257,81 +311,6 @@
 	</article>
 	<!-- final lista de usuarios -->
 
-
-	<article class="module width_3_quarter">
-		<div class="tab_container">
-			<div id="tab1" class="tab_content" style="display: block;">
-				<table class="tablesorter" cellspacing="0">
-					<thead>
-						<tr>
-							<th class="header"></th>
-							<th class="header">User</th>
-							<th class="header">Subject</th>
-							<th class="header">Recived</th>
-							<th class="header">Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Lorem Ipsum Dolor Sit Amet</td>
-							<td>pepe</td>
-							<td>5th April 2011</td>
-							<td><input type="image"
-								src="resources/img/img_admin/icn_edit.png" title="Edit"><input
-								type="image" src="resources/img/img_admin/icn_trash.png"
-								title="Trash"></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Ipsum Lorem Dolor Sit Amet</td>
-							<td>paco</td>
-							<td>6th April 2011</td>
-							<td><input type="image"
-								src="resources/img/img_admin/icn_edit.png" title="Edit"><input
-								type="image" src="resources/img/img_admin/icn_trash.png"
-								title="Trash"></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Sit Amet Dolor Ipsum</td>
-							<td>pedro</td>
-							<td>10th April 2011</td>
-							<td><input type="image"
-								src="resources/img/img_admin/icn_edit.png" title="Edit"><input
-								type="image" src="resources/img/img_admin/icn_trash.png"
-								title="Trash"></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Dolor Lorem Amet</td>
-							<td>marta</td>
-							<td>16th April 2011</td>
-							<td><input type="image"
-								src="resources/img/img_admin/icn_edit.png" title="Edit"><input
-								type="image" src="resources/img/img_admin/icn_trash.png"
-								title="Trash"></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Dolor Lorem Amet</td>
-							<td>luis</td>
-							<td>16th April 2011</td>
-							<td><input type="image"
-								src="resources/img/img_admin/icn_edit.png" title="Edit"><input
-								type="image" src="resources/img/img_admin/icn_trash.png"
-								title="Trash"></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<!-- end of #tab1 -->
-
-		</div>
-		<!-- end of .tab_container -->
-
-	</article>
-	<!-- end of list messages -->
 
 	<div class="clear"></div>
 
@@ -360,86 +339,12 @@
 	</article>
 	<!-- end of post new article -->
 
-	<article class="module width_3_quarter">
-		<header>
-			<h3 class="tabs_involved">List Votes</h3>
-		</header>
 
-		<div class="tab_container">
-			<div id="votes" class="tab_content" style="display: block;">
-				<table class="tablesorter" cellspacing="0">
-					<thead>
-						<tr>
-							<th class="header"></th>
-							<th class="header">User</th>
-							<th class="header">Rol</th>
-							<th class="header">Mark(0-5)</th>
-							<th class="header">Actions</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Lorem Ipsum Dolor Sit Amet</td>
-							<td>student</td>
-							<td>2</td>
-							<td><input type="image"
-								src="resources/img/img_admin/icn_edit.png" title="Edit"><input
-								type="image" src="resources/img/img_admin/icn_trash.png"
-								title="Trash"></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Ipsum Lorem Dolor Sit Amet</td>
-							<td>teacher</td>
-							<td>1</td>
-							<td><input type="image"
-								src="resources/img/img_admin/icn_edit.png" title="Edit"><input
-								type="image" src="resources/img/img_admin/icn_trash.png"
-								title="Trash"></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Sit Amet Dolor Ipsum</td>
-							<td>teacher</td>
-							<td>5</td>
-							<td><input type="image"
-								src="resources/img/img_admin/icn_edit.png" title="Edit"><input
-								type="image" src="resources/img/img_admin/icn_trash.png"
-								title="Trash"></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Dolor Lorem Amet</td>
-							<td>student</td>
-							<td>4</td>
-							<td><input type="image"
-								src="resources/img/img_admin/icn_edit.png" title="Edit"><input
-								type="image" src="resources/img/img_admin/icn_trash.png"
-								title="Trash"></td>
-						</tr>
-						<tr>
-							<td><input type="checkbox"></td>
-							<td>Dolor Lorem Amet</td>
-							<td>teacher</td>
-							<td>3</td>
-							<td><input type="image"
-								src="resources/img/img_admin/icn_edit.png" title="Edit"><input
-								type="image" src="resources/img/img_admin/icn_trash.png"
-								title="Trash"></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<!-- end of #tab1 -->
-
-		</div>
-		<!-- end of .tab_container -->
-
-	</article>
-	<!-- end of list votes -->
+	
+	
 	<script src="resources/js/jquery.dataTables.min.js"
 		type="text/javascript"></script>
-
-
+		
+		
+<!-- <input type="image" src="resources/img/img_admin/icn_edit.png" title="Edit"> -->
 	<%@ include file="../fragments/footer.jspf"%>
