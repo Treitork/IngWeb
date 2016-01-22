@@ -9,11 +9,10 @@ import javax.persistence.NamedQuery;
 @Entity
 /* Queries */
 // ... //
-/*
 @NamedQueries({
     @NamedQuery(name="todosMensajesModeracion",
-            query="select m from MENSAJE_MODERACION m order by id desc"),
-})*/
+            query="select m from MensajeModeracion m order by id desc"),
+})
 
 /* Clase */
 public class MensajeModeracion {

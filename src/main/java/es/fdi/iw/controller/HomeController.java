@@ -459,6 +459,39 @@ public class HomeController {
 		return "home";
 	}
 
+	@RequestMapping(value = "/mostrarVotacionesRealizadas{idusuario:\\d+}", method = RequestMethod.GET)
+	public String mostrarVotacionesRealizadas(Model model,@PathVariable("idusuario") long idUsuario,HttpSession session) {
+		model.addAttribute("cabecera","Valoraciones Realizadas");
+		model.addAttribute("prefix","./");
+		List<Votacion> emitidas = null;
+		emitidas = (List<Votacion>) entityManager.createNamedQuery("buscarVotacionesRealizadas")
+				.setParameter("param1", idUsuario).getResultList();
+		session.setAttribute("usuarioVotacion",idUsuario);
+		model.addAttribute("votaciones",emitidas);
+		return "votaciones";
+	}
+	
+	@Transactional
+	@RequestMapping(value = "/mostrarVotacionesRecibidas{idusuario:\\d+}", method = RequestMethod.GET)
+	public String mostrarVotacionesRecibidas(Model model,@PathVariable("idusuario") long idUsuario,HttpSession session) {
+		model.addAttribute("cabecera","Valoraciones Recibidas");
+		model.addAttribute("prefix","./");
+		List<Votacion> recibidas = null;
+		recibidas = (List<Votacion>) entityManager.createNamedQuery("buscarVotacionesRecibidas")
+				.setParameter("param1", idUsuario).getResultList();
+		session.setAttribute("usuarioVotacion",idUsuario);
+		model.addAttribute("votaciones",recibidas);
+		return "votaciones";
+	}
+	@RequestMapping(value = "/mostrarAsignaturas{idusuario}", method = RequestMethod.GET)
+	public String mostrarAsignaturas(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
+		model.addAttribute("prefix","./");
+		session.setAttribute("usuarioVotacion",idUsuario);
+		return "home";
+	}
+	
+	/* ***Parte de la vista del admin*/
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
 	public String admin(Model model) {
@@ -466,10 +499,18 @@ public class HomeController {
 		asignaturas = (List<Asignatura>)entityManager
 				.createNamedQuery("todasAsignaturas").getResultList();
 		model.addAttribute("TodasAsignaturas",asignaturas);
+		List<Votacion> votaciones= null;
+		votaciones = (List<Votacion>)entityManager
+				.createNamedQuery("todasVotaciones").getResultList();
+		model.addAttribute("todasVotaciones",votaciones);
 		List<Usuario> usuarios = null;
 		usuarios = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
 		model.addAttribute("todosUsuarios",usuarios);
+		List<MensajeModeracion> mensajes = null;
+		mensajes = (List<MensajeModeracion>)entityManager.createNamedQuery("todosMensajesModeracion").getResultList();
+		model.addAttribute("todosMensajes",mensajes);
 		return "admin";
+		/****************poner un boolean para saber si el administrador a leido el mensaje o no y mostrarlo en la tabla***********************/
 	}
 
 	@RequestMapping(value = "/adminAddUser", method = RequestMethod.POST)
@@ -592,37 +633,24 @@ public class HomeController {
 		/*por alguna razon se queda bloqueado y no sigue ejecutando */
 		return "redirect:" + formSource;
 	}
-
-
-	@RequestMapping(value = "/mostrarVotacionesRealizadas{idusuario:\\d+}", method = RequestMethod.GET)
-	public String mostrarVotacionesRealizadas(Model model,@PathVariable("idusuario") long idUsuario,HttpSession session) {
-		model.addAttribute("cabecera","Valoraciones Realizadas");
-		model.addAttribute("prefix","./");
-		List<Votacion> emitidas = null;
-		emitidas = (List<Votacion>) entityManager.createNamedQuery("buscarVotacionesRealizadas")
-				.setParameter("param1", idUsuario).getResultList();
-		session.setAttribute("usuarioVotacion",idUsuario);
-		model.addAttribute("votaciones",emitidas);
-		return "votaciones";
-	}
 	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/adminDeleteVotacion", method = RequestMethod.POST)
 	@Transactional
-	@RequestMapping(value = "/mostrarVotacionesRecibidas{idusuario:\\d+}", method = RequestMethod.GET)
-	public String mostrarVotacionesRecibidas(Model model,@PathVariable("idusuario") long idUsuario,HttpSession session) {
-		model.addAttribute("cabecera","Valoraciones Recibidas");
-		model.addAttribute("prefix","./");
-		List<Votacion> recibidas = null;
-		recibidas = (List<Votacion>) entityManager.createNamedQuery("buscarVotacionesRecibidas")
-				.setParameter("param1", idUsuario).getResultList();
-		session.setAttribute("usuarioVotacion",idUsuario);
-		model.addAttribute("votaciones",recibidas);
-		return "votaciones";
-	}
-	@RequestMapping(value = "/mostrarAsignaturas{idusuario}", method = RequestMethod.GET)
-	public String mostrarAsignaturas(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
-		model.addAttribute("prefix","./");
-		session.setAttribute("usuarioVotacion",idUsuario);
-		return "home";
+	public String adminDeleteVotacion(@RequestParam("source") String formSource,
+			@RequestParam("Id") long formId,
+			HttpServletRequest request, HttpServletResponse response,
+			Model model, HttpSession session) {
+		// model.addAttribute("pageTitle","Registro OmnisCracia");
+		// logger.info("no-such-user; creating user {}", formEmail);
+		entityManager.createNamedQuery("borrarVotacion")
+		.setParameter("idParam", formId).executeUpdate();
+		List<Votacion> votaciones= null;
+		votaciones = (List<Votacion>)entityManager
+				.createNamedQuery("todasVotaciones").getResultList();
+		model.addAttribute("todasVotaciones",votaciones);
+		getTokenForSession(session);		
+		return "redirect:" + formSource;
 	}
 }
 

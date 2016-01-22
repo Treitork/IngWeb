@@ -1,52 +1,72 @@
-$(document).ready( function () {
-    $('#table_Asignaturas').DataTable();
-} );
-$(document).ready( function () {
-    $('#table_Usuarios').DataTable();
-} );
+$(document).ready(function() {
+	$('#table_Asignaturas').DataTable();
+	$('#table_Usuarios').DataTable();
+	$('#table_Votacion').DataTable();
+	$('#table_Mensajes').DataTable();
+});
 
-function deleteAsig(source,Id,Asignatura,Curso,Anio){	
-	/*alert(Asignatura+" "+ Curso+ " "+ Id);*/
+function deleteAsig(source, Id, Asignatura, Curso, Anio) {
+	/* alert(Asignatura+" "+ Curso+ " "+ Id); */
 	$.ajax({
-    url: 'adminDeleteAsignatura',
-    type: 'POST',
-    data: { 'source': source, 
-    	'Id': Id,
-    	'Asignatura':Asignatura,
-    	'Anio':Anio,
-    	'Curso':Curso
-    	},
-	
-	success: function(result) {
-        location.reload();
-    },
+		url : 'adminDeleteAsignatura',
+		type : 'POST',
+		data : {
+			'source' : source,
+			'Id' : Id,
+			'Asignatura' : Asignatura,
+			'Anio' : Anio,
+			'Curso' : Curso
+		},
+
+		success : function(result) {
+			location.reload();
+		},
 	});
-	
-	/*por alguna razon se queda bloqueado y no sigue ejecutando */
+
 };
-function editAsig(source,Id,Asignatura,Curso,Anio){	
-	/*alert(Asignatura+" "+ Curso+ " "+ Id);*/
+function editAsig(source, Id, Asignatura, Curso, Anio) {
+	/* alert(Asignatura+" "+ Curso+ " "+ Id); */
 	$("#editId").attr("value", Id);
 	$("#editAsignatura").attr("value", Asignatura);
 	$("#editCurso").attr("value", Curso);
-	$("#editAnio").attr("value", Anio);	
-	/*por alguna razon se queda bloqueado y no sigue ejecutando */
+	$("#editAnio").attr("value", Anio);
 };
 
-function deleteUsuario(source,Id){	
-	/*alert(Asignatura+" "+ Curso+ " "+ Id);*/
+function deleteUsuario(source, Id) {
+	/* alert(Asignatura+" "+ Curso+ " "+ Id); */
 	$.ajax({
-    url: 'adminDeleteUser',
-    type: 'POST',
-    data: { 'source': source, 
-    	'Id': Id,
-    },
-	
-	success: function(result) {
-        location.reload();
-    },
+		url : 'adminDeleteUser',
+		type : 'POST',
+		data : {
+			'source' : source,
+			'Id' : Id,
+		},
+
+		success : function(result) {
+			location.reload();
+		},
 	});
-	
-	/*por alguna razon se queda bloqueado y no sigue ejecutando */
+
 };
 
+function deleteVotacion(source, Id) {
+	/* alert("votacion" + Id); */
+	$.ajax({
+		url : 'adminDeleteVotacion',
+		type : 'POST',
+		data : {
+			'source' : source,
+			'Id' : Id,
+		},
+
+		success : function(result) {
+			location.reload();
+		},
+	});
+
+};
+
+function mostrarMensaje(id, mensaje) {
+	/*document.getElementById(id).style.visibility = (document.getElementById(id).style.visibility == 'hidden') ? 'visible' : 'hidden';*/
+	document.getElementById(id).innerHTML ="<br>"+  mensaje+ "</br>";
+}

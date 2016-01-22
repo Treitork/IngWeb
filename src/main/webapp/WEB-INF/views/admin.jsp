@@ -26,19 +26,12 @@
 		<li class="icn_view_usersicn_profile"><a href="#listaUsuarios">Lista Usuarios</a></li>
 	</ul>	
 	
-	<h3>Votos</h3>
+	<h3>Votos y Mensajes </h3>
 	<ul class="toggle">
 		<li class="icn_new_article"><a href="#">New Vote</a></li>
 		<li class="icn_edit_article"><a href="#">Edit Vote</a></li>
-		<li class="icn_categories"><a href="#votes">List Votes</a></li>
-	</ul>
-	
-	
-	<h3>Mensajes</h3>
-	<ul class="toggle">
-		<li class="icn_new_article"><a href="#clear">Nuevo Mensaje</a></li>
-		<li class="icn_edit_article"><a href="#">Edit Message</a></li>
-		<li class="icn_categories"><a href="#tab1">List Messages</a></li>
+		<li class="icn_categories"><a href="#listaVotaciones">Lista Votaciones</a></li>	
+		<li class="icn_categories"><a href="#table_Mensajes">Mensajes moderación</a></li>
 	</ul>	
 	
 	<h3>Admin</h3>
@@ -389,9 +382,101 @@
 	</article>
 	<!-- final lista de usuarios -->
 
-
+	<!-- Lista votaciones -->
+	<article class="module width_3_quarter" id="listaVotaciones">
+		<header>
+			<h3 class="tabs_involved">Lista Votaciones</h3>
+		</header>
+		<div class="tab_container">
+			<div id="tab1" class="tab_content" style="display: block;">
+				<table id="table_Votacion" class="tablesorter" cellspacing="0">
+					<thead>
+						<tr>
+							<th class="header">Id Votación</th>
+							<th class="header">Id emisor</th>
+							<th class="header">Id receptor</th>
+							<th class="header">Comentario</th>
+							<th class="header">Fecha</th>
+							<th class="header">Puntuación media</th>
+							<th class="header">Acción</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${todasVotaciones}" var="votacion">
+							<tr>
+								<td>${votacion.id}</td>
+								<td>${votacion.id_emisor}</td>
+								<td>${votacion.id_receptor}</td>
+								<td>${votacion.comentario }</td>
+								<td>${votacion.fecha }</td>
+								<td>${votacion.puntuacionMedia }</td>
+								<td><a >						
+									<input type="image" src="resources/img/img_admin/icn_trash.png"
+									id ="eliminar" onclick="deleteVotacion('${requestScope['javax.servlet.forward.servlet_path']}','${votacion.id}')"
+									title="Trash"></a></td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</article>
+	<!-- final lista de votaciones -->
 	<div class="clear"></div>
 
+	<!-- Lista mensajes -->
+	<article class="module width_3_quarter" id="listaVotaciones">
+		<header>
+			<h3 class="tabs_involved">Mensajes Moderación</h3>
+		</header>
+		<div class="tab_container">
+			<div id="tab1" class="tab_content" style="display: block;">
+				<table id="table_Mensajes" class="tablesorter" cellspacing="0">
+					<thead>
+						<tr>
+							<th class="header">Id Mensaje</th>
+							<th class="header">Id Votacion</th>
+							<th class="header">Id usuario emisor</th>
+							<th class="header">Motivo</th>
+							<th class="header">Acción</th>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${todosMensajes}" var="mensaje">
+							<tr>
+								<td>${mensaje.id}</td>
+								<td>${mensaje.idVotacion}</td>
+								<td>${mensaje.idEmisor}</td>
+								<td>${mensaje.motivo }</td>
+								<td><a >						
+									<input type="image" src="resources/img/img_admin/icn_trash.png"
+									id ="eliminar" onclick="deleteVotacion('${requestScope['javax.servlet.forward.servlet_path']}','${votacion.id}')"
+									title="Trash"></a>
+									<a >						
+									<input type="button" href="contenidoMensaje" value="Ver Contenido" onclick="mostrarMensaje('mostrarMensaje','${mensaje.mensaje }')" title="Ver">
+									</a>
+								</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</article>
+	<!-- final mensajes de votaciones -->
+	<div class="clear"></div>
+	
+	<article class="module width_3_quarter" id="contenidoMensaje" >
+	<header>
+		<h3 class="tabs_involved">Contenido del ultimo mesanje seleccionado</h3>
+		</header>
+		<div id="mostrarMensaje"> 
+		<br></br>
+		</div>
+	</article>
+	
+	<div class="clear"></div>
+	
 	<article class="module width_full">
 		<header>
 			<h3>New Message</h3>
