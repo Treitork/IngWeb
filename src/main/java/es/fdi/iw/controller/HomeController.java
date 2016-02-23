@@ -21,6 +21,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
+import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.support.PagedListHolder;
@@ -467,6 +471,21 @@ public class HomeController {
 		Votacion v = new Votacion(); 
 		v = v.crearVotacion(idEmisor,idUsuarioVotacion,lista,comentario);
 		entityManager.persist(v);
+		
+		//Recalcular las puntuaciones
+	
+		String subconsulta = ("SELECT AVG(V.PUNTUACION) FROM VOTACION WHERE ID_RECEPTOR="+idUsuarioVotacion); 
+		String query = "UPDATE USUARIO SET PUNTUACION_MEDIA=(" + subconsulta + ") WHERE ID=" +idUsuarioVotacion;
+
+		//Usuario u = null;
+		//u = (Usuario) entityManager.createNamedQuery("usuarioLogin")
+				//.setParameter("loginParam", idUsuarioVotacion).getSingleResult();
+		
+		//Integer puntuacion = (Integer) entityManager.createNativeQuery(query).getFirstResult();
+		//u.setPuntuacion(puntuacion);
+		entityManager.createNativeQuery(subconsulta).executeUpdate();
+		//
+	
 		session.removeAttribute("valoraciones");
 		session.removeAttribute("usuarioVotacion");
 		return "home";

@@ -11,6 +11,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
@@ -79,6 +81,7 @@ public class Usuario {
 	}
 
 	@OneToMany(targetEntity=Categoria.class, fetch=FetchType.EAGER)
+	@Cascade({CascadeType.ALL})
 	public List<Asignatura> getAsignaturas() {
 		return asignaturas;
 	}
@@ -153,7 +156,7 @@ public class Usuario {
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
-
+	
 	/* Tablas del Join */
 	// OneToMany
 	// Una tabla que me devuelva las votaciones que he hecho el usuario concreto
