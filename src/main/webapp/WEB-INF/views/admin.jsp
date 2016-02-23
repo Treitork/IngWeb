@@ -191,6 +191,7 @@
 				<table id="table_Asignaturas" class="tablesorter" cellspacing="0">
 					<thead>
 						<tr>
+
 							<th class="header">Id</th>
 							<th class="header">Nombre</th>
 							<th class="header">Curso</th>

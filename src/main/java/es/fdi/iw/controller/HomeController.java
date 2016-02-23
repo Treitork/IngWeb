@@ -512,9 +512,11 @@ public class HomeController {
 		
 		if(!isLogged(session)) return "redirect:login";
 		
-		if(!isAdmin(session)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-		
-		
+		if(!isAdmin(session)){
+			logout(session);
+			return "redirect:login";
+		}
+
 		List<Asignatura> asignaturas= null;
 		asignaturas = (List<Asignatura>)entityManager
 				.createNamedQuery("todasAsignaturas").getResultList();
@@ -670,8 +672,7 @@ public class HomeController {
 		List<Votacion> votaciones= null;
 		votaciones = (List<Votacion>)entityManager
 				.createNamedQuery("todasVotaciones").getResultList();
-		model.addAttribute("todasVotaciones",votaciones);
-		getTokenForSession(session);		
+		model.addAttribute("todasVotaciones",votaciones);	
 		return "redirect:" + formSource;
 	}
 	
