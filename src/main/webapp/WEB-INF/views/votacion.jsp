@@ -4,7 +4,7 @@
 	<div class="page-header"><h1>Realizar votacion</h1></div>
 				<p id = "hueco" class = "lead"></p>
                 <button id = "boton1" class="btn btn-primary">añadirCategoria</button><br></br>
-                <form name="enviarVotacion" id="formularioVotacion" action="${prefix}votacion${idvotacion}" method="POST">
+                <form name="enviarVotacion" id="formularioVotacion" action="${e:forHtmlContent(prefix)}votacion${e:forHtmlContent(idvotacion)}" method="POST">
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Mensaje:</label>

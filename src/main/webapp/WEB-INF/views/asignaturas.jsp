@@ -12,9 +12,9 @@
 <tr>
 <c:forEach items="${asignaturas}" var="asignaturas">
 <tr>
-<td>${asignaturas.nombre}</td>
-<td>${asignaturas.grupo}</td>
-<td>${asignaturas.anio}</td>
+<td>${e:forHtmlContent(asignaturas.nombre)}</td>
+<td>${e:forHtmlContent(asignaturas.grupo)}</td>
+<td>${e:forHtmlContent(asignaturas.anio)}</td>
 </tr>
 </c:forEach>
 </table>

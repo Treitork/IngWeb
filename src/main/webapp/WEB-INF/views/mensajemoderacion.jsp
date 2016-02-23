@@ -2,7 +2,9 @@
 
 <div class="container">
 	<div class="page-header"><h1>Mensaje de moderacion</h1></div>
-                <form name="enviarMensajeModeracion" id="formularioMensajeModeracion" action="${prefix}mensajeModeracion${idvotacion}" method="POST">
+                <form name="enviarMensajeModeracion" id="formularioMensajeModeracion" action="${e:forHtmlContent(prefix)}mensajeModeracion${e:forHtmlContent(idvotacion)}" method="POST">
+                  		<input type="hidden" id="csrf" name="csrf"
+				value="${e:forHtmlAttribute(csrf_token)}" />
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Motivo:</label>

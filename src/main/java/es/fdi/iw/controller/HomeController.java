@@ -1,5 +1,6 @@
 package es.fdi.iw.controller;
 
+import org.owasp.encoder.Encode;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -23,6 +24,7 @@ import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.support.PagedListHolder;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +44,7 @@ import es.fdi.iw.model.Categoria;
 import es.fdi.iw.model.MensajeModeracion;
 import es.fdi.iw.model.Usuario;
 import es.fdi.iw.model.Votacion;
+import io.netty.handler.codec.http.HttpResponse;
 import scala.annotation.meta.setter;
 
 // entityManager.find(Usuario,id)
@@ -68,11 +71,10 @@ public class HomeController {
 			@RequestParam("pass") String formPass,
 			@RequestParam("source") String formSource,
 			HttpServletRequest request, HttpServletResponse response,
-			Model model, HttpSession session) {
-
-		logger.info("Login attempt from '{}' while visiting '{}'", formLogin,
-				formSource);
-
+			Model model, HttpSession session ,@RequestParam("csrf") String token) {
+		
+		if(!isTokenValid(session, token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+	
 		// validate request
 		if (formLogin == null || formLogin.length() < 4 || formPass == null
 				|| formPass.length() < 4) {
@@ -242,18 +244,6 @@ public class HomeController {
 	}
 
 	/**
-	 * Returns an anti-csrf token for a session, and stores it in the session
-	 * 
-	 * @param session
-	 * @return
-	 */
-	static String getTokenForSession(HttpSession session) {
-		String token = UUID.randomUUID().toString();
-		session.setAttribute("csrf_token", token);
-		return token;
-	}
-
-	/**
 	 * Returns true if the user is logged in and is an admin
 	 */
 	static boolean isAdmin(HttpSession session) {
@@ -264,15 +254,22 @@ public class HomeController {
 			return false;
 		}
 	}
+	
+	static boolean isLogged(HttpSession session){
+		if(session.getAttribute("user") == null) return false;
+		else return true;
+	}
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model) {
+	public String login(Model model,HttpSession session) {
+		if(isLogged(session)) return "/home";
 		model.addAttribute("pageTitle", "Login Omniscracia");
 		return "login";
 	}
 
 	@RequestMapping(value = "/signin", method = RequestMethod.GET)
-	public String signin(Model model) {
+	public String signin(Model model,HttpSession session) {
+		if(isLogged(session)) return "/home";
 		model.addAttribute("pageTitle", "Registro Omniscracia");
 		return "signin";
 	}
@@ -286,9 +283,10 @@ public class HomeController {
 			@RequestParam("firstName") String formName,
 			@RequestParam("lastName") String formLastNAme,
 			HttpServletRequest request, HttpServletResponse response,
-			Model model, HttpSession session) {
-		// model.addAttribute("pageTitle","Registro OmnisCracia");
-		// logger.info("no-such-user; creating user {}", formEmail);
+			Model model, HttpSession session,@RequestParam("csrf") String token) {
+		
+		if(!isTokenValid(session, token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		
 		if (formEmail == null || formEmail.length() < 4 || formPass == null
 				|| formPass.length() < 4) {
 			model.addAttribute("loginError",
@@ -317,11 +315,14 @@ public class HomeController {
 
 	@RequestMapping(value = "/mensajeModeracion{idvotacion}", method = RequestMethod.POST)
 	@Transactional
-	public String mensajeModeracion(HttpSession sesion,
+	public String mensajeModeracion(HttpSession sesion,HttpServletResponse response,
 			@PathVariable("idvotacion") String idVotacion,
 			@RequestParam("mensaje") String mensajeForm,
 			@RequestParam("motivo") String motivoForm,
-			Model model) {
+			Model model,@RequestParam("csrf") String token) {
+		
+		if(!isTokenValid(sesion, token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		
 		model.addAttribute("prefix", "./");
 		Usuario u = (Usuario) sesion.getAttribute("user");
 		MensajeModeracion m = new MensajeModeracion();
@@ -350,9 +351,10 @@ public class HomeController {
 		return "perfilusuario";
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/miPerfil", method = RequestMethod.GET)
 	public String miPerfil(Model model, HttpSession sesion) {
+		if(!isLogged(sesion)) return "redirect:" + "/login";
+		
 		model.addAttribute("pageTitle", "Mi Perfil");
 		
 		List<Votacion> lista = null;
@@ -371,8 +373,7 @@ public class HomeController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/busquedaUsuario", method = RequestMethod.GET)
 	public String busquedaUsuario(Model model,
-			@RequestParam("busqueda") String formBuscar
-			) {
+			@RequestParam("busqueda") String formBuscar) {
 		model.addAttribute("cabecera","Resultados Busqueada");
 		model.addAttribute("pageTitle", "Resultado de la busqueda");
 		List<Usuario> lista = null;
@@ -414,7 +415,8 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/realizarValoracion", method = RequestMethod.GET) //valoracion.jsp	
-	public String realizarValoracion(Model model) {
+	public String realizarValoracion(Model model,HttpSession session) {
+		if(!isLogged(session)) return "redirect:" + "/login";
 		model.addAttribute("prefix", "./");
 		model.addAttribute("pageTitle", "Valoración");
 		return "valoracion";
@@ -423,7 +425,11 @@ public class HomeController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/realizarValoracion", method = RequestMethod.POST) //valoracion.jsp
 	public String realizarValoracion(Model model,@RequestParam("puntuacion") String puntuacion,
-			@RequestParam("categoria") String categoria,HttpSession session) {
+			@RequestParam("categoria") String categoria,HttpSession session,
+			@RequestParam("csrf") String token,HttpServletResponse response) {
+		
+		if(!isLogged(session) || !isTokenValid(session, token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			
 		ArrayList<Categoria> lista = new ArrayList<Categoria>();
 		Categoria c = new Categoria().crearCategoria(categoria, Integer.parseInt(puntuacion));
 		if(session.getAttribute("valoraciones") != null)
@@ -436,6 +442,9 @@ public class HomeController {
 
 	@RequestMapping(value = "/realizarVotacion{idusuario}", method = RequestMethod.GET) //voto.jsp
 	public String realizarVotacion(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
+	
+		if(!isLogged(session)) return "redirect:" + "/login";
+		
 		model.addAttribute("prefix","./");
 		session.setAttribute("usuarioVotacion",idUsuario);
 		return "voto";
@@ -445,7 +454,11 @@ public class HomeController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/realizarVotacion", method = RequestMethod.POST) //voto.jsp
 	@Transactional
-	public String realizarVotacion(Model model,HttpSession session,@RequestParam("comentario") String comentario) {
+	public String realizarVotacion(Model model,HttpSession session,HttpServletResponse response,
+			@RequestParam("comentario") String comentario,@RequestParam("csrf") String token) {
+		
+		if(!isTokenValid(session, token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		
 		model.addAttribute("prefix","./");
 		long idEmisor = ((Usuario)session.getAttribute("user")).getId();
 		Integer idUsuarioVotacion = Integer.parseInt((String)session.getAttribute("usuarioVotacion"));
@@ -479,10 +492,11 @@ public class HomeController {
 		List<Votacion> recibidas = null;
 		recibidas = (List<Votacion>) entityManager.createNamedQuery("buscarVotacionesRecibidas")
 				.setParameter("param1", idUsuario).getResultList();
-		session.setAttribute("usuarioVotacion",idUsuario);
+		model.addAttribute("usuarioVotacion",idUsuario);
 		model.addAttribute("votaciones",recibidas);
 		return "votaciones";
 	}
+	
 	@RequestMapping(value = "/mostrarAsignaturas{idusuario}", method = RequestMethod.GET)
 	public String mostrarAsignaturas(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
 		model.addAttribute("prefix","./");
@@ -494,7 +508,13 @@ public class HomeController {
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/admin", method = RequestMethod.GET)
-	public String admin(Model model) {
+	public String admin(Model model,HttpSession session,HttpServletResponse response) {
+		
+		if(!isLogged(session)) return "redirect:login";
+		
+		if(!isAdmin(session)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		
+		
 		List<Asignatura> asignaturas= null;
 		asignaturas = (List<Asignatura>)entityManager
 				.createNamedQuery("todasAsignaturas").getResultList();
@@ -521,9 +541,10 @@ public class HomeController {
 			@RequestParam("firstName") String formName,
 			@RequestParam("lastName") String formLastNAme,
 			HttpServletRequest request, HttpServletResponse response,
-			Model model, HttpSession session) {
-		// model.addAttribute("pageTitle","Registro OmnisCracia");
-		// logger.info("no-such-user; creating user {}", formEmail);
+			Model model, HttpSession session,@RequestParam("csrf") String token) {
+		
+		if(!isAdmin(session) || !isTokenValid(session,token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		
 		if (formEmail == null || formEmail.length() < 4 || formPass == null
 				|| formPass.length() < 4) {
 			model.addAttribute("loginError",
@@ -548,16 +569,17 @@ public class HomeController {
 	public String adminDeleteUser(@RequestParam("source") String formSource,
 			@RequestParam("Id") long formId,
 			HttpServletRequest request, HttpServletResponse response,
-			Model model, HttpSession session) {
-		// model.addAttribute("pageTitle","Registro OmnisCracia");
-		// logger.info("no-such-user; creating user {}", formEmail);
+			Model model, HttpSession session,@RequestParam("csrf") String token) {
+	
+		if(!isAdmin(session) || !isTokenValid(session,token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		
 		entityManager.createNamedQuery("borrarUsuario")
 		.setParameter("idParam", formId).executeUpdate();
 		List<Usuario> usuarios = null;
 		usuarios = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
 		model.addAttribute("todosUsuarios",usuarios);
 			// sets the anti-csrf token
-		getTokenForSession(session);		
+		//getTokenForSession(session);		
 		return "redirect:" + formSource;
 	}
 	
@@ -571,13 +593,13 @@ public class HomeController {
 			@RequestParam("Anio") int formAnio,
 			HttpServletRequest request, HttpServletResponse response,
 			Model model, HttpSession session) {
-		// model.addAttribute("pageTitle","Registro OmnisCracia");
-		// logger.info("no-such-user; creating user {}", formEmail);
+		
+		if(!isAdmin(session) || !isTokenValid(session,getTokenForSession(session)))
+			return "redirect:" + "/error";
+		
 		Asignatura asig = Asignatura.crearAsignatura(formAsignatura, formCurso, formAnio);
 		entityManager.persist(asig);
 		session.setAttribute("admin", asig);
-		// sets the anti-csrf token
-		getTokenForSession(session);	
 		return "redirect:" + formSource;
 	}
 
@@ -590,9 +612,10 @@ public class HomeController {
 			@RequestParam("Anio") int formAnio,
 			@RequestParam("Id") long formId,
 			HttpServletRequest request, HttpServletResponse response,
-			Model model, HttpSession session) {
-		// model.addAttribute("pageTitle","Registro OmnisCracia");
-		// logger.info("no-such-user; creating user {}", formEmail);
+			Model model, HttpSession session,@RequestParam("csrf") String token) {
+		
+		if(!isAdmin(session) || !isTokenValid(session,token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		
 		Asignatura asig = Asignatura.crearAsignatura(formId,formAsignatura, formCurso, formAnio);
 		logger.info("Borrando asignatura '{}' de ID '{}'", formAsignatura,formId);
 		entityManager.createNamedQuery("borrarAsignatura")
@@ -602,8 +625,6 @@ public class HomeController {
 				.createNamedQuery("todasAsignaturas").getResultList();
 		model.addAttribute("TodasAsignaturas",asignaturas);
 		/*la tabla no se actualiza*/
-		// sets the anti-csrf token
-		getTokenForSession(session);	
 		/*por alguna razon se queda bloqueado y no sigue ejecutando */
 		return "redirect:" + formSource;
 	}
@@ -617,9 +638,10 @@ public class HomeController {
 			@RequestParam("Anio") int formAnio,
 			@RequestParam("Id") long formId,
 			HttpServletRequest request, HttpServletResponse response,
-			Model model, HttpSession session) {
-		// model.addAttribute("pageTitle","Registro OmnisCracia");
-		// logger.info("no-such-user; creating user {}", formEmail);
+			Model model, HttpSession session,@RequestParam("csrf") String token) {
+		
+		if(!isAdmin(session) || !isTokenValid(session,token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+
 		entityManager.createNamedQuery("editarAsignatura")
 		.setParameter("idParam", formId).setParameter("formAsignatura", formAsignatura)
 		.setParameter("formCurso",formCurso).setParameter("formAnio",formAnio).executeUpdate();
@@ -628,21 +650,21 @@ public class HomeController {
 				.createNamedQuery("todasAsignaturas").getResultList();
 		model.addAttribute("TodasAsignaturas",asignaturas);
 		/*la tabla no se actualiza*/
-		// sets the anti-csrf token
-		getTokenForSession(session);	
 		/*por alguna razon se queda bloqueado y no sigue ejecutando */
 		return "redirect:" + formSource;
 	}
 	
 	@SuppressWarnings("unchecked")
+	@ResponseBody
 	@RequestMapping(value = "/adminDeleteVotacion", method = RequestMethod.POST)
 	@Transactional
 	public String adminDeleteVotacion(@RequestParam("source") String formSource,
 			@RequestParam("Id") long formId,
 			HttpServletRequest request, HttpServletResponse response,
-			Model model, HttpSession session) {
-		// model.addAttribute("pageTitle","Registro OmnisCracia");
-		// logger.info("no-such-user; creating user {}", formEmail);
+			Model model, HttpSession session,@RequestParam("csrf") String token) {
+		
+		if(!isAdmin(session) || !isTokenValid(session,token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		
 		entityManager.createNamedQuery("borrarVotacion")
 		.setParameter("idParam", formId).executeUpdate();
 		List<Votacion> votaciones= null;
@@ -652,6 +674,18 @@ public class HomeController {
 		getTokenForSession(session);		
 		return "redirect:" + formSource;
 	}
+	
+	static String getTokenForSession (HttpSession session) {
+		if(session.getAttribute("csrf_token") != null){
+			return session.getAttribute("csrf_token").toString();
+		}
+		
+	    String token=UUID.randomUUID().toString();
+	    session.setAttribute("csrf_token", token);
+	    return token;
+	}
+	
+
 }
 
 

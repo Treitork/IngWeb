@@ -1,6 +1,6 @@
 <%@ include file="../fragments/header.jspf" %>
 <div class="container">
-	<div class="page-header"><h1>Votación</h1><small>${usuariovotacion}</small></div>
+	<div class="page-header"><h1>Votación</h1><small>${e:forHtmlContent(usuariovotacion)}</small></div>
 <c:choose>
 <c:when test="${not empty valoraciones}">
 <table class="table">
@@ -10,20 +10,22 @@
 <tr>
 <c:forEach items="${valoraciones}" var="valoraciones">
 <tr>
-<td>${valoraciones.categoria}</td>
-<td>${valoraciones.puntuacion}</td>
+<td>${e:forHtmlContent(valoraciones.categoria)}</td>
+<td>${e:forHtmlContent(valoraciones.puntuacion)}</td>
 </tr>
 </c:forEach>
 </table>
 <br>
 </c:when>
 </c:choose>
-<form action="${prefix}realizarValoracion" method="GET">
+<form action="${e:forHtmlContent(prefix)}realizarValoracion" method="GET">
 <button type="submit" class="btn btn-primary">Añadir Valoracion</button>
 </form>
 <br/>
 <br>
-<form name="realizarVotacion" id="realizarVotacion" action="${prefix}realizarVotacion" method="POST">
+<form name="realizarVotacion" id="realizarVotacion" action="${e:forHtmlContent(prefix)}realizarVotacion" method="POST">
+<input type="hidden" id="csrf" name="csrf"
+		value="${e:forHtmlAttribute(csrf_token)}" />
 <div class="control-group form-group">
 <div class="controls">
 <label>Comentario</label>

@@ -6,6 +6,7 @@
   	- pageExtraScripts: additional JS files to include (from resources/js; via script src)
   	- prefix: useful to back-trace if path-based url parameters are in use
  --%>
+
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib
@@ -19,7 +20,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
-<title>${pageTitle}</title>
+<title>${e:forHtmlContent(pageTitle)}</title>
 <!-- Bootstrap Core CSS -->
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
 <!-- Custom CSS -->
@@ -62,9 +63,9 @@
 					<c:choose>
 						<c:when test="${not empty user}">
 							<!--<li><a href="${prefix}perfilUsuario?u=${e:forHtmlContent(user.id)}">${e:forHtmlContent(user.email)}</a> -->
-							<li><a href="${prefix}miPerfil">${e:forHtmlContent(user.email)}</a>
+							<li><a href="${e:forHtmlContent(prefix)}miPerfil">${e:forHtmlAttribute(user.email)}</a>
 							</li>
-							<li><a href="${prefix}logout">Salir</a>
+							<li><a href="${e:forHtmlContent(prefix)}logout">Salir</a>
 							</li>
 						</c:when>
 						<c:otherwise>

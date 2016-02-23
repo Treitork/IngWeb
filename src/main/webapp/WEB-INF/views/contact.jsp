@@ -136,6 +136,8 @@ link = '';     }
             <div class="col-md-8">
                 <h3>Envianos un mensaje</h3>
                 <form name="sentMessage" id="contactForm" novalidate>
+                <input type="hidden" id="csrf" name="csrf"
+				value="${e:forHtmlAttribute(csrf_token)}" />
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Nombre completo:</label>

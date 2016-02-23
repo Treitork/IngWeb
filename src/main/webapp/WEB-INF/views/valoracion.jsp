@@ -1,7 +1,9 @@
 <%@ include file="../fragments/header.jspf" %>
 <div class="container">
 	<div class="page-header"><h1>Valoración</h1></div>
-                <form name="realizarValoracion" id="realizarValoracion" action="${prefix}realizarValoracion" method="POST">
+                <form name="realizarValoracion" id="realizarValoracion" action="${e:forHtmlContent(prefix)}realizarValoracion" method="POST">
+        		<input type="hidden" id="csrf" name="csrf"
+				value="${e:forHtmlAttribute(csrf_token)}" />
                     <div class="control-group form-group">
                         <div class="controls">
                             <label>Categoria:</label>

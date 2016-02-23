@@ -29,7 +29,7 @@
 					${e:forHtmlContent(user.rol)}</li>
 				<li class="list-group-item"><b>Puntuación:</b>
 					${e:forHtmlContent(user.puntuacion)}</li>
-				<form action="${prefix}mensajeModeracion" method="GET">
+				<form action="${e:forHtmlContent(prefix)}mensajeModeracion" method="GET">
 					<button type="submit" class="btn btn-primary">Mensaje de
 						Moderación</button>
 				</form>
@@ -66,7 +66,7 @@
 					<h4>Votaciones recibidas</h4>
 					<p>Consulta las votaciones que he recibido.</p>
 					<form
-						action="${prefix}mostrarVotacionesRecibidas${usuarioSelec.id}"
+						action="${e:forHtmlContent(prefix)}mostrarVotacionesRecibidas${e:forHtmlContent(usuarioSelec.id)}"
 						method="GET">
 						<button type="submit" class="btn btn-primary">Ver
 							valoraciones</button>
@@ -86,7 +86,7 @@
 					<h4>Votaciones realizadas</h4>
 					<p>Consulta las votaciones que he realizado.</p>
 					<form
-						action="${prefix}mostrarVotacionesRealizadas${usuarioSelec.id}"
+						action="${e:forHtmlContent(prefix)}mostrarVotacionesRealizadas${e:forHtmlContent(usuarioSelec.id)}"
 						method="GET">
 						<button type="submit" class="btn btn-primary">Ver
 							valoraciones</button>
@@ -105,7 +105,7 @@
 				<div class="panel-body">
 					<h4>Asignaturas matriculadas</h4>
 					<p>Consulta mis asignaturas matriculadas</p>
-					<form action="${prefix}mostrarAsignaturas${usuarioSelec.id}"
+					<form action="${e:forHtmlContent(prefix)}mostrarAsignaturas${e:forHtmlContent(usuarioSelec.id)}"
 						method="GET">
 						<button type="submit" class="btn btn-primary">Ver
 							asignaturas</button>
