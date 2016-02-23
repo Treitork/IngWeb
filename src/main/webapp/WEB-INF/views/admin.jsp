@@ -12,28 +12,32 @@
 	<ul class="toggle">
 		<li class="icn_new_article"><a href="#NuevoAsignatura">Añadir
 				Asignatura</a></li>
-		<li class="icn_edit_article"><a href="#EditarAsignatura" >Editar Asignatura</a></li>
+		<li class="icn_edit_article"><a href="#EditarAsignatura">Editar
+				Asignatura</a></li>
 		<li class="icn_categories"><a href="#listaAsignaturas">Ver
 				Asignaturas</a></li>
 	</ul>
-	
+
 	<h3>Usuarios</h3>
 	<ul class="toggle">
 		<li class="icn_add_user"><a href="#NuevoUsuario">Añadir
 				Usuario</a></li>
-		<li class="icn_profile"><a href="#EditarUsuarios">Editar 
+		<li class="icn_profile"><a href="#EditarUsuarios">Editar
 				Usuario</a></li>
-		<li class="icn_view_usersicn_profile"><a href="#listaUsuarios">Lista Usuarios</a></li>
-	</ul>	
-	
-	<h3>Votos y Mensajes </h3>
+		<li class="icn_view_usersicn_profile"><a href="#listaUsuarios">Lista
+				Usuarios</a></li>
+	</ul>
+
+	<h3>Votos y Mensajes</h3>
 	<ul class="toggle">
 		<li class="icn_new_article"><a href="#">New Vote</a></li>
 		<li class="icn_edit_article"><a href="#">Edit Vote</a></li>
-		<li class="icn_categories"><a href="#listaVotaciones">Lista Votaciones</a></li>	
-		<li class="icn_categories"><a href="#table_Mensajes">Mensajes moderación</a></li>
-	</ul>	
-	
+		<li class="icn_categories"><a href="#listaVotaciones">Lista
+				Votaciones</a></li>
+		<li class="icn_categories"><a href="#table_Mensajes">Mensajes
+				moderación</a></li>
+	</ul>
+
 	<h3>Admin</h3>
 	<ul class="toggle">
 		<li class="icn_settings"><a href="#">Options</a></li>
@@ -75,16 +79,19 @@
 		</div>
 	</article>
 	<!-- end of stats article -->
-	
+
 	<!-- añadir asignatura-->
-	<article class="module width_full2" id ="NuevoAsignatura">
+	<article class="module width_full2" id="NuevoAsignatura">
 		<header>
 			<h3>Nueva Asignatura</h3>
 		</header>
-		<form class="form-horizontal" action="adminAddAsignatura" method="POST">
-			<input type="hidden" id="source" name="source"
-				value="${requestScope['javax.servlet.forward.servlet_path']}" />
-					
+		<form class="form-horizontal" action="adminAddAsignatura"
+			method="POST">
+			<input type="hidden" id="csrf" name="csrf"
+				value="${e:forHtmlAttribute(csrf_token)}" /> <input type="hidden"
+				id="source" name="source"
+				value="${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}" />
+
 			<div class="form-group">
 				<label for="inputName" class="col-sm-2 control-label">Nombre</label>
 				<div class="col-sm-10">
@@ -104,47 +111,50 @@
 			<div class="form-group">
 				<label for="inputLastName" class="col-sm-2 control-label">Año</label>
 				<div class="col-sm-10">
-					<input type="number" class="form-control" name="Anio"
-						id="Anio" >
+					<input type="number" class="form-control" name="Anio" id="Anio">
 				</div>
 			</div>
-			
+
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-					<button type="submit" class="btn btn-default" href="#listaAsignaturas">Añadir</button>
+					<button type="submit" class="btn btn-default"
+						href="#listaAsignaturas">Añadir</button>
 					<button type="reset" id="asignaturas-reset" class="btn btn-default">Reset</button>
 				</div>
 			</div>
 		</form>
 	</article>
 	<!-- fin añadir asignatura-->
-	
+
 	<!-- editar asignatura-->
-	
-	<article class="module width_full2" id ="EditarAsignatura">
+
+	<article class="module width_full2" id="EditarAsignatura">
 		<header>
 			<h3>Editar Asignatura</h3>
 		</header>
-		<form class="form-horizontal" action="adminEditAsignatura" method="POST" >
+		<form class="form-horizontal" action="adminEditAsignatura"
+			method="POST">
 			<input type="hidden" id="source" name="source"
-				value="${requestScope['javax.servlet.forward.servlet_path']}" />
- 			
- 			<div class="form-group">
+				value="${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}" />
+			<input type="hidden" id="csrf" name="csrf"
+				value="${e:forHtmlAttribute(csrf_token)}" />
+
+			<div class="form-group">
 				<label for="inputLastName" class="col-sm-2 control-label">Id</label>
 				<div class="col-sm-10">
-					<input type="number" class="form-control" name="Id"
-						id="editId"  value=" ">
+					<input type="number" class="form-control" name="Id" id="editId"
+						value=" ">
 				</div>
 			</div>
- 			
+
 			<div class="form-group">
 				<label for="inputName" class="col-sm-2 control-label">Asignatura</label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="Asignatura"
-						id="editAsignatura" placeholder=" " >
+						id="editAsignatura" placeholder=" ">
 				</div>
 			</div>
-			
+
 			<div class="form-group">
 				<label for="inputEmail3" class="col-sm-2 control-label">Curso</label>
 				<div class="col-sm-10">
@@ -154,22 +164,23 @@
 			</div>
 
 			<div class="form-group">
-				<label for="inputLastName" class="col-sm-2 control-label">Nuevo año</label>
+				<label for="inputLastName" class="col-sm-2 control-label">Nuevo
+					año</label>
 				<div class="col-sm-10">
-					<input type="number" class="form-control" name="Anio"
-						id="editAnio" placeholder=" ">
+					<input type="number" class="form-control" name="Anio" id="editAnio"
+						placeholder=" ">
 				</div>
 			</div>
-			
+
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-default">Editar</button>
 					<button type="reset" id="asignaturas-reset" class="btn btn-default">Reset</button>
-			</div>
+				</div>
 		</form>
 	</article>
 	<!--  fin editar asignatura-->
-	
+
 	<!-- listas de todas las asignaturas -->
 	<article class="module width_3_quarter" id="listaAsignaturas">
 		<header>
@@ -180,7 +191,6 @@
 				<table id="table_Asignaturas" class="tablesorter" cellspacing="0">
 					<thead>
 						<tr>
-
 							<th class="header">Id</th>
 							<th class="header">Nombre</th>
 							<th class="header">Curso</th>
@@ -191,16 +201,17 @@
 					<tbody>
 						<c:forEach items="${TodasAsignaturas}" var="asignaturas">
 							<tr>
-								<td>${asignaturas.id}</td>
-								<td>${asignaturas.nombre}</td>
-								<td>${asignaturas.grupo}</td>
-								<td>${asignaturas.anio }</td>
-								<td>
-									<a href="#EditarAsignatura"><input type="image" src="resources/img/img_admin/icn_edit.png"
-									id ="editAsignatura" onclick="editAsig('${requestScope['javax.servlet.forward.servlet_path']}','${asignaturas.id}','${asignaturas.nombre}','${asignaturas.grupo}','${asignaturas.anio }')"
-									title="Edit"></a>
-									<input type="image" src="resources/img/img_admin/icn_trash.png"
-									id ="eliminarAsignatura" onclick="deleteAsig('${requestScope['javax.servlet.forward.servlet_path']}','${asignaturas.id}','${asignaturas.nombre}','${asignaturas.grupo}','${asignaturas.anio }')"
+								<td>${e:forHtmlContent(asignaturas.id)}</td>
+								<td>${e:forHtmlContent(asignaturas.nombre)}</td>
+								<td>${e:forHtmlContent(asignaturas.grupo)}</td>
+								<td>${e:forHtmlContent(asignaturas.anio)}</td>
+								<td><a href="#EditarAsignatura"><input type="image"
+										src="resources/img/img_admin/icn_edit.png" id="editAsignatura"
+										onclick="editAsig('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}')"
+										title="Edit"></a> <input type="image"
+									src="resources/img/img_admin/icn_trash.png"
+									id="eliminarAsignatura"
+									onclick="deleteAsig('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}')"
 									title="Trash"></td>
 							</tr>
 						</c:forEach>
@@ -218,8 +229,10 @@
 			<h3 class="tabs_involved">Nuevo Usuario</h3>
 		</header>
 		<form class="form-horizontal" action="adminAddUser" method="POST">
-			<input type="hidden" id="source" name="source"
-				value="${requestScope['javax.servlet.forward.servlet_path']}" />
+			<input type="hidden" id="csrf" name="csrf"
+				value="${e:forHtmlAttribute(csrf_token)}" /> <input type="hidden"
+				id="source" name="source"
+				value="${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}" />
 			<div class="form-group">
 				<label for="inputName" class="col-sm-2 control-label">Nombre</label>
 				<div class="col-sm-10">
@@ -264,14 +277,15 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" class="btn btn-default">Registrar</button>
-					<button value="reset" id="asignaturas-reset" class="btn btn-default">Reset</button>
+					<button value="reset" id="asignaturas-reset"
+						class="btn btn-default">Reset</button>
 				</div>
 			</div>
 		</form>
 	</article>
 	<!-- final añadir usuario -->
-	
-	 
+
+
 	<!-- Inicio editar usuario -->
 	<!--
 	<article class="module width_3_quarter" id="#EditarUsuarios">
@@ -279,6 +293,8 @@
 			<h3 class="tabs_involved">Editar Usuario</h3>
 		</header>
 		<form class="form-horizontal" action="adminAddUser" method="POST">
+		  <input type="hidden" id="csrf" name="csrf"
+			value="${e:forHtmlAttribute(csrf_token)}" />
 			<input type="hidden" id="source" name="source"
 				value="${requestScope['javax.servlet.forward.servlet_path']}" />
 				
@@ -362,15 +378,14 @@
 					<tbody>
 						<c:forEach items="${todosUsuarios}" var="usuarios">
 							<tr>
-								<td>${usuarios.id}</td>
-								<td>${usuarios.nombre}</td>
-								<td>${usuarios.apellidos}</td>
-								<td>${usuarios.email }</td>
-								<td><a >
-						
-									<input type="image" src="resources/img/img_admin/icn_trash.png"
-									id ="eliminar" onclick="deleteUsuario('${requestScope['javax.servlet.forward.servlet_path']}','${usuarios.id}')"
-									title="Trash"></a></td>
+								<td>${e:forHtmlContent(usuarios.id)}</td>
+								<td>${e:forHtmlContent(usuarios.nombre)}</td>
+								<td>${e:forHtmlContent(usuarios.apellidos)}</td>
+								<td>${e:forHtmlContent(usuarios.email)}</td>
+								<td><a> <input type="image"
+										src="resources/img/img_admin/icn_trash.png" id="eliminar"
+										onclick="deleteUsuario('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(usuarios.id)}')"
+										title="Trash"></a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -404,16 +419,16 @@
 					<tbody>
 						<c:forEach items="${todasVotaciones}" var="votacion">
 							<tr>
-								<td>${votacion.id}</td>
-								<td>${votacion.id_emisor}</td>
-								<td>${votacion.id_receptor}</td>
-								<td>${votacion.comentario }</td>
-								<td>${votacion.fecha }</td>
-								<td>${votacion.puntuacionMedia }</td>
-								<td><a >						
-									<input type="image" src="resources/img/img_admin/icn_trash.png"
-									id ="eliminar" onclick="deleteVotacion('${requestScope['javax.servlet.forward.servlet_path']}','${votacion.id}')"
-									title="Trash"></a></td>
+								<td>${e:forHtmlContent(votacion.id)}</td>
+								<td>${e:forHtmlContent(votacion.id_emisor)}</td>
+								<td>${e:forHtmlContent(votacion.id_receptor)}</td>
+								<td>${e:forHtmlContent(votacion.comentario)}</td>
+								<td>${e:forHtmlContent(votacion.fecha)}</td>
+								<td>${e:forHtmlContent(votacion.puntuacionMedia)}</td>
+								<td><a> <input type="image"
+										src="resources/img/img_admin/icn_trash.png" id="eliminar"
+										onclick="deleteVotacion('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(votacion.id)}')"
+										title="Trash"></a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -444,18 +459,18 @@
 					<tbody>
 						<c:forEach items="${todosMensajes}" var="mensaje">
 							<tr>
-								<td>${mensaje.id}</td>
-								<td>${mensaje.idVotacion}</td>
-								<td>${mensaje.idEmisor}</td>
-								<td>${mensaje.motivo }</td>
-								<td><a >						
-									<input type="image" src="resources/img/img_admin/icn_trash.png"
-									id ="eliminar" onclick="deleteVotacion('${requestScope['javax.servlet.forward.servlet_path']}','${votacion.id}')"
-									title="Trash"></a>
-									<a >						
-									<input type="button" href="contenidoMensaje" value="Ver Contenido" onclick="mostrarMensaje('mostrarMensaje','${mensaje.mensaje }')" title="Ver">
-									</a>
-								</td>
+								<td>${e:forHtmlContent(mensaje.id)}</td>
+								<td>${e:forHtmlContent(mensaje.idVotacion)}</td>
+								<td>${e:forHtmlContent(mensaje.idEmisor)}</td>
+								<td>${e:forHtmlContent(mensaje.motivo)}</td>
+								<td><a> <input type="image"
+										src="resources/img/img_admin/icn_trash.png" id="eliminar"
+										onclick="deleteVotacion('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(votacion.id})')"
+										title="Trash"></a> <a> <input type="button"
+										href="contenidoMensaje" value="Ver Contenido"
+										onclick="mostrarMensaje('mostrarMensaje','${e:forHtmlContent(mensaje.mensaje)}')"
+										title="Ver">
+								</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -465,18 +480,19 @@
 	</article>
 	<!-- final mensajes de votaciones -->
 	<div class="clear"></div>
-	
-	<article class="module width_3_quarter" id="contenidoMensaje" >
-	<header>
-		<h3 class="tabs_involved">Contenido del ultimo mesanje seleccionado</h3>
+
+	<article class="module width_3_quarter" id="contenidoMensaje">
+		<header>
+			<h3 class="tabs_involved">Contenido del ultimo mesanje
+				seleccionado</h3>
 		</header>
-		<div id="mostrarMensaje"> 
-		<br></br>
+		<div id="mostrarMensaje">
+			<br></br>
 		</div>
 	</article>
-	
+
 	<div class="clear"></div>
-	
+
 	<article class="module width_full">
 		<header>
 			<h3>New Message</h3>
@@ -501,7 +517,8 @@
 		</footer>
 	</article>
 	<!-- end of post new article -->
-		<script src="resources/js/jquery.js"></script>
-		<script src="resources/js/jquery.dataTables.min.js" type="text/javascript"></script>
-		<script src="resources/js/paginacion.js" type="text/javascript"></script>
+	<script src="resources/js/jquery.js"></script>
+	<script src="resources/js/jquery.dataTables.min.js"
+		type="text/javascript"></script>
+	<script src="resources/js/paginacion.js" type="text/javascript"></script>
 	<%@ include file="../fragments/footer.jspf"%>
