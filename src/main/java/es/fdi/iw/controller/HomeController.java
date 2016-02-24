@@ -52,11 +52,6 @@ import es.fdi.iw.model.Votacion;
 import io.netty.handler.codec.http.HttpResponse;
 import scala.annotation.meta.setter;
 
-// entityManager.find(Usuario,id)
-// Reescribir en la sesion
-// Session set (atribute Usuario u)
-// @ModelAttribute("user")
-
 @Controller
 public class HomeController {
 
