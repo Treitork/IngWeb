@@ -1,6 +1,5 @@
 package es.fdi.iw.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -32,11 +31,13 @@ import org.hibernate.annotations.CascadeType;
  */
 @NamedQueries({
 		@NamedQuery(name = "todasVotaciones", query = "select u from Votacion u"),
+		@NamedQuery(name = "puntuacionMedia", query = "select avg(v.puntuacionMedia) from Votacion v where v.id_receptor = :param1"),
 		@NamedQuery(name="borrarVotacion", query="delete from Votacion u where u.id= :idParam"),
+		@NamedQuery(name = "dameVotacion", query = "select u from Votacion u where id = :idParam"),
 		@NamedQuery(name = "buscarVotacionesRecibidas", query = "select u from Votacion u where u.id_receptor = :param1"),
 		@NamedQuery(name = "buscarVotacionesRealizadas", query = "select u from Votacion u where u.id_emisor = :param1")
 })
-/* Clase */
+	/* Clase */
 public class Votacion {
 	/* Atributos */
 	private long id;
@@ -44,12 +45,11 @@ public class Votacion {
 	private long id_receptor;
 	private Date fecha;
 	private String comentario;
-	private double puntuacionMedia;
+	private Double puntuacionMedia;
 	private List<Categoria> valoraciones;
 
 	/* Constructores */
-	public Votacion() {
-	}
+	public Votacion() {}
 
 	/* Metodos */
 	public Votacion crearVotacion(long id_emisor, long id_receptor,

@@ -25,6 +25,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.support.PagedListHolder;
@@ -465,7 +466,7 @@ public class HomeController {
 		
 		model.addAttribute("prefix","./");
 		long idEmisor = ((Usuario)session.getAttribute("user")).getId();
-		Integer idUsuarioVotacion = Integer.parseInt((String)session.getAttribute("usuarioVotacion"));
+		long idUsuarioVotacion = Long.parseLong((String)session.getAttribute("usuarioVotacion"));
 		ArrayList<Categoria> lista = new ArrayList<Categoria>();
 		lista = (ArrayList<Categoria>) session.getAttribute("valoraciones");
 		Votacion v = new Votacion(); 
@@ -473,18 +474,16 @@ public class HomeController {
 		entityManager.persist(v);
 		
 		//Recalcular las puntuaciones
-	
-		String subconsulta = ("SELECT AVG(V.PUNTUACION) FROM VOTACION WHERE ID_RECEPTOR="+idUsuarioVotacion); 
-		String query = "UPDATE USUARIO SET PUNTUACION_MEDIA=(" + subconsulta + ") WHERE ID=" +idUsuarioVotacion;
-
-		//Usuario u = null;
-		//u = (Usuario) entityManager.createNamedQuery("usuarioLogin")
-				//.setParameter("loginParam", idUsuarioVotacion).getSingleResult();
+		Usuario u = null;		
+		u = (Usuario) entityManager.createNamedQuery("busquedaUsuarioId").setParameter("param1",Long.parseLong((String) session.getAttribute("usuarioVotacion"))).getSingleResult();
+		u.setPuntuacion((Double)entityManager.createNamedQuery("puntuacionMedia").setParameter("param1",Long.parseLong((String)session.getAttribute("usuarioVotacion"))).getSingleResult());
+		entityManager.persist(u);
 		
+		//String subconsulta = ("SELECT AVG(V.PUNTUACION) FROM VOTACION WHERE ID_RECEPTOR="+idUsuarioVotacion); 
+		//String query = "UPDATE USUARIO SET PUNTUACION_MEDIA=(" + subconsulta + ") WHERE ID=" +idUsuarioVotacion;
 		//Integer puntuacion = (Integer) entityManager.createNativeQuery(query).getFirstResult();
 		//u.setPuntuacion(puntuacion);
-		entityManager.createNativeQuery(subconsulta).executeUpdate();
-		//
+		//entityManager.createNativeQuery(subconsulta).executeUpdate();
 	
 		session.removeAttribute("valoraciones");
 		session.removeAttribute("usuarioVotacion");
@@ -593,14 +592,28 @@ public class HomeController {
 			Model model, HttpSession session,@RequestParam("csrf") String token) {
 	
 		if(!isAdmin(session) || !isTokenValid(session,token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		//Ver las votaciones en las que ha participado el usuario
+		List<Votacion> votaciones = (List<Votacion>)entityManager.createNamedQuery("buscarVotacionesRealizadas").setParameter("param1", formId).getResultList();
+		for(Votacion i : votaciones){
+			//Buscamos quien es el receptor del mensaje
+			long idReceptor = i.getId_receptor();
+			
+			//Recalcular las puntuaciones del receptor del mensaje
+					Usuario u = null;		
+					u = (Usuario) entityManager.createNamedQuery("busquedaUsuarioId").setParameter("param1",idReceptor).getSingleResult();
+					u.setPuntuacion((Double)entityManager.createNamedQuery("puntuacionMedia").setParameter("param1",idReceptor).getSingleResult());
+					entityManager.persist(u);
+					
+				//Borramos esa votacion	
+			entityManager.createNamedQuery("borrarVotacion")
+			.setParameter("idParam", i.getId()).executeUpdate();
+		}
 		
 		entityManager.createNamedQuery("borrarUsuario")
 		.setParameter("idParam", formId).executeUpdate();
 		List<Usuario> usuarios = null;
 		usuarios = (List<Usuario>)entityManager.createNamedQuery("todosUsuarios").getResultList();
 		model.addAttribute("todosUsuarios",usuarios);
-			// sets the anti-csrf token
-		//getTokenForSession(session);		
 		return "redirect:" + formSource;
 	}
 	
@@ -686,12 +699,22 @@ public class HomeController {
 		
 		if(!isAdmin(session) || !isTokenValid(session,token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		
+		//Buscamos quien es el receptor del mensaje
+		Votacion v = (Votacion) entityManager.createNamedQuery("dameVotacion").setParameter("idParam", formId);
+		long idReceptor = v.getId_receptor();
+		
+		//Recalcular las puntuaciones del receptor del mensaje
+				Usuario u = null;		
+				u = (Usuario) entityManager.createNamedQuery("busquedaUsuarioId").setParameter("param1",idReceptor).getSingleResult();
+				u.setPuntuacion((Double)entityManager.createNamedQuery("puntuacionMedia").setParameter("param1",idReceptor).getSingleResult());
+				entityManager.persist(u);
+				
 		entityManager.createNamedQuery("borrarVotacion")
 		.setParameter("idParam", formId).executeUpdate();
 		List<Votacion> votaciones= null;
 		votaciones = (List<Votacion>)entityManager
 				.createNamedQuery("todasVotaciones").getResultList();
-		model.addAttribute("todasVotaciones",votaciones);	
+		model.addAttribute("todasVotaciones",votaciones);
 		return "redirect:" + formSource;
 	}
 	

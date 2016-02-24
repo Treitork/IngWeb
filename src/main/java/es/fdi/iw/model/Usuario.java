@@ -29,6 +29,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 	query="delete from Usuario u where u.id= :idParam"),
 	@NamedQuery(name="notaUsuario",
 	query="delete from Usuario u where u.id= :idParam"),
+	@NamedQuery(name="busquedaUsuarioId",
+	query="select u from Usuario u where u.id = :param1"),
 	@NamedQuery(name="mejoresProfesores",query="select u from Usuario u where u.rol='profesor' order by puntuacion desc"),
 	@NamedQuery(name="mejoresAlumnos",query="select u from Usuario u where u.rol='user' order by puntuacion desc")
 })
@@ -43,7 +45,7 @@ public class Usuario {
 	private String nombre;
 	private String apellidos;
 	private String rol;
-	private Integer puntuacion;
+	private Double puntuacion;
 	private boolean activo;
 	private String imagen;
 	private List<Asignatura> asignaturas;
@@ -59,7 +61,7 @@ public class Usuario {
 		u.nombre = nombre;
 		u.apellidos = apellidos;
 		u.rol = rol;
-		u.puntuacion = 0;
+		u.puntuacion = 0.0;
 		u.activo = true;
 		u.imagen ="void";
 		return u;
@@ -133,11 +135,11 @@ public class Usuario {
 		this.rol = rol;
 	}
 
-	public Integer getPuntuacion() {
+	public double getPuntuacion() {
 		return puntuacion;
 	}
 
-	public void setPuntuacion(Integer puntuacion) {
+	public void setPuntuacion(double puntuacion) {
 		this.puntuacion = puntuacion;
 	}
 
