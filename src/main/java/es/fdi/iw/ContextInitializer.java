@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.context.annotation.Configuration;
 
+import es.fdi.iw.controller.HomeController;
+
 @Configuration
 public class ContextInitializer implements ServletContextInitializer {
 

@@ -21,6 +21,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @NamedQueries({
 	@NamedQuery(name="todosUsuarios",
 			query="select u from Usuario u"),
+	@NamedQuery(name="asignaturasUsuario",
+	query="select u.asignaturas from Usuario u where id= :idParam"),
 	@NamedQuery(name="busquedaUsuario",
 	query="select u from Usuario u where u.nombre like :param1 or u.apellidos like :param1"),
 	@NamedQuery(name="usuarioLogin",
@@ -82,7 +84,7 @@ public class Usuario {
 		return id;
 	}
 
-	@OneToMany(targetEntity=Categoria.class, fetch=FetchType.EAGER)
+	@OneToMany(targetEntity=Asignatura.class, fetch=FetchType.EAGER)
 	@Cascade({CascadeType.ALL})
 	public List<Asignatura> getAsignaturas() {
 		return asignaturas;

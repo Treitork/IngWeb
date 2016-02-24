@@ -418,7 +418,7 @@ public class HomeController {
 	public String realizarValoracion(Model model,HttpSession session) {
 		if(!isLogged(session)) return "redirect:" + "/login";
 		model.addAttribute("prefix", "./");
-		model.addAttribute("pageTitle", "Valoración");
+		model.addAttribute("pageTitle", "Realizar Valoración");
 		return "valoracion";
 	}
 
@@ -444,7 +444,7 @@ public class HomeController {
 	public String realizarVotacion(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
 	
 		if(!isLogged(session)) return "redirect:" + "/login";
-		
+		model.addAttribute("pageTitle","Realizar Votacion");
 		model.addAttribute("prefix","./");
 		session.setAttribute("usuarioVotacion",idUsuario);
 		return "voto";
@@ -501,6 +501,7 @@ public class HomeController {
 	@RequestMapping(value = "/mostrarVotacionesRecibidas{idusuario:\\d+}", method = RequestMethod.GET)
 	public String mostrarVotacionesRecibidas(Model model,@PathVariable("idusuario") long idUsuario,HttpSession session) {
 		model.addAttribute("cabecera","Valoraciones Recibidas");
+		model.addAttribute("pageTitle","Valoraciones Recibidas");
 		model.addAttribute("prefix","./");
 		List<Votacion> recibidas = null;
 		recibidas = (List<Votacion>) entityManager.createNamedQuery("buscarVotacionesRecibidas")
@@ -511,10 +512,15 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/mostrarAsignaturas{idusuario}", method = RequestMethod.GET)
-	public String mostrarAsignaturas(Model model,@PathVariable("idusuario") String idUsuario,HttpSession session) {
+	public String mostrarAsignaturas(Model model,@PathVariable("idusuario") String idUsuario) {
 		model.addAttribute("prefix","./");
-		session.setAttribute("usuarioVotacion",idUsuario);
-		return "home";
+		List<Asignatura> asignaturas = (List<Asignatura>) entityManager.createNamedQuery("asignaturasUsuario").setParameter("idParam",Long.parseLong(idUsuario)).getResultList();
+		logger.info(asignaturas.toString());
+		model.addAttribute("cabecera","Asignaturas");
+		model.addAttribute("asignaturas",asignaturas);
+		model.addAttribute("pageTitle","Asignaturas Matriculadas");
+		model.addAttribute("idUsuario",idUsuario);
+		return "asignaturas";
 	}
 	
 	/* ***Parte de la vista del admin*/
@@ -711,6 +717,24 @@ public class HomeController {
 				.createNamedQuery("todasVotaciones").getResultList();
 		model.addAttribute("todasVotaciones",votaciones);
 		return "redirect:" + formSource;
+	}
+	
+
+	@Transactional
+	public void recalcularMedias(){
+		//Ver las votaciones en las que ha participado el usuario
+		List<Votacion> votaciones = (List<Votacion>)entityManager.createNamedQuery("todasVotaciones").getResultList();
+		for(Votacion i : votaciones){
+			//Buscamos quien es el receptor del mensaje
+			long idReceptor = i.getId_receptor();
+			
+			//Recalcular las puntuaciones del receptor del mensaje
+					Usuario u = null;		
+					u = (Usuario) entityManager.createNamedQuery("busquedaUsuarioId").setParameter("param1",idReceptor).getSingleResult();
+					u.setPuntuacion((Double)entityManager.createNamedQuery("puntuacionMedia").setParameter("param1",idReceptor).getSingleResult());
+					entityManager.persist(u);
+		}
+		
 	}
 	
 	static String getTokenForSession (HttpSession session) {

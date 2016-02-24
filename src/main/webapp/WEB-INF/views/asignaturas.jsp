@@ -1,9 +1,9 @@
 <%@ include file="../fragments/header.jspf" %>
-<div class="page-header"><h1>${cabecera}</h1><small></small></div>
+<div class="page-header"><h1>${e:forHtmlContent(cabecera)}</h1><small></small></div>
 <c:choose>
 <c:when test="${not empty votaciones}">
 <div class="panel panel-default">
-<div class="panel-heading"><h4>Valoraciones</h4></div>
+<div class="panel-heading"><h4>ID usuario:</h4><small> ${e:forHtmlContent(idUsuario)}</small></div>
 <table class="table">
 <tr>
 <th>Nombre</th>
