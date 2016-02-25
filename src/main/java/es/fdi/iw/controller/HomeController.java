@@ -551,7 +551,6 @@ public class HomeController {
 		mensajes = (List<MensajeModeracion>)entityManager.createNamedQuery("todosMensajesModeracion").getResultList();
 		model.addAttribute("todosMensajes",mensajes);
 		return "admin";
-		/****************poner un boolean para saber si el administrador a leido el mensaje o no y mostrarlo en la tabla***********************/
 	}
 
 	@RequestMapping(value = "/adminAddUser", method = RequestMethod.POST)
@@ -637,7 +636,9 @@ public class HomeController {
 		session.setAttribute("admin", asig);
 		return "redirect:" + formSource;
 	}
-
+	
+	
+	
 
 	@RequestMapping(value = "/adminDeleteAsignatura", method = RequestMethod.POST)
 	@Transactional
@@ -695,14 +696,15 @@ public class HomeController {
 	@Transactional
 	public String adminDeleteVotacion(@RequestParam("source") String formSource,
 			@RequestParam("Id") long formId,
+			@RequestParam("IdReceptor") long formIdReceptor,
 			HttpServletRequest request, HttpServletResponse response,
 			Model model, HttpSession session,@RequestParam("csrf") String token) {
 		
 		if(!isAdmin(session) || !isTokenValid(session,token)) response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		
 		//Buscamos quien es el receptor del mensaje
-		Votacion v = (Votacion) entityManager.createNamedQuery("dameVotacion").setParameter("idParam", formId);
-		long idReceptor = v.getId_receptor();
+		
+		long idReceptor = formIdReceptor;
 		
 		//Recalcular las puntuaciones del receptor del mensaje
 				Usuario u = null;		

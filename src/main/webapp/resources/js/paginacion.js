@@ -5,7 +5,7 @@ $(document).ready(function() {
 	$('#table_Mensajes').DataTable();
 });
 
-function deleteAsig(source, Id, Asignatura, Curso, Anio) {
+function deleteAsig(source, Id, Asignatura, Curso, Anio, csrf) {
 	/* alert(Asignatura+" "+ Curso+ " "+ Id); */
 	$.ajax({
 		url : 'adminDeleteAsignatura',
@@ -15,7 +15,8 @@ function deleteAsig(source, Id, Asignatura, Curso, Anio) {
 			'Id' : Id,
 			'Asignatura' : Asignatura,
 			'Anio' : Anio,
-			'Curso' : Curso
+			'Curso' : Curso,
+			'csrf' : csrf
 		},
 
 		success : function(result) {
@@ -32,7 +33,7 @@ function editAsig(source, Id, Asignatura, Curso, Anio) {
 	$("#editAnio").attr("value", Anio);
 };
 
-function deleteUsuario(source, Id) {
+function deleteUsuario(source, Id,csrf) {
 	/* alert(Asignatura+" "+ Curso+ " "+ Id); */
 	$.ajax({
 		url : 'adminDeleteUser',
@@ -40,6 +41,7 @@ function deleteUsuario(source, Id) {
 		data : {
 			'source' : source,
 			'Id' : Id,
+			'csrf' : csrf
 		},
 
 		success : function(result) {
@@ -49,7 +51,7 @@ function deleteUsuario(source, Id) {
 
 };
 
-function deleteVotacion(source, Id) {
+function deleteVotacion(source, Id, IdReceptor, csrf) {
 	/* alert("votacion" + Id); */
 	$.ajax({
 		url : 'adminDeleteVotacion',
@@ -57,6 +59,8 @@ function deleteVotacion(source, Id) {
 		data : {
 			'source' : source,
 			'Id' : Id,
+			'IdReceptor' : IdReceptor,
+			'csrf' : csrf
 		},
 
 		success : function(result) {

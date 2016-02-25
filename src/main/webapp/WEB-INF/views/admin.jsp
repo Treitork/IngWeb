@@ -1,7 +1,10 @@
 <%@ include file="../fragments/header_admin.jspf"%>
 
 <!-- faltan añadir añadair, modificar y eleminar una categoria, votaciones y mensajes-->
-
+<script src="resources/js/jquery.js"></script>
+<script src="resources/js/jquery.dataTables.min.js"
+		type="text/javascript"></script>
+<script src="resources/js/paginacion.js" type="text/javascript"></script>
 <aside id="sidebar" class="column" style="height: 1700px;">
 	<form class="quick_search">
 		<input type="text" value="Quick Search"
@@ -212,7 +215,7 @@
 										title="Edit"></a> <input type="image"
 									src="resources/img/img_admin/icn_trash.png"
 									id="eliminarAsignatura"
-									onclick="deleteAsig('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}')"
+									onclick="deleteAsig('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}','${e:forHtmlAttribute(csrf_token)}')"
 									title="Trash"></td>
 							</tr>
 						</c:forEach>
@@ -385,7 +388,7 @@
 								<td>${e:forHtmlContent(usuarios.email)}</td>
 								<td><a> <input type="image"
 										src="resources/img/img_admin/icn_trash.png" id="eliminar"
-										onclick="deleteUsuario('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(usuarios.id)}')"
+										onclick="deleteUsuario('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(usuarios.id)}','${e:forHtmlAttribute(csrf_token)}')"
 										title="Trash"></a></td>
 							</tr>
 						</c:forEach>
@@ -428,7 +431,7 @@
 								<td>${e:forHtmlContent(votacion.puntuacionMedia)}</td>
 								<td><a> <input type="image"
 										src="resources/img/img_admin/icn_trash.png" id="eliminar"
-										onclick="deleteVotacion('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(votacion.id)}')"
+										onclick="deleteVotacion('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(votacion.id)}','${e:forHtmlContent(votacion.id_receptor)}','${e:forHtmlAttribute(csrf_token)}')"
 										title="Trash"></a></td>
 							</tr>
 						</c:forEach>
@@ -464,10 +467,7 @@
 								<td>${e:forHtmlContent(mensaje.idVotacion)}</td>
 								<td>${e:forHtmlContent(mensaje.idEmisor)}</td>
 								<td>${e:forHtmlContent(mensaje.motivo)}</td>
-								<td><a> <input type="image"
-										src="resources/img/img_admin/icn_trash.png" id="eliminar"
-										onclick="deleteVotacion('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(votacion.id})')"
-										title="Trash"></a> <a> <input type="button"
+								<td><a><input type="button"
 										href="contenidoMensaje" value="Ver Contenido"
 										onclick="mostrarMensaje('mostrarMensaje','${e:forHtmlContent(mensaje.mensaje)}')"
 										title="Ver">
@@ -517,9 +517,9 @@
 			</div>
 		</footer>
 	</article>
-	<!-- end of post new article -->
+	<!-- end of post new article
 	<script src="resources/js/jquery.js"></script>
 	<script src="resources/js/jquery.dataTables.min.js"
 		type="text/javascript"></script>
-	<script src="resources/js/paginacion.js" type="text/javascript"></script>
+	<script src="resources/js/paginacion.js" type="text/javascript"></script> -->
 	<%@ include file="../fragments/footer.jspf"%>
