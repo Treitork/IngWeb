@@ -690,8 +690,7 @@ public class HomeController {
 		return "redirect:" + formSource;
 	}
 	
-	@SuppressWarnings("unchecked")
-	@ResponseBody
+	@SuppressWarnings("unchecked")		
 	@RequestMapping(value = "/adminDeleteVotacion", method = RequestMethod.POST)
 	@Transactional
 	public String adminDeleteVotacion(@RequestParam("source") String formSource,
@@ -723,7 +722,7 @@ public class HomeController {
 	
 
 	@Transactional
-	public void recalcularMedias(){
+	public void recalcularTodasPuntuaciones(){
 		//Ver las votaciones en las que ha participado el usuario
 		List<Votacion> votaciones = (List<Votacion>)entityManager.createNamedQuery("todasVotaciones").getResultList();
 		for(Votacion i : votaciones){

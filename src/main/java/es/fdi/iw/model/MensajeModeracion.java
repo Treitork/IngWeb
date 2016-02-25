@@ -12,7 +12,10 @@ import javax.persistence.NamedQuery;
 @NamedQueries({
     @NamedQuery(name="todosMensajesModeracion",
             query="select m from MensajeModeracion m order by id desc"),
+    @NamedQuery(name="borrarMensajeModeracion",
+   	query="delete from MensajeModeracion m where m.id= :idParam")
 })
+
 
 /* Clase */
 public class MensajeModeracion {

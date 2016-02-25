@@ -83,9 +83,9 @@ public class Usuario {
 	public long getId(){
 		return id;
 	}
-
-	@OneToMany(targetEntity=Asignatura.class, fetch=FetchType.EAGER)
+	
 	@Cascade({CascadeType.ALL})
+	@OneToMany(targetEntity=Asignatura.class, fetch=FetchType.EAGER)
 	public List<Asignatura> getAsignaturas() {
 		return asignaturas;
 	}
