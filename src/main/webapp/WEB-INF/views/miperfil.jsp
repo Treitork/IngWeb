@@ -12,8 +12,8 @@
 	<div class="row">
 		<h1 class="page-header">
 			Mi perfil <small><c:choose>
-					<c:when test="${e:forHtmlContent(user.rol)=='user'}">alumno</c:when>
-					<c:otherwise>${e:forHtmlContent(user.rol)}</c:otherwise>
+					<c:when test="${user.rol=='user'}">alumno</c:when>
+					<c:otherwise>${user.rol}</c:otherwise>
 				</c:choose></small>
 		</h1>
 		<div class="col-md-3 ">
@@ -22,14 +22,14 @@
 		<div class="col-md-3 ">
 			<ul class="list-group">
 				<li class="list-group-item"><b>Nombre:</b>
-					${e:forHtmlContent(user.nombre)}</li>
+					${user.nombre}</li>
 				<li class="list-group-item"><b>Correo:</b>
-					${e:forHtmlContent(user.email)}</li>
+					${ser.email}</li>
 				<li class="list-group-item"><b>Rol:</b>
-					${e:forHtmlContent(user.rol)}</li>
+					${user.rol}</li>
 				<li class="list-group-item"><b>Puntuación:</b>
-					${e:forHtmlContent(user.puntuacion)}</li>
-				<form action="${e:forHtmlContent(prefix)}mensajeModeracion" method="GET">
+					${user.puntuacion}</li>
+				<form action="${prefix}mensajeModeracion" method="GET">
 					<button type="submit" class="btn btn-primary">Mensaje de
 						Moderación</button>
 				</form>
@@ -66,7 +66,7 @@
 					<h4>Votaciones recibidas</h4>
 					<p>Consulta las votaciones que he recibido.</p>
 					<form
-						action="${e:forHtmlContent(prefix)}mostrarVotacionesRecibidas${e:forHtmlContent(usuarioSelec.id)}"
+						action="${prefix}mostrarVotacionesRecibidas${usuarioSelec.id}"
 						method="GET">
 						<button type="submit" class="btn btn-primary">Ver
 							valoraciones</button>
@@ -86,7 +86,7 @@
 					<h4>Votaciones realizadas</h4>
 					<p>Consulta las votaciones que he realizado.</p>
 					<form
-						action="${e:forHtmlContent(prefix)}mostrarVotacionesRealizadas${e:forHtmlContent(usuarioSelec.id)}"
+						action="${prefix}mostrarVotacionesRealizadas${usuarioSelec.id}"
 						method="GET">
 						<button type="submit" class="btn btn-primary">Ver
 							valoraciones</button>
@@ -105,7 +105,7 @@
 				<div class="panel-body">
 					<h4>Asignaturas matriculadas</h4>
 					<p>Consulta mis asignaturas matriculadas</p>
-					<form action="${e:forHtmlContent(prefix)}mostrarAsignaturas${e:forHtmlContent(usuarioSelec.id)}"
+					<form action="${prefix}mostrarAsignaturas${usuarioSelec.id}"
 						method="GET">
 						<button type="submit" class="btn btn-primary">Ver
 							asignaturas</button>

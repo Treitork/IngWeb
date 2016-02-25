@@ -12,8 +12,8 @@
 	<div class="row">
 		<h1 class="page-header">
 			Perfil <small><c:choose>
-					<c:when test="${e:forHtmlContent(usuarioSelec.rol)=='user'}">alumno</c:when>
-					<c:otherwise>${e:forHtmlContent(usuarioSelec.rol)}</c:otherwise>
+					<c:when test="${usuarioSelec.rol=='user'}">alumno</c:when>
+					<c:otherwise>${usuarioSelec.rol}</c:otherwise>
 				</c:choose></small>
 		</h1>
 		<div class="col-md-3 ">
@@ -23,12 +23,12 @@
 		<div class="col-md-3 ">
 			<ul class="list-group">
 				<li class="list-group-item"><b>Nombre:</b>
-					${e:forHtmlContent(usuarioSelec.nombre)}</li>
+					${usuarioSelec.nombre}</li>
 				<li class="list-group-item"><b>Correo:</b>
-					${e:forHtmlContent(usuarioSelec.email)}</li>
-				<li class="list-group-item"><b>Rol:</b> ${e:forHtmlContent(usuarioSelec.rol)}</li>
+					${usuarioSelec.email}</li>
+				<li class="list-group-item"><b>Rol:</b> ${usuarioSelec.rol}</li>
 				<li class="list-group-item"><b>Puntuación:</b>
-					${e:forHtmlContent(usuarioSelec.puntuacion)}</li>
+					${usuarioSelec.puntuacion}</li>
 
 			</ul>
 		</div>
@@ -60,7 +60,7 @@
 				<div class="panel-body">
 					<h4>Votar a este Usuario</h4>
 					<p>Valora los aspectos que debo mejorar.</p>
-					<form action="${e:forHtmlContent(prefix)}realizarVotacion${e:forHtmlContent(usuarioSelec.id)}"
+					<form action="${prefix}realizarVotacion${usuarioSelec.id}"
 						method="GET">
 						<button type="submit" class="btn btn-primary">Realizar
 							valoracion</button>
@@ -80,7 +80,7 @@
 					<h4>Votaciones recibidas</h4>
 					<p>Consulta las votaciones que he recibido.</p>
 					<form
-						action="${e:forHtmlContent(prefix)}mostrarVotacionesRecibidas${e:forHtmlContent(usuarioSelec.id)}"
+						action="${prefix}mostrarVotacionesRecibidas${usuarioSelec.id}"
 						method="GET">
 						<button type="submit" class="btn btn-primary">Ver
 							valoraciones</button>
@@ -100,7 +100,7 @@
 					<h4>Votaciones realizadas</h4>
 					<p>Consulta las votaciones que he realizado.</p>
 					<form
-						action="${e:forHtmlContent(prefix)}mostrarVotacionesRealizadas${e:forHtmlContent(usuarioSelec.id)}"
+						action="${prefix}mostrarVotacionesRealizadas${usuarioSelec.id}"
 						method="GET">
 						<button type="submit" class="btn btn-primary">Ver
 							valoraciones</button>
@@ -119,7 +119,7 @@
 				<div class="panel-body">
 					<h4>Asignaturas matriculadas</h4>
 					<p>Consulta mis asignaturas matriculadas</p>
-					<form action="${e:forHtmlContent(prefix)}mostrarAsignaturas${e:forHtmlContent(usuarioSelec.id)}"
+					<form action="${prefix}mostrarAsignaturas${usuarioSelec.id}"
 						method="GET">
 						<button type="submit" class="btn btn-primary">Ver
 							asignaturas</button>

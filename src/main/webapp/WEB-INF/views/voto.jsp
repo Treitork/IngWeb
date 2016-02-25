@@ -10,8 +10,8 @@
 <tr>
 <c:forEach items="${valoraciones}" var="valoraciones">
 <tr>
-<td>${valoraciones.categoria}</td>
-<td>${valoraciones.puntuacion}</td>
+<td>${e:forHtmlContent(valoraciones.categoria)}</td>
+<td>${e:forHtmlContent(valoraciones.puntuacion)}</td>
 </tr>
 </c:forEach>
 </table>

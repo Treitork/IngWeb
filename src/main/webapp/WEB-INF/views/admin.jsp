@@ -382,10 +382,10 @@
 					<tbody>
 						<c:forEach items="${todosUsuarios}" var="usuarios">
 							<tr>
-								<td>${e:forHtmlContent(usuarios.id)}</td>
-								<td>${e:forHtmlContent(usuarios.nombre)}</td>
-								<td>${e:forHtmlContent(usuarios.apellidos)}</td>
-								<td>${e:forHtmlContent(usuarios.email)}</td>
+								<td>${usuarios.id}</td>
+								<td>${usuarios.nombre}</td>
+								<td>${usuarios.apellidos}</td>
+								<td>${usuarios.email}</td>
 								<td><a> <input type="image"
 										src="resources/img/img_admin/icn_trash.png" id="eliminar"
 										onclick="deleteUsuario('${requestScope['javax.servlet.forward.servlet_path']}','${e:forHtmlContent(usuarios.id)}','${e:forHtmlAttribute(csrf_token)}')"
@@ -423,12 +423,12 @@
 					<tbody>
 						<c:forEach items="${todasVotaciones}" var="votacion">
 							<tr>
-								<td>${e:forHtmlContent(votacion.id)}</td>
-								<td>${e:forHtmlContent(votacion.id_emisor)}</td>
-								<td>${e:forHtmlContent(votacion.id_receptor)}</td>
-								<td>${e:forHtmlContent(votacion.comentario)}</td>
-								<td>${e:forHtmlContent(votacion.fecha)}</td>
-								<td>${e:forHtmlContent(votacion.puntuacionMedia)}</td>
+								<td>${votacion.id}</td>
+								<td>${votacion.id_emisor}</td>
+								<td>${votacion.id_receptor}</td>
+								<td>${votacion.comentario}</td>
+								<td>${votacion.fecha}</td>
+								<td>${votacion.puntuacionMedia}</td>
 								<td><a> <input type="image"
 										src="resources/img/img_admin/icn_trash.png" id="eliminar"
 										onclick="deleteVotacion('${requestScope['javax.servlet.forward.servlet_path']}','${e:forHtmlContent(votacion.id)}','${e:forHtmlContent(votacion.id_receptor)}','${e:forHtmlAttribute(csrf_token)}')"
@@ -463,13 +463,13 @@
 					<tbody>
 						<c:forEach items="${todosMensajes}" var="mensaje">
 							<tr>
-								<td>${e:forHtmlContent(mensaje.id)}</td>
-								<td>${e:forHtmlContent(mensaje.idVotacion)}</td>
-								<td>${e:forHtmlContent(mensaje.idEmisor)}</td>
-								<td>${e:forHtmlContent(mensaje.motivo)}</td>
+								<td>${mensaje.id}</td>
+								<td>${mensaje.idVotacion}</td>
+								<td>${mensaje.idEmisor}</td>
+								<td>${mensaje.motivo}</td>
 								<td><a><input type="button"
 										href="contenidoMensaje" value="Ver Contenido"
-										onclick="mostrarMensaje('mostrarMensaje','${e:forHtmlContent(mensaje.mensaje)}')"
+										onclick="mostrarMensaje('mostrarMensaje','${mensaje.mensaje}')"
 										title="Ver">
 								</a></td>
 							</tr>

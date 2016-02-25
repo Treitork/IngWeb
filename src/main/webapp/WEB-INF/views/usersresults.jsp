@@ -5,7 +5,7 @@
 	<!-- Page Heading/Breadcrumbs -->
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">${e:forHtmlContent(cabecera)}
+			<h1 class="page-header">${cabecera}
 				<small></small>
 			</h1>
 			<ol class="breadcrumb">
@@ -21,8 +21,8 @@
 				<img class="img-responsive img-hover"
 					src="http://placehold.it/700x400" alt="">
 				<h3>
-					<a href="${e:forHtmlContent(prefix)}perfilUsuario${e:forHtmlContent(usuarios.id)}">${e:forHtmlContent(usuarios.nombre)}
-						${e:forHtmlContent(usuarios.apellidos)}</a>
+					<a href="${prefix}perfilUsuario${usuarios.id}">${usuarios.nombre}
+						${usuarios.apellidos}</a>
 				</h3>
 				<p>Púlsame para ver mas información</p>
 			</div>

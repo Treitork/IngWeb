@@ -3,7 +3,7 @@
 <c:choose>
 <c:when test="${not empty votaciones}">
 <div class="panel panel-default">
-<div class="panel-heading"><h4>ID usuario:</h4><small> ${e:forHtmlContent(idUsuario)}</small></div>
+<div class="panel-heading"><h4>ID usuario:</h4><small> ${idUsuario}</small></div>
 <table class="table">
 <tr>
 <th>Nombre</th>
@@ -12,9 +12,9 @@
 <tr>
 <c:forEach items="${asignaturas}" var="asignaturas">
 <tr>
-<td>${e:forHtmlContent(asignaturas.nombre)}</td>
-<td>${e:forHtmlContent(asignaturas.grupo)}</td>
-<td>${e:forHtmlContent(asignaturas.anio)}</td>
+<td>${asignaturas.nombre}</td>
+<td>${asignaturas.grupo}</td>
+<td>${asignaturas.anio}</td>
 </tr>
 </c:forEach>
 </table>

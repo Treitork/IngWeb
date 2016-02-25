@@ -58,7 +58,7 @@
   <h1>Bienvenido a OmnisCracia</h1>
   <p>Sistema de valoraciones entre docentes y alumnos sin precedentes.
   ¡Echa un vistazo!</p>
-  <p><a class="btn btn-primary btn-lg" href="${prefix}faq  " role="button">Mas información</a></p>
+  <p><a class="btn btn-primary btn-lg" href="${prefix}faq" role="button">Mas información</a></p>
 </div>
 			</div>
 			<div class="col-md-4">
