@@ -32,7 +32,7 @@ function editAsig(source, Id, Asignatura, Curso, Anio) {
 	$("#editAnio").attr("value", Anio);
 };
 
-function deleteUsuario(source, Id) {
+function deleteUsuario(source, Id,csrf) {
 	/* alert(Asignatura+" "+ Curso+ " "+ Id); */
 	$.ajax({
 		url : 'adminDeleteUser',
@@ -40,6 +40,7 @@ function deleteUsuario(source, Id) {
 		data : {
 			'source' : source,
 			'Id' : Id,
+			'csrf': csrf,
 		},
 
 		success : function(result) {

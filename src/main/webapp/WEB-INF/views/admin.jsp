@@ -208,11 +208,11 @@
 								<td>${e:forHtmlContent(asignaturas.anio)}</td>
 								<td><a href="#EditarAsignatura"><input type="image"
 										src="resources/img/img_admin/icn_edit.png" id="editAsignatura"
-										onclick="editAsig('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}')"
+										onclick="editAsig('${requestScope['javax.servlet.forward.servlet_path']}','${forJavaScript(asignaturas.id)}','${e:forJavaScript(asignaturas.nombre)}','${e:forJavaScript(asignaturas.grupo)}','${e:forJavaScript(asignaturas.anio)}')"
 										title="Edit"></a> <input type="image"
 									src="resources/img/img_admin/icn_trash.png"
 									id="eliminarAsignatura"
-									onclick="deleteAsig('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}')"
+									onclick="deleteAsig('${requestScope['javax.servlet.forward.servlet_path']}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}')"
 									title="Trash"></td>
 							</tr>
 						</c:forEach>
@@ -385,7 +385,7 @@
 								<td>${e:forHtmlContent(usuarios.email)}</td>
 								<td><a> <input type="image"
 										src="resources/img/img_admin/icn_trash.png" id="eliminar"
-										onclick="deleteUsuario('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(usuarios.id)}')"
+										onclick="deleteUsuario('${requestScope['javax.servlet.forward.servlet_path']}','${(usuarios.id)}','${}')"
 										title="Trash"></a></td>
 							</tr>
 						</c:forEach>

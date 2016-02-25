@@ -1,12 +1,15 @@
 package es.fdi.iw.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="ASIGNATURA")
 /* Queries */
 @NamedQueries({
     @NamedQuery(name="todasAsignaturas",

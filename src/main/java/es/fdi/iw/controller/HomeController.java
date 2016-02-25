@@ -514,12 +514,14 @@ public class HomeController {
 	@RequestMapping(value = "/mostrarAsignaturas{idusuario}", method = RequestMethod.GET)
 	public String mostrarAsignaturas(Model model,@PathVariable("idusuario") String idUsuario) {
 		model.addAttribute("prefix","./");
-		List<Asignatura> asignaturas = (List<Asignatura>) entityManager.createNamedQuery("asignaturasUsuario").setParameter("idParam",Long.parseLong(idUsuario)).getResultList();
-		logger.info(asignaturas.toString());
+		Usuario u = null;
+			u = (Usuario) entityManager.createNamedQuery("busquedaUsuarioId")
+					.setParameter("param1",Long.parseLong(idUsuario))
+					.getSingleResult();
+			logger.info("Miiii  "+u); 	
 		model.addAttribute("cabecera","Asignaturas");
-		model.addAttribute("asignaturas",asignaturas);
+		model.addAttribute("usuario",u);
 		model.addAttribute("pageTitle","Asignaturas Matriculadas");
-		model.addAttribute("idUsuario",idUsuario);
 		return "asignaturas";
 	}
 	
