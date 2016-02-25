@@ -205,17 +205,17 @@
 					<tbody>
 						<c:forEach items="${TodasAsignaturas}" var="asignaturas">
 							<tr>
-								<td>${e:forHtmlContent(asignaturas.id)}</td>
-								<td>${e:forHtmlContent(asignaturas.nombre)}</td>
-								<td>${e:forHtmlContent(asignaturas.grupo)}</td>
-								<td>${e:forHtmlContent(asignaturas.anio)}</td>
+								<td>${asignaturas.id}</td>
+								<td>${asignaturas.nombre}</td>
+								<td>${asignaturas.grupo}</td>
+								<td>${asignaturas.anio}</td>
 								<td><a href="#EditarAsignatura"><input type="image"
 										src="resources/img/img_admin/icn_edit.png" id="editAsignatura"
-										onclick="editAsig('${requestScope['javax.servlet.forward.servlet_path']}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}')"
+										onclick="editAsig('${requestScope['javax.servlet.forward.servlet_path']}','${e:forJavaScript(asignaturas.id)}','${e:forJavaScript(asignaturas.nombre)}','${e:forJavaScript(asignaturas.grupo)}','${e:forJavaScript(asignaturas.anio)}')"
 										title="Edit"></a> <input type="image"
 									src="resources/img/img_admin/icn_trash.png"
 									id="eliminarAsignatura"
-									onclick="deleteAsig('${requestScope['javax.servlet.forward.servlet_path']}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}','${e:forHtmlAttribute(csrf_token)}')"
+									onclick="deleteAsig('${requestScope['javax.servlet.forward.servlet_path']}','${e:forJavaScript(asignaturas.id)}','${e:forJavaScript(asignaturas.nombre)}','${e:forJavaScript(asignaturas.grupo)}','${e:forJavaScript(asignaturas.anio)}','${e:forJavaScript(csrf_token)}')"
 									title="Trash"></td>
 							</tr>
 						</c:forEach>
@@ -388,7 +388,7 @@
 								<td>${usuarios.email}</td>
 								<td><a> <input type="image"
 										src="resources/img/img_admin/icn_trash.png" id="eliminar"
-										onclick="deleteUsuario('${requestScope['javax.servlet.forward.servlet_path']}','${e:forHtmlContent(usuarios.id)}','${e:forHtmlAttribute(csrf_token)}')"
+										onclick="deleteUsuario('${requestScope['javax.servlet.forward.servlet_path']}','${e:forJavaScript(usuarios.id)}','${e:forJavaScript(csrf_token)}')"
 										title="Trash"></a></td>
 							</tr>
 						</c:forEach>
@@ -431,7 +431,7 @@
 								<td>${votacion.puntuacionMedia}</td>
 								<td><a> <input type="image"
 										src="resources/img/img_admin/icn_trash.png" id="eliminar"
-										onclick="deleteVotacion('${requestScope['javax.servlet.forward.servlet_path']}','${e:forHtmlContent(votacion.id)}','${e:forHtmlContent(votacion.id_receptor)}','${e:forHtmlAttribute(csrf_token)}')"
+										onclick="deleteVotacion('${requestScope['javax.servlet.forward.servlet_path']}','${e:forJavaScript(votacion.id)}','${e:forJavaScript(votacion.id_receptor)}','${e:forJavaScript(csrf_token)}')"
 										title="Trash"></a></td>
 							</tr>
 						</c:forEach>
@@ -469,7 +469,7 @@
 								<td>${mensaje.motivo}</td>
 								<td><a><input type="button" href="contenidoMensaje"
 										value="Ver Contenido"
-										onclick="mostrarMensaje('mostrarMensaje','${mensaje.mensaje}')"
+										onclick="mostrarMensaje('mostrarMensaje','${e:forJavaScript(mensaje.mensaje)}')"
 										title="Ver"> </a></td>
 							</tr>
 						</c:forEach>
