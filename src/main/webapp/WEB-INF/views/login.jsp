@@ -8,7 +8,7 @@
 		action="login" method="POST">
 		<fieldset>
 			<input type="hidden" id="source" name="source"
-				value="${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}" />
+				value="${requestScope['javax.servlet.forward.servlet_path']}" />
 					<input type="hidden" id="csrf" name="csrf"
 				value="${e:forHtmlAttribute(csrf_token)}" />
 			<div class="form-group">

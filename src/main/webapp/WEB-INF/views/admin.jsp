@@ -93,7 +93,7 @@
 			<input type="hidden" id="csrf" name="csrf"
 				value="${e:forHtmlAttribute(csrf_token)}" /> <input type="hidden"
 				id="source" name="source"
-				value="${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}" />
+				value="${requestScope['javax.servlet.forward.servlet_path']}" />
 
 			<div class="form-group">
 				<label for="inputName" class="col-sm-2 control-label">Nombre</label>
@@ -138,7 +138,7 @@
 		<form class="form-horizontal" action="adminEditAsignatura"
 			method="POST">
 			<input type="hidden" id="source" name="source"
-				value="${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}" />
+				value="${requestScope['javax.servlet.forward.servlet_path']}" />
 			<input type="hidden" id="csrf" name="csrf"
 				value="${e:forHtmlAttribute(csrf_token)}" />
 
@@ -211,11 +211,11 @@
 								<td>${e:forHtmlContent(asignaturas.anio)}</td>
 								<td><a href="#EditarAsignatura"><input type="image"
 										src="resources/img/img_admin/icn_edit.png" id="editAsignatura"
-										onclick="editAsig('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}')"
+										onclick="editAsig('${requestScope['javax.servlet.forward.servlet_path']}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}')"
 										title="Edit"></a> <input type="image"
 									src="resources/img/img_admin/icn_trash.png"
 									id="eliminarAsignatura"
-									onclick="deleteAsig('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}','${e:forHtmlAttribute(csrf_token)}')"
+									onclick="deleteAsig('${requestScope['javax.servlet.forward.servlet_path']}','${e:forHtmlContent(asignaturas.id)}','${e:forHtmlContent(asignaturas.nombre)}','${e:forHtmlContent(asignaturas.grupo)}','${e:forHtmlContent(asignaturas.anio)}','${e:forHtmlAttribute(csrf_token)}')"
 									title="Trash"></td>
 							</tr>
 						</c:forEach>
@@ -236,7 +236,7 @@
 			<input type="hidden" id="csrf" name="csrf"
 				value="${e:forHtmlAttribute(csrf_token)}" /> <input type="hidden"
 				id="source" name="source"
-				value="${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}" />
+				value="${requestScope['javax.servlet.forward.servlet_path']}" />
 			<div class="form-group">
 				<label for="inputName" class="col-sm-2 control-label">Nombre</label>
 				<div class="col-sm-10">
@@ -388,7 +388,7 @@
 								<td>${e:forHtmlContent(usuarios.email)}</td>
 								<td><a> <input type="image"
 										src="resources/img/img_admin/icn_trash.png" id="eliminar"
-										onclick="deleteUsuario('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(usuarios.id)}','${e:forHtmlAttribute(csrf_token)}')"
+										onclick="deleteUsuario('${requestScope['javax.servlet.forward.servlet_path']}','${e:forHtmlContent(usuarios.id)}','${e:forHtmlAttribute(csrf_token)}')"
 										title="Trash"></a></td>
 							</tr>
 						</c:forEach>
@@ -431,7 +431,7 @@
 								<td>${e:forHtmlContent(votacion.puntuacionMedia)}</td>
 								<td><a> <input type="image"
 										src="resources/img/img_admin/icn_trash.png" id="eliminar"
-										onclick="deleteVotacion('${e:forHtmlContent(requestScope['javax.servlet.forward.servlet_path'])}','${e:forHtmlContent(votacion.id)}','${e:forHtmlContent(votacion.id_receptor)}','${e:forHtmlAttribute(csrf_token)}')"
+										onclick="deleteVotacion('${requestScope['javax.servlet.forward.servlet_path']}','${e:forHtmlContent(votacion.id)}','${e:forHtmlContent(votacion.id_receptor)}','${e:forHtmlAttribute(csrf_token)}')"
 										title="Trash"></a></td>
 							</tr>
 						</c:forEach>
