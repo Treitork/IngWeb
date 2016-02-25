@@ -480,46 +480,5 @@
 		</div>
 	</article>
 	<!-- final mensajes de votaciones -->
-	<div class="clear"></div>
 
-	<article class="module width_3_quarter" id="contenidoMensaje">
-		<header>
-			<h3 class="tabs_involved">Contenido del ultimo mesanje
-				seleccionado</h3>
-		</header>
-		<div id="mostrarMensaje">
-			<br></br>
-		</div>
-	</article>
-
-	<div class="clear"></div>
-
-	<article class="module width_full">
-		<header>
-			<h3>New Message</h3>
-		</header>
-		<div class="module_content">
-			<fieldset>
-				<label>From</label> <input type="text">
-			</fieldset>
-			<fieldset>
-				<label>To</label> <input type="text">
-			</fieldset>
-			<fieldset>
-				<label>Subject</label>
-				<textarea rows="12"></textarea>
-			</fieldset>
-		</div>
-		<footer>
-			<div class="submit_link">
-				<input type="submit" value="Publish" class="alt_btn"> <input
-					type="submit" value="Reset">
-			</div>
-		</footer>
-	</article>
-	<!-- end of post new article
-	<script src="resources/js/jquery.js"></script>
-	<script src="resources/js/jquery.dataTables.min.js"
-		type="text/javascript"></script>
-	<script src="resources/js/paginacion.js" type="text/javascript"></script> -->
 	<%@ include file="../fragments/footer.jspf"%>
