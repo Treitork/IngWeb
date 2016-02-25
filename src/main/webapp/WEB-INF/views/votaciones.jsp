@@ -1,5 +1,5 @@
 <%@ include file="../fragments/header.jspf" %>
-<div class="page-header"><h1>${e:forHtmlContent(cabecera)}</h1><small></small></div>
+<div class="page-header"><h1>${cabecera}</h1><small></small></div>
 <c:choose>
 <c:when test="${not empty votaciones}">
 <c:forEach items="${votaciones}" var="votaciones">
@@ -13,16 +13,16 @@
 <tr>
 <c:forEach items="${votaciones.valoraciones}" var="valoraciones">
 <tr>
-<td>${e:forHtmlContent(valoraciones.categoria)}</td>
-<td>${e:forHtmlContent(valoraciones.puntuacion)}</td>
+<td>${valoraciones.categoria}</td>
+<td>${valoraciones.puntuacion}</td>
 </tr>
 </c:forEach>
 </table>
 </div>
-<h4>Puntuacion Media : ${e:forHtmlContent(votaciones.puntuacionMedia)}</h4>
+<h4>Puntuacion Media : ${votaciones.puntuacionMedia}</h4>
 <div class="panel panel-default">
 <div class="panel-heading"><h4>Comentario</h4></div>
-<p>${e:forHtmlContent(votaciones.comentario)}</p>
+<p>${votaciones.comentario}</p>
 </div>
 </div>
 </c:forEach>
