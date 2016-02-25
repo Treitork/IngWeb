@@ -3,7 +3,7 @@
 <!-- faltan añadir añadair, modificar y eleminar una categoria, votaciones y mensajes-->
 <script src="resources/js/jquery.js"></script>
 <script src="resources/js/jquery.dataTables.min.js"
-		type="text/javascript"></script>
+	type="text/javascript"></script>
 <script src="resources/js/paginacion.js" type="text/javascript"></script>
 <aside id="sidebar" class="column" style="height: 1700px;">
 	<form class="quick_search">
@@ -138,8 +138,8 @@
 		<form class="form-horizontal" action="adminEditAsignatura"
 			method="POST">
 			<input type="hidden" id="source" name="source"
-				value="${requestScope['javax.servlet.forward.servlet_path']}" />
-			<input type="hidden" id="csrf" name="csrf"
+				value="${requestScope['javax.servlet.forward.servlet_path']}" /> <input
+				type="hidden" id="csrf" name="csrf"
 				value="${e:forHtmlAttribute(csrf_token)}" />
 
 			<div class="form-group">
@@ -467,11 +467,10 @@
 								<td>${mensaje.idVotacion}</td>
 								<td>${mensaje.idEmisor}</td>
 								<td>${mensaje.motivo}</td>
-								<td><a><input type="button"
-										href="contenidoMensaje" value="Ver Contenido"
+								<td><a><input type="button" href="contenidoMensaje"
+										value="Ver Contenido"
 										onclick="mostrarMensaje('mostrarMensaje','${mensaje.mensaje}')"
-										title="Ver">
-								</a></td>
+										title="Ver"> </a></td>
 							</tr>
 						</c:forEach>
 					</tbody>

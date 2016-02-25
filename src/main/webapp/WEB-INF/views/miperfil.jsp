@@ -21,12 +21,9 @@
 		</div>
 		<div class="col-md-3 ">
 			<ul class="list-group">
-				<li class="list-group-item"><b>Nombre:</b>
-					${user.nombre}</li>
-				<li class="list-group-item"><b>Correo:</b>
-					${ser.email}</li>
-				<li class="list-group-item"><b>Rol:</b>
-					${user.rol}</li>
+				<li class="list-group-item"><b>Nombre:</b> ${user.nombre}</li>
+				<li class="list-group-item"><b>Correo:</b> ${ser.email}</li>
+				<li class="list-group-item"><b>Rol:</b> ${user.rol}</li>
 				<li class="list-group-item"><b>Puntuación:</b>
 					${user.puntuacion}</li>
 				<form action="${prefix}mensajeModeracion" method="GET">
@@ -38,8 +35,8 @@
 		</div>
 	</div>
 	<!-- /.row -->
-	
-	
+
+
 	<!-- Image Header -->
 	<div class="row">
 
@@ -53,7 +50,7 @@
 		<div class="col-lg-12">
 			<h2 class="page-header">Panel de Servicios</h2>
 		</div>
-		
+
 		<div class="col-md-3 col-sm-6">
 			<div class="panel panel-default text-center">
 				<div class="panel-heading">

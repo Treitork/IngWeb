@@ -4,12 +4,12 @@
 	<div class="page-header">
 		<h1>Ingresar</h1>
 	</div>
-	<form class="form-horizontal" id="formularioLogin"
-		action="login" method="POST">
+	<form class="form-horizontal" id="formularioLogin" action="login"
+		method="POST">
 		<fieldset>
 			<input type="hidden" id="source" name="source"
-				value="${requestScope['javax.servlet.forward.servlet_path']}" />
-					<input type="hidden" id="csrf" name="csrf"
+				value="${requestScope['javax.servlet.forward.servlet_path']}" /> <input
+				type="hidden" id="csrf" name="csrf"
 				value="${e:forHtmlAttribute(csrf_token)}" />
 			<div class="form-group">
 				<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
@@ -37,7 +37,7 @@
 			<div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
 					<button type="submit" value="login" class="btn btn-default">Entrar</button>
-					<br> <br> <a href="signin">Registrarse</a> <a href="#">¿Has 
+					<br> <br> <a href="signin">Registrarse</a> <a href="#">¿Has
 						olvidado la contraseña?</a>
 				</div>
 			</div>

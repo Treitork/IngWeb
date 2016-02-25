@@ -4,9 +4,9 @@
 		<h1>Registro</h1>
 	</div>
 	<form class="form-horizontal" action="signin" method="POST">
-	    <input type="hidden" id="csrf" name="csrf"
-		value="${e:forHtmlAttribute(csrf_token)}" />
-		<input type="hidden" id="source" name="source"
+		<input type="hidden" id="csrf" name="csrf"
+			value="${e:forHtmlAttribute(csrf_token)}" /> <input type="hidden"
+			id="source" name="source"
 			value="${requestScope['javax.servlet.forward.servlet_path']}" />
 		<div class="form-group">
 			<label for="inputName" class="col-sm-2 control-label">Nombre</label>
